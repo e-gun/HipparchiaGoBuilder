@@ -1,0 +1,6 @@
+package global
+
+const (
+	NAME    = "HipparchiaGoBuilder"
+	VERSION = "0.8.0b"
+)
