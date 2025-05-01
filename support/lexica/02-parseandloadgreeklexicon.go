@@ -17,6 +17,10 @@ func ParseAndLoadLSJ(dir string, fn string) {
 	finder := regexp.MustCompile(`greatscott(\d\d).xml`)
 	prefix, _ := strconv.Atoi(finder.ReplaceAllString(fn, "$1"))
 
+	// fmt.Println(fn)
+
+	data = FixSpecificLSJCitations(data)
+
 	// rewrite the hyperlink style right off the bat
 	data = generatehyperlinks(data)
 

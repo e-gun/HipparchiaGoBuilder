@@ -17,6 +17,9 @@ func FanoutLatinLexBuilder(dir string, fn string) {
 	start := time.Now()
 
 	data := LoadLexFile(dir, fn)
+
+	data = FixSpecificLatinCitations(data)
+
 	splitdata := strings.Split(data, "\n")
 	bundles := generic.SplitIntoNSlices(splitdata, global.Config.WorkerCount)
 
