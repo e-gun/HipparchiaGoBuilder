@@ -55,6 +55,66 @@ func TestFixsuetonius(t *testing.T) {
 	}
 }
 
+func TestFixfrontinus(t *testing.T) {
+	x := `"Perseus:abo:phi,1245,001:Aquaed. 104"`
+	y := fixfrontinus(x)
+	z := `"Perseus:abo:phi,1245,002:104"`
+	if y != z {
+		t.Errorf("fixfrontinus(%q)\ngot\n%q\nwant\n%q", x, y, z)
+	}
+}
+
+func TestFixmartial(t *testing.T) {
+	x := `bibl n="Perseus:abo:phi,1294,001:4:44:8" default`
+	y := fixmartial(x)
+	z := `bibl n="Perseus:abo:phi,1294,002:4:44:8" default`
+	if y != z {
+		t.Errorf("fixmartial(%q)\ngot\n%q\nwant\n%q", x, y, z)
+	}
+}
+
+func TestFixseneca(t *testing.T) {
+	x := `"Perseus:abo:phi,1014,001:Ira. 3:18:3"`
+	y := fixseneca(x)
+	z := `"Perseus:abo:phi,1017,012:3:3:18:3"`
+	fmt.Println(y)
+	if y != z {
+		t.Errorf("fixseneca(%q)\ngot\n%q\nwant\n%q", x, y, z)
+	}
+	x = `"Perseus:abo:phi,1014,001:Q. N. 5:16:5"`
+	y = fixseneca(x)
+	fmt.Println(y)
+}
+
+func TestFixVerrines(t *testing.T) {
+	x := `abc <bibl n="Perseus:abo:phi,0474,005:2:58:section=142" default="NO" valid="yes"><author>id.</author> Verr. 2, 2, 58, § 142</bibl> abc`
+	y := fixciceroverrines(x)
+	z := `abc <bibl n="Perseus:abo:phi,0474,005:2:2:142" default="NO" valid="yes"><author>id.</author> Verr. 2, 2, 58, § 142</bibl> abc`
+	fmt.Println(y)
+	if y != z {
+		t.Errorf("fixciceroverrines(%q)\ngot\n%q\nwant\n%q", x, y, z)
+	}
+}
+
+func TestFixCicSections(t *testing.T) {
+	x := `abc <quote lang="la">omnes de tuā virtute commemorant,</quote> <bibl n="Perseus:abo:phi,0474,058:1:1:13:section=37" default="NO" valid="yes"><author>Cic.</author> abc`
+	y := fixcicerosections(x)
+	z := `abc <quote lang="la">omnes de tuā virtute commemorant,</quote> <bibl n="Perseus:abo:phi,0474,058:1:1:37" default="NO" valid="yes"><author>Cic.</author> abc`
+	if y != z {
+		t.Errorf("fixcicerosections(%q)\ngot\n%q\nwant\n%q", x, y, z)
+	}
+}
+
+func TestFixVarro(t *testing.T) {
+	x := `"Perseus:abo:phi,0684,001:L. L. 5:section=59"`
+	y := fixvarro(x)
+	z := `"Perseus:abo:phi,0684,001:5:59"`
+	fmt.Println(y)
+	if y != z {
+		t.Errorf("fixvarro(%q)\ngot\n%q\nwant\n%q", x, y, z)
+	}
+}
+
 func TestFixibidem(t *testing.T) {
 	x := `"Perseus:abo:phi,1014,001:ib. 76:2"`
 	y := fixibidem(x)
