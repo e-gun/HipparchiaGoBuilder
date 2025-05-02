@@ -12,7 +12,6 @@ func ParseAndLoadLatinLex(id int, splitdata []string) {
 	// about to split all over again soon, though...
 	data := strings.Join(splitdata, "\n")
 
-	// todo: incomplete because many latin links are marred by the citation style; need to write a patcher
 	data = FixSpecificLatinCitations(data)
 
 	// rewrite the hyperlink style right off the bat; FixSpecificLatinCitations() must execute before this

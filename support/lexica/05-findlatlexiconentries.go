@@ -64,6 +64,7 @@ func extractlatinheadmaterial(fullentry string) (structs.DbLexicon, string) {
 		entry.EntryName = headgroups[0][3]
 	}
 	entry.EntryMetr = stripdigits.ReplaceAllString(generic.HandleVowelLengths(entry.EntryName), "")
+	entry.EntryMetr = generic.LunatesAndUV(entry.EntryMetr)
 	entry.EntryName = generic.LunatesAndUV(generic.SuperScriptNumbers(generic.StripVowelLengths(entry.EntryName)))
 	return entry, remainder
 }

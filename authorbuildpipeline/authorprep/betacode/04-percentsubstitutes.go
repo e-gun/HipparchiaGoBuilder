@@ -188,7 +188,7 @@ func secondtrypercentsubstitutes(firsttry int) string {
 	substitute, exists := percentsubsmap[secondtry]
 	if !exists {
 		substitute = fmt.Sprintf("%d", firsttry)
-		global.MSG(fmt.Sprintf("secondtrypercentsubstitutes() failed\t%s", firsttry))
+		global.MSG(fmt.Sprintf("secondtrypercentsubstitutes() failed\t%d", firsttry))
 	} else {
 		// as far as I can tell it is always "="...
 		// secondtrypercentsubstitutes() x into y:  6142 6 ﹦

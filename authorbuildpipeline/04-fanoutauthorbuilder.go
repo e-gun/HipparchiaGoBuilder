@@ -17,7 +17,7 @@ import (
 
 func FanoutBuilder(auu []string, datadir string) {
 	const (
-		MSG = "All jobs processed. %.3fs"
+		MSG = "FanoutBuilder() All jobs processed. %.3fs"
 	)
 
 	start := time.Now()
@@ -63,7 +63,7 @@ func FanoutBuilder(auu []string, datadir string) {
 	wg.Wait()
 
 	d := fmt.Sprintf(MSG, time.Now().Sub(start).Seconds())
-	fmt.Println(d)
+	global.DONE(d)
 }
 
 func worker(id int, datadir string, ac <-chan string, wg *sync.WaitGroup) {

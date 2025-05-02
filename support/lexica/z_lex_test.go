@@ -105,6 +105,34 @@ func TestFixCicSections(t *testing.T) {
 	}
 }
 
+func TestPurgesq(t *testing.T) {
+	x := `abc <bibl n="Perseus:abo:phi,0472,001:61:130 sq" default="NO" valid="yes"><author>Cat.</author> 61, 130 sq.</bibl> abc`
+	y := purgesq(x)
+	z := ``
+	if y != z {
+		t.Errorf("purgesq(%q)\ngot\n%q\nwant\n%q", x, y, z)
+	}
+}
+
+func TestFixCicChh(t *testing.T) {
+	x := `<bibl n="Perseus:abo:phi,0474,039:chapter=34" default="NO"><author>Cic.</author> Brut. 34</bibl>: accusatione desistere`
+	y := fixcicerochapters(x)
+	fmt.Println(y)
+	z := `<bibl n=\"Perseus:abo:phi,0474,039:34\" default=\"NO\"><author>Cic.</author> Brut. 34</bibl>: accusatione desistere`
+	if y != z {
+		t.Errorf("fixcicerochapters(%q)\ngot\n%q\nwant\n%q", x, y, z)
+	}
+}
+
+func TestPurgelinklessbibls(t *testing.T) {
+	x := `<bibl default="NO"><author>id.</author> ib. 4, 52</bibl> zzz <bibl n="Perseus:abo:phi,0474,005:2:58:section=142" default="NO" valid="yes"><author>id.</author> Verr. 2, 2, 58, § 142</bibl> <bibl z="InvalidPerseus:abo:phi,0474,039:34" default="NO"><author>Cic.</author> Brut. 34</bibl>: accusatione desistere`
+	y := purgelinklessbibls(x)
+	z := ``
+	if y != z {
+		t.Errorf("purgelinklessbibls(%q)\ngot\n%q\nwant\n%q", x, y, z)
+	}
+}
+
 func TestFixVarro(t *testing.T) {
 	x := `"Perseus:abo:phi,0684,001:L. L. 5:section=59"`
 	y := fixvarro(x)

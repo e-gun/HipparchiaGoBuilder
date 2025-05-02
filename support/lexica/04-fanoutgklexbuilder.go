@@ -22,7 +22,6 @@ func FanoutGkLexBuilder(xmls []string, datadir string) {
 
 	// Start runtime.NumCPU() workers
 	for i := 0; i <= global.Config.WorkerCount; i++ {
-		// for i := 1; i <= 1; i++ {
 		wg.Add(1)
 		go gklexworker(i, datadir, xc, &wg)
 	}
@@ -39,7 +38,7 @@ func FanoutGkLexBuilder(xmls []string, datadir string) {
 	wg.Wait()
 
 	d := fmt.Sprintf(MSG, time.Now().Sub(start).Seconds())
-	fmt.Println(d)
+	global.DONE(d)
 }
 
 func gklexworker(id int, datadir string, ac <-chan string, wg *sync.WaitGroup) {

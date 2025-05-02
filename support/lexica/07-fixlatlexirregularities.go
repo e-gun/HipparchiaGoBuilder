@@ -156,9 +156,11 @@ var (
 )
 
 func FixSpecificLatinCitations(lex string) string {
-	lex = fixibidem(lex)         // do me first...
+	lex = fixibidem(lex) // do me first...
+	lex = purgesq(lex)
 	lex = fixciceroverrines(lex) // needs to be first cicero fix
 	lex = fixcicerosections(lex)
+	lex = fixcicerochapters(lex)
 	lex = fixfrontinus(lex)
 	lex = fixmartial(lex)
 	lex = fixnepos(lex)
@@ -167,7 +169,21 @@ func FixSpecificLatinCitations(lex string) string {
 	lex = fixseneca(lex)
 	lex = fixsuetonius(lex)
 	lex = fixvarro(lex)
+	lex = purgelinklessbibls(lex) // do last
 	return lex
+}
+
+func purgesq(lex string) string {
+	// <bibl n="Perseus:abo:phi,0472,001:61:130 sq" default="NO" valid="yes"><author>Cat.</author> 61, 130 sq.</bibl>
+	// get `sq` out of the link
+	const (
+		TMPL = `"Perseus:abo:phi,%s:%s"`
+	)
+	sqfinder := regexp.MustCompile(`"Perseus:abo:phi,(\d\d\d\d,\d\d\d):([^"]*) sq"`)
+	return sqfinder.ReplaceAllStringFunc(lex, func(s string) string {
+		groups := sqfinder.FindStringSubmatch(s)
+		return fmt.Sprintf(TMPL, groups[1], groups[2])
+	})
 }
 
 func fixibidem(lex string) string {
@@ -227,6 +243,31 @@ func fixcicerosections(lex string) string {
 		return fmt.Sprintf(TMPL, groups[1], groups[3])
 	})
 	return lex
+}
+
+func fixcicerochapters(lex string) string {
+	// 	RUN THE VERRINES FIRST (because it needs 'section=')
+	//
+	// <bibl n="Perseus:abo:phi,0474,039:chapter=34" default="NO"><author>Cic.</author> Brut. 34</bibl>: accusatione desistere
+	// <bibl n="Perseus:abo:phi,0474,010:chapter=3" default="NO" valid="yes"><author>Cic.</author> Clu. 3</bibl>
+	// of course `accusationi respondere` is in Clu 8...
+
+	// so we want the sections and not the chapters; but we do not have them
+	// i.e., this is going to produce inaccurate links...
+	// purgelinklessbibls() will clear out any `<bibl default="NO">`
+
+	const (
+		TMPL = `<bibl default="NO">`
+	)
+
+	cicsectionfinder1 := regexp.MustCompile(`<bibl n="Perseus:abo:phi,0474,(.*):chapter=(\d+)" default="NO">`)
+	cicsectionfinder2 := regexp.MustCompile(`<bibl n="Perseus:abo:phi,0474,(.*):chapter=(\d+)" default="NO" valid="yes">`)
+	//lex = cicsectionfinder.ReplaceAllStringFunc(lex, func(s string) string {
+	//	groups := cicsectionfinder.FindStringSubmatch(s)
+	//	return fmt.Sprintf(TMPL, groups[1], groups[2])
+	//})
+	lex = cicsectionfinder1.ReplaceAllString(lex, TMPL)
+	return cicsectionfinder2.ReplaceAllString(lex, TMPL)
 }
 
 func fixfrontinus(lex string) string {
@@ -419,4 +460,9 @@ func fixvarro(lex string) string {
 	})
 
 	return lex
+}
+
+func purgelinklessbibls(lex string) string {
+	nolink := regexp.MustCompile(`<bibl [^n][^>]*>(.*)</bibl>`)
+	return nolink.ReplaceAllString(lex, "$1")
 }

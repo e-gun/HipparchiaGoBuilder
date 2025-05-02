@@ -46,7 +46,7 @@ func FanoutLatinLexBuilder(dir string, fn string) {
 	wg.Wait()
 
 	d := fmt.Sprintf(MSG, time.Now().Sub(start).Seconds())
-	fmt.Println(d)
+	global.DONE(d)
 }
 
 func latlexworker(id int, ac <-chan []string, wg *sync.WaitGroup) {

@@ -11,23 +11,22 @@ import (
 )
 
 const (
-	RED1    = "\033[38;5;160m" // Red3
-	YELLOW1 = "\033[38;5;178m" // Gold3
-	GREEN   = "\033[38;5;70m"  // Chartreuse3
-	RESET   = "\033[0m"
-	CTMPL   = "*** %s%s%s *** \n"
-	CTMPL2  = "*** %s *** \n"
-	VTEMPL  = "%s%s%s\n"
+	RED1      = "\033[38;5;160m" // Red3
+	YELLOW1   = "\033[38;5;178m" // Gold3
+	GREEN     = "\033[38;5;70m"  // Chartreuse3
+	CYAN2     = "\033[38;5;117m" // SkyBlue1
+	RESET     = "\033[0m"
+	CTMPL     = "*** %s%s%s *** \n"
+	CTMPL2    = "*** %s *** \n"
+	VTEMPL    = "%s%s%s\n"
+	PLAINTMPL = "\t%s\n"
 )
 
 func MSG(s string) {
-	const (
-		TMPL = "\t%s\n"
-	)
 	if Config.QuietBuild {
 		return
 	}
-	fmt.Printf(TMPL, s)
+	fmt.Printf(PLAINTMPL, s)
 }
 
 func HEAD(s string) {
@@ -43,6 +42,14 @@ func SECT(s string) {
 		fmt.Println(s)
 	} else {
 		fmt.Printf(VTEMPL, GREEN, s, RESET)
+	}
+}
+
+func DONE(s string) {
+	if runtime.GOOS == "windows" {
+		fmt.Println(s)
+	} else {
+		fmt.Printf(VTEMPL, CYAN2, s, RESET)
 	}
 }
 

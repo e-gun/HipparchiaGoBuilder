@@ -222,3 +222,11 @@ func TestTLG5038(t *testing.T) {
 	r := complexgktolatinspan(ttc)
 	fmt.Println(r)
 }
+
+func TestTLG2319(t *testing.T) {
+	ttc := `@&10CLEM. Str. II 130 [II 184, 14 St.%100 s. oben II 133, 12]$10 *)APOLLO/DOTOS [&10so]$10 
+ O( *KUZIKHNO\S TH\N YUXAGWGI/AN [&10d. i.$10 YUXIKH\N H(DONH/N, TE/LOS U(PA/RXEIN]. █⑨⓪ @&10DIOG. IX 38 [s. II 82, 23]$10 FHSI\ DE\ KAI\ *)APOLLO/DWROS O( *KUZIKHNO\S *FILO-
+ LA/WI AU)TO\N&10 [Demokrit]$10 SUGGEGONE/NAI. █⑨⓪ @&10PLIN. N. H. XXIV 167&13 adiecit his &13Apollodorus adsectator eius herbam aeschynomenen. @1`
+	r := complexgktolatinspan(ttc)
+	fmt.Println(r)
+}

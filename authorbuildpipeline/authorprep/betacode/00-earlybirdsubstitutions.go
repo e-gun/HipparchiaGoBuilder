@@ -83,7 +83,7 @@ func dotter(match string) string {
 	if err != nil {
 		// Handle error if the match is not a valid number
 		fmt.Printf("dotter() error converting %s to int", match)
-		return fmt.Sprintf(match)
+		return match
 	}
 	dots := make([]string, val)
 	for i := 0; i < val; i++ {

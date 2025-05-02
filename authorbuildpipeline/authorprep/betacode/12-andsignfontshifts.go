@@ -107,9 +107,23 @@ func complexmatchshifter(match string) string {
 		}
 	}
 
+	// test case: TLG2319
+	// &10CLEM. Str. II 130 [II 184, 14 St.%100 s. oben II 133, 12]$10
+
+	// that `$10` is not helpful...
+	// you already get `<hb-fs-l-smaller>CLEM. Str. II 130 [II 184, 14 St.%100 s. oben II 133, 12]</hb-fs-l-smaller>`
+	// so we will discard it rather than adding it back on. If it is added back on, at the moment nothing catches
+	// the `$10` instruction; nor, really, should anything happen: the font has been reset, and we are back in action
+
+	//suppl := ""
+	//if groups[3] != "" {
+	//	fmt.Println("suppl", groups[3])
+	//	suppl = "$" + groups[3]
+	//}
+
 	// fmt.Println("complexmatchshifter in: ", len(match), "\t", match)
 	// fmt.Println("complexmatchshifter out:", strings.Join(components, "")+groups[3])
-	return strings.Join(components, "") + groups[3]
+	return strings.Join(components, "")
 }
 
 // latinsubshiftspan - `&3pserint [1&sc. de pyramidibus]1, &3sunt Herodotus`
