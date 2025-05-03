@@ -166,6 +166,8 @@ func FixSpecificLatinCitations(lex string) string {
 	lex = fixciceroverrines(lex) // needs to be first cicero fix
 	lex = fixcicerosections(lex)
 	lex = fixcicerochapters(lex)
+	lex = fixcolumella(lex)
+	lex = fixfestus(lex)
 	lex = fixfrontinus(lex)
 	lex = fixmartial(lex)
 	lex = fixnepos(lex)
@@ -174,7 +176,7 @@ func FixSpecificLatinCitations(lex string) string {
 	lex = fixseneca(lex)
 	lex = fixsuetonius(lex)
 	lex = fixvarro(lex)
-	lex = purgelinklessbibls(lex) // do last
+	lex = fixblankbibl(lex) // last...
 	return lex
 }
 
@@ -259,20 +261,35 @@ func fixcicerochapters(lex string) string {
 
 	// so we want the sections and not the chapters; but we do not have them
 	// i.e., this is going to produce inaccurate links...
-	// purgelinklessbibls() will clear out any `<bibl default="NO">`
 
 	const (
-		TMPL = `<bibl default="NO">`
+		TMPL = `<notbibl n="Perseus:abo:phi,0474,%s:chapter=%s" %s>%s</notbibl>`
 	)
 
-	cicsectionfinder1 := regexp.MustCompile(`<bibl n="Perseus:abo:phi,0474,(.*):chapter=(\d+)" default="NO">`)
-	cicsectionfinder2 := regexp.MustCompile(`<bibl n="Perseus:abo:phi,0474,(.*):chapter=(\d+)" default="NO" valid="yes">`)
-	//lex = cicsectionfinder.ReplaceAllStringFunc(lex, func(s string) string {
-	//	groups := cicsectionfinder.FindStringSubmatch(s)
-	//	return fmt.Sprintf(TMPL, groups[1], groups[2])
-	//})
-	lex = cicsectionfinder1.ReplaceAllString(lex, TMPL)
-	return cicsectionfinder2.ReplaceAllString(lex, TMPL)
+	cicsectionfinder := regexp.MustCompile(`<bibl n="Perseus:abo:phi,0474,([^:]*):chapter=(\d+)" ([^>]*)>(.+?)</bibl>`)
+	lex = cicsectionfinder.ReplaceAllStringFunc(lex, func(s string) string {
+		groups := cicsectionfinder.FindStringSubmatch(s)
+		return fmt.Sprintf(TMPL, groups[1], groups[2], groups[3], groups[4])
+	})
+
+	return lex
+}
+
+func fixcolumella(lex string) string {
+	// 001 is de arboribus; the lexicon only cites 001 and seems to always mean de re rustica (which is 002)
+	return strings.ReplaceAll(lex, "Perseus:abo:phi,0845,001", "Perseus:abo:phi,0845,002")
+}
+
+func fixfestus(lex string) string {
+	// "Perseus:abo:phi,1236,001:page=375" --> "Perseus:abo:phi,1236,001:375"
+	const (
+		TMPL = `"Perseus:abo:phi,1236,001:%s"`
+	)
+	festusfinder := regexp.MustCompile(`"Perseus:abo:phi,1236,001:page=(\d+)"`)
+	return festusfinder.ReplaceAllStringFunc(lex, func(s string) string {
+		groups := festusfinder.FindStringSubmatch(s)
+		return fmt.Sprintf(TMPL, groups[1])
+	})
 }
 
 func fixfrontinus(lex string) string {
@@ -467,7 +484,26 @@ func fixvarro(lex string) string {
 	return lex
 }
 
-func purgelinklessbibls(lex string) string {
-	nolink := regexp.MustCompile(`<bibl [^n][^>]*>(.*)</bibl>`)
-	return nolink.ReplaceAllString(lex, "$1")
+func fixblankbibl(lex string) string {
+	// <bibl>...</bibl> is nonfunctional and should have its clickability disabled
+	// e.g.: <bibl default="NO"><author>Pall.</author> 1, 28, 2</bibl>
+	// n.b.: you *should* have access to Manilius, but the lex does not think you have it
+	// `<bibl default="NO"><author>Manil.</author> 4, 652</bibl>`
+
+	const (
+		TMPL = `<notbibl>%s</notbibl>`
+	)
+
+	blankbibl := regexp.MustCompile(`<bibl>(.+?)</bibl>`)
+	blankbibl2 := regexp.MustCompile(`<bibl default="NO">(.+?)</bibl>`)
+	lex = blankbibl.ReplaceAllStringFunc(lex, func(s string) string {
+		groups := blankbibl.FindStringSubmatch(s)
+		return fmt.Sprintf(TMPL, groups[1])
+	})
+	lex = blankbibl2.ReplaceAllStringFunc(lex, func(s string) string {
+		groups := blankbibl2.FindStringSubmatch(s)
+		return fmt.Sprintf(TMPL, groups[1])
+	})
+
+	return lex
 }

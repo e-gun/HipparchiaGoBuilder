@@ -71,6 +71,7 @@ func ParseAndLoadLSJ(dir string, fn string) {
 	}
 }
 
+// removeentrycollisions - no longer an issue because H Dik has edited it away?
 func removeentrycollisions(entries []structs.DbLexicon) []structs.DbLexicon {
 	collider := make(map[string]bool)
 	count := 0
@@ -88,6 +89,7 @@ func removeentrycollisions(entries []structs.DbLexicon) []structs.DbLexicon {
 	return entries
 }
 
+// removesensecollisions - no longer an issue because H Dik has edited it away?
 func removesensecollisions(senses []structs.LexicalSenses) []structs.LexicalSenses {
 	collider := make(map[string]bool)
 	count := 0

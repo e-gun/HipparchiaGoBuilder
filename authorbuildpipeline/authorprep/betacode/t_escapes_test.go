@@ -230,3 +230,12 @@ func TestTLG2319(t *testing.T) {
 	r := complexgktolatinspan(ttc)
 	fmt.Println(r)
 }
+
+func TestBetaCodeCleanup2(t *testing.T) {
+	ttc := "qua scio me $TETUFW=SQAI&. sed, ut facis, obsequere huic errori █ⓕⓔ █⓪ █⓪ █⓪ █⓪ █⓪ █⓪ █⓪ █⓪ █⓪ █⓪ █⓪ █⓪ █⓪ █⓪ █⓪ █⓪ █⓪ █⓪ █⓪ █⓪ █⓪ █⓪ █⓪ █⓪ █⓪ █⓪ █⓪ █⓪ █⓪ █⓪ █⓪ █⓪ █⓪ █⓪ █⓪ █⓪ █⓪ █⓪ █⓪ █⓪ █⓪ █⓪ █⓪ █⓪ █⓪ █⓪ █⓪ █⓪ █⓪ █⓪ █⓪ █⓪ █⓪ █⓪ █⓪ █⓪ █⓪ █⓪ █⓪ █ⓔⓕ \n█ⓑ⓪ █ⓑ④ █ⓑ⑦ █ⓑ④ █ⓕⓕ █ⓔⓕ █⑧① █ⓑ⓪ █ⓑ⑤ █ⓑ⑦ █ⓕⓕ █ⓔⓕ █⑧② █ⓒ① █ⓕ④ █ⓕ④ █ⓕⓕ █ⓔⓕ █⑧③ █ⓒ③ █ⓔ⑨ █ⓔ③ █ⓕⓕ █ⓑ⑧ █⑧ⓒ █ⓐ⑧ █⑨⑨ █⑨② █⑧④ █ⓔⓑ █ⓕⓐ █⑧② █⑨ⓓ █ⓔⓕ █ⓔⓒ █ⓒ① █ⓕ③ █ⓕ④ █ⓕ⑤ █ⓕ② █ⓔ① █ⓔ⑤ █ⓕⓕ █ⓔⓕ █ⓔ④ █ⓕ⑧ █ⓔ⑨ █ⓔ⑨ █ⓐ⓪ █ⓒⓑ █ⓔ① █ⓔⓒ █ⓐⓔ █ⓐ⓪ █ⓒ① █ⓕ⓪ █ⓕ② █ⓐⓔ █ⓐ⓪ █ⓑ④ █ⓑ⑤ █ⓕⓕ meo. nam quod scribis '$E)GGH/RAMA&', actum iam de isto est; alia \nmagis quaero. █ⓐ⓪ █⑨ⓕ █ⓕ③ █ⓔ① █ⓕⓕ █ⓔⓑ █ⓕⓐ █⑧② █⑨ⓔ █ⓔⓕ █ⓔ④ █ⓕ⑧ █ⓔ⑨ █ⓐ⓪ █ⓒⓑ █ⓔ① █ⓔⓒ █ⓐⓔ █ⓐ⓪ █ⓒ① █ⓕ⓪ █ⓕ② █ⓐⓔ █ⓐ⓪ █ⓑ④ █ⓑ⑤ █ⓕⓕ @@@@[2CICERO ATTICO SAL.]2 █⑨① Sicca, ut scribit, etiam si nihil confecerit cum Silio, tamen se \nscribit &7x& Kal. esse venturum. tuis occupationibus ignosco,"
+	result := BetaCodeCleanup(ttc)
+	want := ""
+	if result != want {
+		t.Errorf("TestBetaCodeCleanup2(%q)\ngot\n%q\nwant\n%q", ttc, result, want)
+	}
+}

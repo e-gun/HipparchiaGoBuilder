@@ -48,7 +48,30 @@ var (
 )
 
 func FixSpecificLSJCitations(lex string) string {
-	return fixeuripides(lex)
+	lex = fixbacchylides(lex)
+	lex = fixeuripides(lex)
+	return lex
+}
+
+func fixbacchylides(lex string) string {
+	// bacchylides is badly broken:
+	// <bibl n="Perseus:abo:tlg,0199,002:18:20"><author>B.</author> 18.20</bibl>
+	// but the works start at w010...: Dithyrambi 5.20 is meant... (which does not map onto 18.20)
+	// <bibl n="Perseus:abo:tlg,0199,001:8:12"><author>B.</author> 8.12</bibl>
+	// Bacchylides Lyr., Epinicia 9.12 (which does not map onto 8.12)
+	// <bibl n="Perseus:abo:tlg,0199,001:14:57"><author>B.</author> 14.57</bibl>
+	// Bacchylides Lyr., Dithyrambi 1.57 (which does not map onto 14.57)
+
+	const (
+		TMPL = `<notbibl n="Perseus:abo:tlg,0199,%s">%s</notbibl>`
+	)
+	findbacchylides := regexp.MustCompile(`<bibl n="Perseus:abo:tlg,0199,([^"]+?)">(.+?)</bibl>`)
+	lex = findbacchylides.ReplaceAllStringFunc(lex, func(s string) string {
+		groups := findbacchylides.FindStringSubmatch(s)
+		return fmt.Sprintf(TMPL, groups[1], groups[2])
+	})
+
+	return lex
 }
 
 // hgdb=> select universalid,title from works where universalid ~* 'gr0006' order by universalid;

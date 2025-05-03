@@ -1,5 +1,5 @@
 ## HipparchiaGoBuilder
-### v.0.8.1b : beta
+### v.0.8.2b : beta
 
 the python builder is old and confusing and hard to maintain
 
@@ -105,12 +105,12 @@ and faster search results in HGS
 
 ```
 Sought »λέγεϲθαι« within 1 lines of »ἄγεϲθαι«
-Searched 7,462 works and found 2 passages (1.16s)
+Searched 7,462 works and found 2 passages (0.77s)
 Sorted by author name 
 
 vs
 
 Sought »λέγεϲθαι« within 1 lines of »ἄγεϲθαι«
-Searched 7,461 works and found 2 passages (1.70s)
+Searched 7,461 works and found 2 passages (1.58s)
 Sorted by author name 
 ```

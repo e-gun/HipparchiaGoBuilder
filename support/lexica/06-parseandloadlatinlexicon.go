@@ -68,7 +68,7 @@ func generatelatinhyperlinks(data string) string {
 		TMPL = `<bibl id="perseus/lt%s/%s/%s">`
 	)
 	var (
-		hyperlinkeditor = regexp.MustCompile(`<bibl n="Perseus:abo:phi,(\d\d\d\d),(\d\d\d):(.*?)">`)
+		hyperlinkeditor = regexp.MustCompile(`<bibl n="Perseus:abo:phi,(\d\d\d\d),(\d\d\d):(.+?)">`)
 	)
 
 	replacer := func(text string) string {

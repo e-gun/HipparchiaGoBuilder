@@ -32,6 +32,13 @@ const (
 // FindGreekLexEntries - take a whole xml file and turn it into []DbLexicon (where each entry contains []LexicalSenses)
 func FindGreekLexEntries(lexdata string) ([]structs.DbLexicon, error) {
 	lexdata = delunate.Replace(lexdata)
+
+	// be careful that this does not have knock-on effects AND recognize that copy/paste of the original XML just got
+	// complicated; but reformatgkxml() will not work until this has been done
+
+	lexdata = strings.ReplaceAll(lexdata, ` opt="n"`, ``)
+	lexdata = strings.ReplaceAll(lexdata, ` default="NO">`, `>`)
+
 	entries, spliterror := gklexsplitter(lexdata)
 	// sample entry:
 	// <div2 id="crossu(ywth/s" orig_id="n110025" key="u(ywth/s" type="main" opt="n"><head extent="suff" lang="greek" opt="n" orth_orig="ὑψ-ωτής">ὑψωτής</head>, <itype lang="greek" opt="n">οῦ</itype>, <gen lang="greek" opt="n">ὁ</gen>, <sense id="n110025.0" n="" level="1" opt="n"><i>one who exalts,</i> <title>PMag.Leid.V.</title> 7.11 (pl.).</sense>
@@ -76,9 +83,6 @@ func extractdiv2material(fullentry string) (structs.DbLexicon, string) {
 	// <div2 id="crossu(ywth/s" orig_id="n110025" key="u(ywth/s" type="main" opt="n">
 
 	var entry structs.DbLexicon
-
-	fullentry = strings.ReplaceAll(fullentry, ` opt="n"`, ``)
-	fullentry = strings.ReplaceAll(fullentry, ` default="NO">`, `>`)
 
 	headgroups := d2headparser.FindAllStringSubmatch(fullentry, 1)
 	remainder := d2headparser.ReplaceAllString(fullentry, "")
