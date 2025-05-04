@@ -14,17 +14,33 @@ import (
 )
 
 var (
-	grabpsuedoline    = regexp.MustCompile(`(.*?)(\s?█)`)
-	greekspan1        = regexp.MustCompile(`(\$\d{0,2})([^$]*?)(<hb-fs-l-normal>)`)
-	greekspan2        = regexp.MustCompile(`(</hb-fs-l-normal>)([^$<]*?)(<hb-fs-l-normal>)`)
-	greekspan3        = regexp.MustCompile(`(\$\d{0,2})([^$]*?)$`)
-	greekspan4        = regexp.MustCompile(`(</hb-fs-l-normal>)([^$<]*?)$`)
-	betacodecandidate = regexp.MustCompile(`(<hb-fs-g-[^>]*?>)([^<]*?)(</hb-fs-g-[^>]*?>)`)
+	grabpsuedoline     = regexp.MustCompile(`(.*?)(\s?█)`)
+	greekspan1         = regexp.MustCompile(`(\$\d{0,2})([^$█]+?)(<hb-fs-l-normal>)`)
+	greekspan2         = regexp.MustCompile(`(</hb-fs-l-normal>)([^$<█]+?)(<hb-fs-l-normal>)`)
+	greekspan3         = regexp.MustCompile(`(\$\d{0,2})([^$█]+?)$`)
+	greekspan4         = regexp.MustCompile(`(</hb-fs-l-normal>)([^$<█]+?)$`)
+	betacodecandidate1 = regexp.MustCompile(`(<hb-fs-g-[^>]+?>)([^█]+?)(</hb-fs-g-[^>]+?>)`)
+	betacodecandidate2 = regexp.MustCompile(`(<hb-fs-g-[^>]+?>)([^█]+)(<hb-fs-l-[^>]+?>)`)
+	betacodecandidate3 = regexp.MustCompile(`(</hb-fs-g-[^>]+?><hb-fs-l-[^>]+?>)([^█]+)(</hb-fs-l-[^>]+?>)([^█]+)(█[^a-z]+)(<hb-fs-g-[^>]+?>)`)
 )
 
 func GreekFontshiftsInLatinAuthor(ttc string) string {
 	ttc = grabpsuedoline.ReplaceAllStringFunc(ttc, rewritegreekfontshift)
-	ttc = betacodecandidate.ReplaceAllStringFunc(ttc, applybetacodeconversion)
+
+	ttc = betacodecandidate1.ReplaceAllStringFunc(ttc, applybetacodeconversion1)
+
+	// Res Gestae fails betacodecandidate1 at lines where `<hb-sp-alternative_reading>` is present; `[^<]` in "betacodecandidate1" is the problem
+	// $BE/RWNI, § TH=S [TE S1]⟨UNKLH/TOU⟩ ⟨KAI\⟩ ⟨TOU=⟩ ⟨DH/MOU⟩ ⟨T⟩W=N <hb-sp-alternative_reading>TOU= <hb-fs-l-normal>Apoll.</hb-sp-alternative_reading> </hb-fs-l-normal>
+
+	ttc = betacodecandidate2.ReplaceAllStringFunc(ttc, applybetacodeconversion2)
+
+	// Res Gestae fails betacodecandidate2 in the following
+	// OU)DEI\S █⑧⓪ $E)/NPROS1⟨QEN⟩ ⟨I(STO/RHS1＇⟩ <hb-fs-l-normal><hb-sp-alternative_reading>Apoll. </hb-fs-l-normal>I(STO/RHSEN</hb-sp-alternative_reading> ⟨E)PI\⟩ ⟨*(RW/MHS⟩ G⟨EGONE/NAI⟩, ⟨*PO⟩-█⑧⓪ $⟨PLI/W⟩I
+	// █⑧⓪ <hb-fs-g-normal>ἔνπροϲ⟨θεν⟩ ⟨ἱϲτόρηϲ＇⟩ </hb-fs-g-normal><hb-fs-l-normal><hb-sp-alternative_reading>Apoll. </hb-fs-l-normal>I(STÓRHSEN</hb-sp-alternative_reading> ⟨E)PÌ⟩ ⟨*(RW/MHS⟩ G⟨EGONÉNAI⟩, ⟨*PO⟩-█⑧⓪
+	// the 'aternative reading' switches greek off and it never comes back on again until the next line
+
+	ttc = betacodecandidate3.ReplaceAllStringFunc(ttc, applybetacodeconversion3)
+
 	return ttc
 }
 
@@ -106,12 +122,41 @@ func getdollarmapval(val int) [2]string {
 	return sub
 }
 
-func applybetacodeconversion(gfs string) string {
-	groups := betacodecandidate.FindStringSubmatch(gfs)
+func applybetacodeconversion1(gfs string) string {
+	groups := betacodecandidate1.FindStringSubmatch(gfs)
 	if len(groups) == 4 {
 		unicodegrk := grk.ConvertGreekLowers(grk.ConvertGreekCapitals(groups[2]))
 		subst := groups[1] + unicodegrk + groups[3]
-		gfs = betacodecandidate.ReplaceAllString(gfs, subst)
+		gfs = betacodecandidate1.ReplaceAllString(gfs, subst)
+	}
+	return gfs
+}
+
+func applybetacodeconversion2(gfs string) string {
+	groups := betacodecandidate2.FindStringSubmatch(gfs)
+	if len(groups) == 4 {
+		unicodegrk := grk.ConvertGreekLowers(grk.ConvertGreekCapitals(groups[2]))
+		subst := groups[1] + unicodegrk + groups[3]
+		gfs = betacodecandidate2.ReplaceAllString(gfs, subst)
+	}
+	return gfs
+}
+
+func applybetacodeconversion3(gfs string) string {
+	// `(</hb-fs-g-[^>]+?><hb-fs-l-[^>]+?>)([^█]+)(</hb-fs-l-[^>]+?>)([^█]+)(█[^a-z]+)(<hb-fs-g-[^>]+?>)`
+	// 0: whole
+	// 1: greek-off+latin-on
+	// 2: latincontents
+	// 3: latin-off
+	// 4: betacode candidate
+	// 5: highhexrun
+	// 6: greek-on at start of next line
+
+	groups := betacodecandidate3.FindStringSubmatch(gfs)
+	if len(groups) == 7 {
+		unicodegrk := grk.ConvertGreekLowers(grk.ConvertGreekCapitals(groups[4]))
+		subst := groups[1] + groups[2] + groups[3] + unicodegrk + groups[5] + groups[6]
+		gfs = betacodecandidate3.ReplaceAllString(gfs, subst)
 	}
 	return gfs
 }
