@@ -114,6 +114,9 @@ func RemapInscriptionAuthorsAndWorks(lines []structs.DbWorkline, authorid string
 	previouswork := structs.DbWork{
 		FirstLine: 1,
 	}
+
+	previousworkannotations := ""
+
 	prevlline := structs.DbWorkline{
 		TbIndex: 1,
 	}
@@ -192,8 +195,19 @@ func RemapInscriptionAuthorsAndWorks(lines []structs.DbWorkline, authorid string
 			// {75872 282 -1 -1 -1 -1 1 in0150w020 ∙    publicationinfo: BCH 1925, 312, no. 12 · documentnumber: 288}
 			// {75876 284 -1 -1 -1 -1 1 in0150w020 [ — ]α̣υτα παρα αυτα παρα αυτα παρα  publicationinfo: Anadolu 1965, 29-157, III · documentnumber: 289}
 
-			wn := UniqueWorkNamer.GetName(WKNAMELEN)
 			newwork := gathernewworkinfo(l)
+
+			// Res Gestae just reasserts itself periodically and tries to fool you:
+			// `region: Galatia · city: Ankyra · date: 19 ac · workabbrev: RG` (8x or so)
+
+			if strings.Contains(l.WkUID, "ch0120") && previousworkannotations == l.Annotations {
+				global.MSG("'new' PHI work is not new: \t" + l.Annotations)
+				continue
+			} else {
+				previousworkannotations = l.Annotations
+			}
+
+			wn := UniqueWorkNamer.GetName(WKNAMELEN)
 			newwork.UID = workingwithauthorid + "w" + wn
 
 			newwork.FirstLine = l.TbIndex

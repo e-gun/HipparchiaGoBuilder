@@ -1,5 +1,5 @@
 ## HipparchiaGoBuilder
-### v.0.8.2b : beta
+### v.0.8.3b : beta
 
 the python builder is old and confusing and hard to maintain
 
@@ -21,8 +21,9 @@ only works with `HipparchiaGoServer v2.0.0+`
 
 current status:
 1. will build a good version of everything
-2. very good for TLG, LAT, dictionaries, and grammar
-3. good for INS, DDP, and CHR
+2. very good for TLG, LAT
+3. good for dictionaries, and grammar
+4. good for INS, DDP, and CHR
 
 items on the todo list:
 1. check / improve dating for all but TLG (c. 90% PHI has a non-empty date)
