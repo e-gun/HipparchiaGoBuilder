@@ -13,7 +13,8 @@ import (
 )
 
 const (
-	SPLITON   = `█⑧⓪`
+	SPLITON = `█⑧⓪`
+	// SPLITON   = `█⓪ █⓪ █⓪`
 	SPLITALT  = `<hb-nb-endofpage />`
 	STOPAFTER = 50
 )

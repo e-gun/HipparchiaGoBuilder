@@ -26,10 +26,10 @@ func PrepareForDB(wklinesasstring string) []structs.DbWorkline {
 	//
 	// VARIOUS DEBUGGING TOOLS....
 	//
-
-	// authorprep.WriteWorklineProgress(lines)
+	//
+	//authorprep.WriteWorklineProgress(lines)
 	//authorprep.WriteWorklineAnnotationsProgress(lines)
-	// os.Exit(1)
+	//os.Exit(1)
 
 	// ViewWorklines("InsertNBSP", false, true, lines)
 

@@ -134,7 +134,7 @@ func ucfcollection(vals [][]string) string {
 	for _, val := range vals {
 		collector = append(collector, val[1])
 	}
-	combinednotes := strings.Join(collector, " · ")
+	combinednotes := strings.Join(collector, " ⁄ ")
 	return "corrected: " + fmt.Sprintf(TMPL, combinednotes)
 }
 
@@ -146,7 +146,7 @@ func afcollection(vals [][]string) string {
 	for _, val := range vals {
 		collector = append(collector, val[1])
 	}
-	combinednotes := strings.Join(collector, " · ")
+	combinednotes := strings.Join(collector, " ⁄ ")
 	return "altered: " + fmt.Sprintf(TMPL, combinednotes)
 }
 
@@ -158,7 +158,7 @@ func rfcollection(vals [][]string) string {
 	for _, val := range vals {
 		collector = append(collector, val[1])
 	}
-	combinednotes := strings.Join(collector, " · ")
+	combinednotes := strings.Join(collector, " ⁄ ")
 	return "rectified: " + fmt.Sprintf(TMPL, combinednotes)
 }
 
@@ -170,7 +170,7 @@ func altcollection(vals [][]string) string {
 	for _, val := range vals {
 		collector = append(collector, val[1])
 	}
-	combinednotes := strings.Join(collector, " · ")
+	combinednotes := strings.Join(collector, " ⁄ ")
 	return "alternate: " + fmt.Sprintf(TMPL, combinednotes)
 }
 
@@ -182,6 +182,6 @@ func discollection(vals [][]string) string {
 	for _, val := range vals {
 		collector = append(collector, val[1])
 	}
-	combinednotes := strings.Join(collector, " · ")
+	combinednotes := strings.Join(collector, " ⁄ ")
 	return "discarded: " + fmt.Sprintf(TMPL, combinednotes)
 }

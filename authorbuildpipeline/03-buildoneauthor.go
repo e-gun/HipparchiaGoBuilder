@@ -45,7 +45,7 @@ func BuildOneAuthor(datadir string, authorid string) {
 	//L: in0025 Peloponnesos [Latin]
 	//L: in0015 Attica [Latin]
 	//L: in0085 Black Sea [Chersonesos] [Latin]
-	//L: ch0120 Latin [other]
+	//L: ch0120 Latin [other] - but it is Res Gestae and so bilingual..
 	//L: ch0130 Late Antique Latin
 	//L: ch0140 Medieval Latin
 
@@ -66,7 +66,6 @@ func BuildOneAuthor(datadir string, authorid string) {
 		// a lingering issue will be roman numerals: MCXVI as a series of greek lc letters
 
 		// should consider building an list of files that should be treated as pure latin: 0130, for example
-
 		ttc = latetidyups.PurgeHybrid(ttc)
 	}
 

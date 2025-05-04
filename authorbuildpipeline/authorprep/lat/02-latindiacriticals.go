@@ -62,7 +62,7 @@ var (
 )
 
 func ConvertLatinDiacriticals(betacode string) string {
-	// lowercase + breathing + accent + subscript
+	// any greek betacode that remains in the text will turn into a big problem: BÉRWNI for BE/RWNI for βέρωνι
 	return findlatindiacrit.ReplaceAllStringFunc(betacode, latinswap)
 }
 

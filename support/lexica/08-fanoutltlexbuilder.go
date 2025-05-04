@@ -16,7 +16,7 @@ import (
 
 func FanoutLatinLexBuilder(dir string, fn string) {
 	const (
-		MSG = "FanoutGkLexBuilder(): All jobs processed. %.3fs"
+		MSG = "FanoutLatinLexBuilder(): All jobs processed. %.3fs"
 	)
 
 	start := time.Now()

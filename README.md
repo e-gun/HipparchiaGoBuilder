@@ -97,7 +97,9 @@ substantially faster builds (8x+ speedup; even more for word counts: 50x?)
 ```
 ./HipparchiaGoBuilder -all
 
-HipparchiaGoBuilder v0.2.1b total execution time was 322.296s
+HipparchiaGoBuilder v0.8.2b total execution time was 298.811s
+
+(683s to build w/ 8 cores on Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz)
 
 ```
 
