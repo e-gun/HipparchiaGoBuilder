@@ -50,3 +50,7 @@ func TestCleanDBAuthorNames(t *testing.T) {
 	CleanDBAuthorNames(&a)
 	a.PrintOut()
 }
+
+func TestLoadLatinCanon(t *testing.T) {
+	_, _ = LoadLatinCanon("/Users/erik/Development/go/src/github.com/e-gun/HipparchiaGoBuilder/data/LAT/")
+}

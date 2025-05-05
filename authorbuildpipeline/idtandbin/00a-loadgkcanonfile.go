@@ -9,6 +9,7 @@ import (
 	"bytes"
 	"fmt"
 	"github.com/e-gun/HipparchiaGoBuilder/authorbuildpipeline/authorprep/betacode"
+	"github.com/e-gun/HipparchiaGoBuilder/authorbuildpipeline/authorprep/grk"
 	"github.com/e-gun/HipparchiaGoBuilder/authorbuildpipeline/authorprep/lat"
 	"github.com/e-gun/HipparchiaGoBuilder/authorbuildpipeline/authorprep/worklines1initial"
 	"github.com/e-gun/HipparchiaGoBuilder/authorbuildpipeline/dating"
@@ -68,6 +69,7 @@ func StoreCanonInSharedMaps(aumap map[string]structs.DbAuthor, wkmap map[string]
 
 func initialcanoncleaner(ttc string) string {
 	can := betacode.BetaCodeCleanup(ttc)
+	can = lat.GreekFontshiftsInLatinAuthor(can)
 	can = worklines1initial.WorklinePrep(can) // WorklinePrep will make some betacode reappear; clean it later
 	can = strings.ReplaceAll(can, `<hb-incr_l_0_by_1 />`, ``)
 	can = strings.ReplaceAll(can, `<hb-incr_l_2_by_1 />`, ``)
@@ -232,6 +234,7 @@ func parseworkdata(id string, data []string) structs.DbWork {
 	var pyr string
 	var edr string
 	var cit string
+	var pag string
 
 	thework.UID = id
 	thework.Language = "G"
@@ -264,6 +267,8 @@ func parseworkdata(id string, data []string) structs.DbWork {
 				pyr = kvp[2]
 			case "edr":
 				edr = kvp[2]
+			case "pag":
+				pag = kvp[2]
 			default:
 				// fmt.Println(kvp[0])
 				strayinfo = append(strayinfo, kvp[2])
@@ -272,7 +277,7 @@ func parseworkdata(id string, data []string) structs.DbWork {
 	}
 
 	setcitationinformation(&thework, cit)
-	setpublicationinformation(&thework, tit, pub, pla, pyr, edr)
+	setpublicationinformation(&thework, tit, pub, pla, pyr, edr, pag)
 
 	genreslice = generic.DropEmptyStrings(generic.Unique(genreslice))
 	// todo: there is a genres parser error below
@@ -285,17 +290,25 @@ func parseworkdata(id string, data []string) structs.DbWork {
 	return thework
 }
 
-func setpublicationinformation(thework *structs.DbWork, tit string, pub string, pla string, pyr string, edr string) {
+func setpublicationinformation(thework *structs.DbWork, tit string, pub string, pla string, pyr string, edr string, pag string) {
 	const (
 		// PUBTEMPL - lots of corner cases cut...
-		PUBTEMPL = `{{.tit}}, {{.pub}} {{.pla}} {{.pyr}} ({{.edr}})`
+		PUBTEMPL = `{{.tit}}, {{.pub}} {{.pla}} {{.pyr}} ({{.edr}}) {{.pag}}`
 	)
+
+	// problem if you do not catch betacode: [Erode Attico]. *PERÌ POLITEÍAS , Le Monnier Florence 1968 (Albini, U.)
+	// want: [Erode Attico]. Περὶ πολιτείαϲ Le Monnier , Florence , 1968. (Albini, U. ) pp. 29–35
+	// this is supposed to happen above at initialcanoncleaner(); but that is imperfect...
+	tit = findandconvertgreektitles(tit)
+	tit = strings.ReplaceAll(tit, " ,", ",")
+
 	m := map[string]string{
 		"tit": tit,
 		"pub": pub,
 		"pla": pla,
 		"pyr": pyr,
 		"edr": edr,
+		"pag": pag,
 	}
 
 	t := template.Must(template.New("").Parse(PUBTEMPL))
@@ -307,6 +320,27 @@ func setpublicationinformation(thework *structs.DbWork, tit string, pub string, 
 	fpub := lat.ConvertLatinDiacriticals(b.String())
 	fpub = simpletitlespan(fpub)
 	thework.Pub = fpub
+}
+
+func findandconvertgreektitles(tit string) string {
+	// upper-case greek: *PERI\
+	greekfinder1 := regexp.MustCompile(`(\*[^<]+)`)
+	if greekfinder1.MatchString(tit) {
+		tit = greekfinder1.ReplaceAllStringFunc(tit, func(s string) string {
+			groups := greekfinder1.FindStringSubmatch(s)
+			return grk.ConvertGreekLowers(grk.ConvertGreekCapitals(groups[1]))
+		})
+	}
+
+	// but some titles are lower-case (only with Περὶ?)
+	greekfinder2 := regexp.MustCompile(`(PERI\\ [^<]+)`)
+	if greekfinder2.MatchString(tit) {
+		tit = greekfinder2.ReplaceAllStringFunc(tit, func(s string) string {
+			groups := greekfinder2.FindStringSubmatch(s)
+			return grk.ConvertGreekLowers(grk.ConvertGreekCapitals(groups[1]))
+		})
+	}
+	return tit
 }
 
 func simpletitlespan(ttc string) string {

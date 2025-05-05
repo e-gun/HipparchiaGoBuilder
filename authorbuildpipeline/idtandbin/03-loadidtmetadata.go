@@ -80,10 +80,10 @@ func LoadAuthorIDTData(idtbytes []byte) (structs.DbAuthor, []structs.DbWork) {
 						//thisauth.WorkDict[worknumber] = len(thisauth.Works) - 1
 						leveldict = make(map[int]string)
 					} else {
-						fmt.Printf("Work number apparently was not followed by work: %d = %d\n", offset, idtbytes[offset])
+						fmt.Printf("LoadAuthorIDTData(): Work number apparently was not followed by work: %d = %d\n", offset, idtbytes[offset])
 					}
 				case 2:
-					fmt.Println("I made it to level 2: sub-works. This never happens?")
+					fmt.Println("LoadAuthorIDTData() made it to level 2: sub-works. This never happens?")
 					os.Exit(1)
 				}
 			}

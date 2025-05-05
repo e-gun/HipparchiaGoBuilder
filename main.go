@@ -170,6 +170,9 @@ func main() {
 
 	if cfg.TestRun {
 		global.HEAD("TestRun")
+		idtandbin.LoadLatinCanon("/Users/erik/Development/go/src/github.com/e-gun/HipparchiaGoBuilder/data/LAT/")
+		// idtandbin.LoadLatinCanonIDT("/Users/erik/Development/go/src/github.com/e-gun/HipparchiaGoBuilder/data/LAT/")
+
 	}
 
 	d := fmt.Sprintf(MSG, global.NAME, global.VERSION, time.Now().Sub(start).Seconds())

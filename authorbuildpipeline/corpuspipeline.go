@@ -42,6 +42,7 @@ func RunCorpusPipeline(datadir string, prefix string) {
 
 	if prefix == "LAT" {
 		LoadLatinGenresIntoWorkMap()
+		LoadLatinCanonPubInfoIntoWorkMap(datadir)
 	}
 
 	idtandbin.ReconcileAuMaps()
