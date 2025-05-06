@@ -15,20 +15,25 @@ import (
 	"time"
 )
 
-// Headwords are sorted into three eras. Early or ⓔ is 900BCE to 300BCE. Middle or ⓜ is 299BCE to 300CE. Late or ⓛ is 301CE to 1600CE.
+// Headwords are sorted into three TheEras. Early or ⓔ is 900BCE to 300BCE. Middle or ⓜ is 299BCE to 300CE. Late or ⓛ is 301CE to 1600CE.
 
 var (
-	eras = map[string][2]int{
+	TheEras = map[string][2]int{
 		"early":  {-900, -300},
 		"middle": {-299, 300},
 		"late":   {301, 1600},
+	}
+	TheErasAlt = map[string][2]int{
+		"early_occurrences":  {-900, -300},
+		"middle_occurrences": {-299, 300},
+		"late_occurrences":   {301, 1600},
 	}
 )
 
 // ParsedCountOfAllEras - count the N instances of parsed word W in era ⓔ ...
 func ParsedCountOfAllEras() map[string]structs.DbHeadwordCounts {
 	const (
-		MSG = "ParsedCountOfAllEras(): All eras processed. %.3fs"
+		MSG = "ParsedCountOfAllEras(): All TheEras processed. %.3fs"
 	)
 	global.SECT("ParsedCountOfAllEras()")
 
@@ -36,7 +41,7 @@ func ParsedCountOfAllEras() map[string]structs.DbHeadwordCounts {
 
 	alleras := make(map[string]map[string]int, len(global.KnownGenres))
 
-	for k, _ := range eras {
+	for k, _ := range TheEras {
 		fmt.Printf("\tEra wordcount working on '%s'\n", k)
 		thisera := getoneera(k)
 		alleras[k] = thisera
@@ -67,7 +72,7 @@ func getrelevanttimespanworks(era string) []WorksAndBoundsHolder {
 	dbconn := dbc.GetDBConnection()
 	defer dbconn.Release()
 
-	lowandhigh, _ := eras[era]
+	lowandhigh, _ := TheEras[era]
 	query := fmt.Sprintf(Q)
 
 	foundrows, err := dbconn.Query(context.Background(), query, lowandhigh[0], lowandhigh[1])

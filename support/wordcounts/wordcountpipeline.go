@@ -44,8 +44,16 @@ func DoAllWordcounts() {
 		merged[k] = wc
 	}
 	resetdb.InitializeHeadwordWordCountTable()
+
+	for k, v := range merged {
+		v.FrqClas = CalculateFrequencyClassification(k, v.Total)
+		merged[k] = v
+	}
+
 	insert.InsertHeadwordWordcountsIntoTable(merged)
 
+	// see the head of CalculateParsedWordcountTotals()
+	// if you comment out the next two you will still have viable weights, but they will have a slightly different meaning
 	CountEraRawWords()
 	CountGenreRawWords()
 

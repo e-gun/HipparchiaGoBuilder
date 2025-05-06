@@ -146,9 +146,8 @@ func InsertUnparsedWordCountsIntoTable(wordcounts map[string]structs.DbUnparsedW
 	// fmt.Printf("InsertUnparsedWordCountsIntoTable(): %s\tNumber of rows copied: %d\n", tablename, numbercopied)
 }
 
-func InsertOneRawCountIntoHeadwordWordcounts(genre string, genreoreracount int) {
+func InsertOneRawCountIntoHeadwordWordcounts(genre string, rowname string, genreoreracount int) {
 	const (
-		RN  = `__unparsedwordcounttotalsstoredamongheadwordcounts`
 		INS = `INSERT INTO headword_wordcounts (entry_name, %s)
 				VALUES ($1, $2)
 				ON CONFLICT (entry_name)
@@ -159,8 +158,10 @@ func InsertOneRawCountIntoHeadwordWordcounts(genre string, genreoreracount int) 
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	ex := fmt.Sprintf(INS, genre, genre, genre)
-	dbconn.Exec(ctx, ex, RN, genreoreracount)
-	fmt.Println("InsertOneRawCountIntoHeadwordWordcounts", genre, genreoreracount)
+	_, err := dbconn.Exec(ctx, ex, rowname, genreoreracount)
+	if err != nil {
+		fmt.Println("InsertOneRawCountIntoHeadwordWordcounts():", err)
+	}
 }
 
 func InsertHeadwordWordcountsIntoTable(wordcounts map[string]structs.DbHeadwordCounts) {
