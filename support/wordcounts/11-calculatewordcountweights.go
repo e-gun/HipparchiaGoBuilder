@@ -35,16 +35,21 @@ import (
 //--------
 // 303616
 
-// CalculateParsedWordcountTotals - calculate and load weighting for genres and eras: 1 word of Trag is equiv to X words of Phil...
+// CalculateParsedWordcountTotals - calculate and load weighting for genres and TheEras: 1 word of Trag is equiv to X words of Phil...
 // the logic for that hinges on the use of mps.ParsedGreekWeightsCorpora and str.WeightedFieldValuePair in HGS
 // the high count value is set to "1" and all others are "1/X" to give a multiplier that is applied to the value you see
 // so if there is 10x more Phil than Epic, 3 instances of a word in Epic is worth 30 in Phil and so if there are 3 in
 // Epic and 10 in Phil, the word will be scored as "much more typical of epic" since 30 > 10.
+// NB: the *parsed* headwords are weighed against *unparsed* totals, and so you have a fiction because the total number
+// of parsed words is greater than the total number of unparsed words owing to homonyms. This might need to be reverted,
+// but it is not clear that the 'statistics' mean either more or less depending on which route you use to derive this
+// number; note also that despite the above the `total_count`, `gr_count`, ... represent *parsed* headwords; genres and
+// eras are *unparsed* totals; comment out the relevant lines of DoAllWordcounts() to go to pure parsed counts
 func CalculateParsedWordcountTotals() {
 	const (
 		EN1 = `__wordcounttotals`
-		EN2 = `__greekwordcounttotals`
-		EN3 = `__latinwordcounttotals`
+		EN2 = GREEKRAWCOUNTROW
+		EN3 = LATINRAWCOUNTROW
 		Q1  = `DELETE FROM headword_wordcounts WHERE entry_name = $1;`
 		Q2  = `SELECT sum (%s) FROM headword_wordcounts;`
 		Q3  = `SELECT sum (%s) FROM headword_wordcounts where entry_name ~* '[` + generic.GLC + `]'`
