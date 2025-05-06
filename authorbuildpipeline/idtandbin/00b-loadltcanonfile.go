@@ -12,7 +12,6 @@ import (
 
 const (
 	LTCANONFILE = `LAT9999.TXT`
-	LTCANONIDT  = `LAT9999.IDT`
 )
 
 func LoadLatinCanon(dir string) map[string]string {
@@ -55,11 +54,6 @@ func LoadLatinCanon(dir string) map[string]string {
 
 	parser1 := regexp.MustCompile(`(.*?)<hb-speaker>(\d\d\d\d)\.(\d\d\d)`)
 
-	// parser1 will return something like:
-	// Q. Tullius Cicero. carmina (Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, ed. W. Morel, 1927).
-
-	// but, in practice, you already know "Author and Title" and really only need "Text and Edition"
-
 	uidpublicationmap := make(map[string]string)
 	for _, s := range split {
 		groups := parser1.FindStringSubmatch(s)
@@ -73,6 +67,22 @@ func LoadLatinCanon(dir string) map[string]string {
 	//lt0684w015  </hb-fs-l-normal><hb-fs-l-bold>M. Terentius Varro</hb-fs-l-bold><hb-fs-l-normal>. fragmenta de historia litterarum (</hb-fs-l-normal><hb-fs-l-italic>Grammaticae</hb-fs-l-italic><hb-fs-l-normal> </hb-fs-l-normal><hb-fs-l-italic>Romanae Fragmenta</hb-fs-l-italic><hb-fs-l-normal>, ed. G. Funaioli, 1907).
 	//lt0692w004 <hb-fs-l-bold>Appendix Vergiliana</hb-fs-l-bold><hb-fs-l-normal>. </hb-fs-l-normal><hb-fs-l-italic>Aetna</hb-fs-l-italic><hb-fs-l-normal> (</hb-fs-l-normal><hb-fs-l-italic>Appendix Vergiliana</hb-fs-l-italic><hb-fs-l-normal>, ed. F. R. D. </hb-fs-l-normal>Goodyear, 1966).
 	//lt0692w005 <hb-fs-l-bold>Appendix Vergiliana</hb-fs-l-bold><hb-fs-l-normal>. </hb-fs-l-normal><hb-fs-l-italic>Copa</hb-fs-l-italic><hb-fs-l-normal> (</hb-fs-l-normal><hb-fs-l-italic>Appendix Vergiliana</hb-fs-l-italic><hb-fs-l-normal>, ed. E. J. Kenney, </hb-fs-l-normal>1966).
+
+	// parser1 will return something like when you hit HGS ProlixBrowswerCitations():
+	// Q. Tullius Cicero. carmina (Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, ed. W. Morel, 1927).
+
+	// but, in practice, you already know "Author and Title" and really only need "Text and Edition"
+
+	parser2 := regexp.MustCompile(`([^(]+)\((.+)\)`)
+	for k, v := range uidpublicationmap {
+		groups := parser2.FindStringSubmatch(v)
+		if len(groups) == 3 {
+			newv := groups[2]
+			uidpublicationmap[k] = newv
+		}
+	}
+
+	// down to just: </hb-fs-l-normal><hb-fs-l-italic>Grammatici Latini ex</hb-fs-l-italic><hb-fs-l-normal> </hb-fs-l-normal><hb-fs-l-italic>Recensione Henrici Keilii</hb-fs-l-italic><hb-fs-l-normal>. Vol. 6, ed. H. Keil, 1874
 
 	return uidpublicationmap
 }
