@@ -388,6 +388,10 @@ func gathernewinsworkinfo(l structs.DbWorkline) structs.DbWork {
 		tit = fmt.Sprintf(TEMPL2, doc, publicationinfo)
 	}
 
+	gen := "inscr"
+	if l.WkUID[0:2] == "dp" {
+		gen = "docu"
+	}
 	nw := structs.DbWork{
 		UID:       "",
 		Title:     betacode.SimpleLatinSpanLATE(lat.ConvertLatinDiacriticals(tit)),
@@ -399,7 +403,7 @@ func gathernewinsworkinfo(l structs.DbWorkline) structs.DbWork {
 		LL3:       "",
 		LL4:       "",
 		LL5:       "",
-		Genre:     "Inscr.",
+		Genre:     gen,
 		Xmit:      fmt.Sprintf("direct (%s)", l.WkUID[0:6]), // so you can go back and bug hunt...
 		Type:      "",
 		Prov:      remapprov(prov),
@@ -424,7 +428,6 @@ func gathernewchrworkinfo(l structs.DbWorkline) structs.DbWork {
 	wk := gathernewinsworkinfo(l)
 	//wk.Title = l.WkUID // ch0017w001 which we will decode later with an appeal to the IDT (that is: leverage the OLDWORK title)
 	//wk.Title = wk.Title + " · " + l.Lvl5Value
-	wk.Genre = "Inscr."
 
 	if fnwsimple(l) {
 		// "date", etc. triggered this and the wk looks ok
@@ -456,7 +459,6 @@ func gathernewddpworkinfo(l structs.DbWorkline) structs.DbWork {
 		wk.Title = tit
 	}
 
-	wk.Genre = "Docu."
 	return wk
 }
 

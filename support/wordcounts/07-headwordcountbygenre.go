@@ -35,11 +35,12 @@ func ParsedCountOfAllGenres() map[string]structs.DbHeadwordCounts {
 
 	for i, genre := range global.KnownGenres {
 		if i%20 == 0 {
-			fmt.Printf("\tGenre wordcount working on %d of %d genres\n", i, len(global.KnownGenres))
+			fmt.Printf("\tParsedCountOfAllGenres() working on %d of %d genres\n", i, len(global.KnownGenres))
 		}
-		thisgenre := getonegenre(genre)
-		delete(thisgenre, "")
-		allgenres[genre] = thisgenre
+		genrecounts := getonegenre(genre)
+
+		delete(genrecounts, "")
+		allgenres[genre] = genrecounts
 	}
 
 	wordsbygenre := convertallgenremaptowordgenremap(allgenres)
@@ -55,16 +56,15 @@ func ParsedCountOfAllGenres() map[string]structs.DbHeadwordCounts {
 func getonegenre(genre string) map[string]int {
 	genre = strings.Title(genre)
 	wbhh := getrelevantgenreworks(genre)
-	thisgenre := FanoutGenreAndTimeCounter(wbhh)
+	doparsing := true
+	thisgenre := FanoutGenreAndTimeCounter(wbhh, doparsing)
 	return thisgenre
 }
 
 func getrelevantgenreworks(cat string) []WorksAndBoundsHolder {
 	const (
-		Q   = `SELECT universalid,firstline,lastline FROM works WHERE workgenre ~* $1;`
-		RE  = `%s(|.|;)`
-		Q2  = `SELECT universalid,firstline,lastline FROM works WHERE workgenre = $1;`
-		RE2 = `%s.`
+		Q  = `SELECT universalid,firstline,lastline FROM works WHERE workgenre ~* $1;`
+		RE = `%s(|.|;)`
 	)
 
 	// Q2 & RE2 let you vaguely simulate the old wordcount situation where works had only one genre

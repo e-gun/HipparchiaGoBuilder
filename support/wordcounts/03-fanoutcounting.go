@@ -60,7 +60,7 @@ func FanoutCorpusCount(doparsing bool, authorpile []string) map[string]int {
 	return mastermap
 }
 
-func FanoutGenreAndTimeCounter(worksandbounds []WorksAndBoundsHolder) map[string]int {
+func FanoutGenreAndTimeCounter(worksandbounds []WorksAndBoundsHolder, doparsing bool) map[string]int {
 	// Input slice of bundles to be processed
 	// authorpile := FindAuthorsToGrab(corpus)
 
@@ -74,7 +74,11 @@ func FanoutGenreAndTimeCounter(worksandbounds []WorksAndBoundsHolder) map[string
 	// Start the workers
 	for i := 0; i <= global.Config.WorkerCount; i++ {
 		wg.Add(1)
-		go parseandcountsubetworker(i, tasks, results, &wg)
+		if doparsing {
+			go parseandcountsubetworker(i, tasks, results, &wg)
+		} else {
+			go countsubetworker(i, tasks, results, &wg)
+		}
 	}
 
 	// Fan-out: Distribute tasks to workers
@@ -150,6 +154,18 @@ func parseandcountsubetworker(id int, worksandbounds <-chan WorksAndBoundsHolder
 		// fmt.Println(id, t)
 		lines := GetSelectLinesFrom(wb.T, wb.F, wb.L)
 		localmap = ParseAndCountThisBundle(localmap, lines)
+	}
+	results <- localmap
+}
+
+// countsubetworker processes a subset of an author table; do not parse the words
+func countsubetworker(id int, worksandbounds <-chan WorksAndBoundsHolder, results chan<- map[string]int, wg *sync.WaitGroup) {
+	defer wg.Done()
+	localmap := make(map[string]int)
+	for wb := range worksandbounds {
+		// fmt.Println(id, t)
+		lines := GetSelectLinesFrom(wb.T, wb.F, wb.L)
+		localmap = CountThisBundle(localmap, lines)
 	}
 	results <- localmap
 }

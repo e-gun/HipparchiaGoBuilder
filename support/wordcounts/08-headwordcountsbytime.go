@@ -54,7 +54,8 @@ func ParsedCountOfAllEras() map[string]structs.DbHeadwordCounts {
 
 func getoneera(era string) map[string]int {
 	wbhh := getrelevanttimespanworks(era)
-	thisera := FanoutGenreAndTimeCounter(wbhh)
+	doparsing := true
+	thisera := FanoutGenreAndTimeCounter(wbhh, doparsing)
 	return thisera
 }
 

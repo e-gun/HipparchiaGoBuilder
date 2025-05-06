@@ -46,6 +46,9 @@ func DoAllWordcounts() {
 	resetdb.InitializeHeadwordWordCountTable()
 	insert.InsertHeadwordWordcountsIntoTable(merged)
 
+	CountEraRawWords()
+	CountGenreRawWords()
+
 	CalculateUnparsedWordcountWeights()
 	CalculateParsedWordcountTotals()
 

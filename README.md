@@ -1,5 +1,5 @@
 ## HipparchiaGoBuilder
-### v.0.8.3b : beta
+### v.0.8.4b : beta
 
 the python builder is old and confusing and hard to maintain
 

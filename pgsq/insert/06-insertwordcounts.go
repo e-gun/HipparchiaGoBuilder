@@ -146,6 +146,23 @@ func InsertUnparsedWordCountsIntoTable(wordcounts map[string]structs.DbUnparsedW
 	// fmt.Printf("InsertUnparsedWordCountsIntoTable(): %s\tNumber of rows copied: %d\n", tablename, numbercopied)
 }
 
+func InsertOneRawCountIntoHeadwordWordcounts(genre string, genreoreracount int) {
+	const (
+		RN  = `__unparsedwordcounttotalsstoredamongheadwordcounts`
+		INS = `INSERT INTO headword_wordcounts (entry_name, %s)
+				VALUES ($1, $2)
+				ON CONFLICT (entry_name)
+			    DO UPDATE SET %s = EXCLUDED.%s`
+	)
+	dbconn := dbc.GetDBConnection()
+	defer dbconn.Release()
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	ex := fmt.Sprintf(INS, genre, genre, genre)
+	dbconn.Exec(ctx, ex, RN, genreoreracount)
+	fmt.Println("InsertOneRawCountIntoHeadwordWordcounts", genre, genreoreracount)
+}
+
 func InsertHeadwordWordcountsIntoTable(wordcounts map[string]structs.DbHeadwordCounts) {
 
 	tablename := "headword_wordcounts"
