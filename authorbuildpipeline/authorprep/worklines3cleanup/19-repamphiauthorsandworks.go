@@ -98,18 +98,6 @@ func RemapInscriptionAuthorsAndWorks(lines []structs.DbWorkline, authorid string
 
 	newworkmap := make(map[string]structs.DbWork)
 
-	// todo: fix the first work...
-	// hgdb=> select universalid,firstline,lastline from works where wordcount = 0;
-	// universalid | firstline | lastline
-	//-------------+-----------+----------
-	// inz02lw00a  |         0 |        9
-	// inz069w00a  |         0 |        0
-	// inz093w00a  |         0 |       59
-	// inz06lw00a  |         0 |       16
-	// inz08qw00a  |         0 |       20
-	// inz0adw00a  |         0 |        6
-	// ...
-
 	// blank values
 	previouswork := structs.DbWork{
 		FirstLine: 1,
@@ -211,8 +199,6 @@ func RemapInscriptionAuthorsAndWorks(lines []structs.DbWorkline, authorid string
 			newwork.UID = workingwithauthorid + "w" + wn
 
 			newwork.FirstLine = l.TbIndex
-			newwork.WdCount = wordcount
-			wordcount = 0
 
 			// todo: this is truly suspect because so many chr lines are broken right now and need ungreeking
 			if l.HasGreek() {
@@ -222,6 +208,9 @@ func RemapInscriptionAuthorsAndWorks(lines []structs.DbWorkline, authorid string
 			}
 
 			newworkmap[newwork.UID] = newwork
+
+			previouswork.WdCount = wordcount
+			wordcount = 0
 
 			previouswork.LastLine = l.TbIndex - 1
 			newworkmap[previouswork.UID] = previouswork
@@ -424,7 +413,6 @@ func gathernewchrworkinfo(l structs.DbWorkline) structs.DbWork {
 	// {43 237 -1 -1 -1 -1 1 ch0017w001 ἐνθάδε κῖτε πε͂ϲ̣ <hb-sp-rectified_form>παῖϲ</hb-sp-rectified_form> ἐνθάδε κῖτε πε͂ϲ παῖϲ ενθαδε κιτε πε͂ϲ παιϲ  region: Sicilia · city: Acrae · date: date? · documentnumber: 9}
 	// this marks the arrival of "Kaibel, IG XIV, 237"; note that the "237" is stored as the l5 value
 
-	// treat it like a special case of an inscription; but you need to rework the title (todo)
 	wk := gathernewinsworkinfo(l)
 	//wk.Title = l.WkUID // ch0017w001 which we will decode later with an appeal to the IDT (that is: leverage the OLDWORK title)
 	//wk.Title = wk.Title + " · " + l.Lvl5Value

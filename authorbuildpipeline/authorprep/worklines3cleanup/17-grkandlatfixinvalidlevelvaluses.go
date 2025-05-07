@@ -26,8 +26,6 @@ func GRKandLATFixInvalidLevelValues(lines []structs.DbWorkline, works []structs.
 		}
 	}
 
-	// todo: a trick/trap because INS plays games with L3... but sometimes you want things to be blank...
-
 	if corpus == "ch" {
 		lines = fixchrlvl5values(lines)
 	}
