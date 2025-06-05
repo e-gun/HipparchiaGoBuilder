@@ -19,5 +19,8 @@ disemis	{22932594 9 dise_mi_s,disemus	 	neut abl pl}{22932594 9 dise_mi_s,disemu
 )
 
 func ParseLatinAnalyses(entries []string) []structs.GramAnalysis {
+	// note that Possibilities []MorphPossib inside each latin GramAnalysis will never contain
+	// a value in the Transl field; this means that you cannot build a Latin vocab list off of these
+	// in HGS
 	return ParseAnalyses("latin", entries)
 }

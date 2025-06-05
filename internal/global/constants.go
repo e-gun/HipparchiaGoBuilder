@@ -2,5 +2,5 @@ package global
 
 const (
 	NAME    = "HipparchiaGoBuilder"
-	VERSION = "0.8.4b"
+	VERSION = "0.8.5b"
 )

@@ -37,16 +37,17 @@ func FindLatinLexEntries(lexdata string) []structs.DbLexicon {
 
 	latee := make([]structs.DbLexicon, len(entries))
 	for i, entry := range entries {
-		var translations []string
+		// translations now handled by extracttranslations()
+		// var translations []string
 		var rem string
 		var de structs.DbLexicon
 		entry = reformatltxml(entry)
 		usedby := collectauthors(entry)
-		entry, translations = gatherlattransl(entry)
+		// entry, translations = gatherlattransl(entry)
 		de, rem = extractlatinheadmaterial(entry)
 		latee[i] = extractletinsenses(de, rem)
 		latee[i].Usedby = usedby
-		latee[i].Transl = strings.Join(translations, SEPARATOR)
+		// latee[i].Transl = strings.Join(translations, SEPARATOR)
 		latee[i].PrelimInfo = prelimcleaner.ReplaceAllString(latee[i].PrelimInfo, "$1")
 	}
 	return latee
@@ -82,6 +83,62 @@ var (
 	formattedtransl = regexp.MustCompile(`<hb-lx-tr>([^<]*?)</hb-lx-tr>`)
 	ltsensefinder   = regexp.MustCompile(`<sense id="(.*?)" n="(.*?)" level="(.*?)">(.*?)</sense>`)
 	fmttrans2       = regexp.MustCompile(`<hi rend="ital">([^<]*?)</hi>`)
+	lttransfinder   = regexp.MustCompile(`<hb-lx-hri>([^<]*?)</hb-lx-hri>`)
+	notatransl      = []string{
+		"a.",
+		"absol.",
+		"Absol.",
+		"acc.",
+		"act.",
+		"Act.",
+		"adj.",
+		"Adj.",
+		"adv.",
+		"Adv.",
+		"advv.",
+		"comp.",
+		"Comp.",
+		"dat.",
+		"dep.",
+		"Ep.",
+		"fem.",
+		"fin.",
+		"fut.",
+		"gen.",
+		"imp.",
+		"inf.",
+		"init.",
+		"insepar.",
+		"masc.",
+		"med.",
+		"n.",
+		"N.",
+		"Neutr.",
+		"nom.",
+		"P.",
+		"part.",
+		"pass.",
+		"Pass.",
+		"perf.",
+		"pers.",
+		"Plur.",
+		"Posit.",
+		"prep.",
+		"Prep.",
+		"pron.",
+		"prepp.",
+		"plur.",
+		"rel.",
+		"reflex.",
+		"sing.",
+		"Sing.",
+		"subj.",
+		"subst.",
+		"Subst.",
+		"Sup.",
+		"v.",
+		"v.a.",
+	}
 )
 
 func reformatltxml(xml string) string {
@@ -146,11 +203,19 @@ func extractletinsenses(latlex structs.DbLexicon, prunedentry string) structs.Db
 		latlex, prunedentry = els1(latlex, prunedentry)
 	}
 
+	trr := []string{}
+
 	for _, s := range latlex.Senses {
 		latlex.SenseIDs = append(latlex.SenseIDs, s.ID)
+		nt := extracttranslations(s.Contents)
+		if len(nt) > 0 {
+			trr = append(trr, nt)
+		}
 	}
 
 	latlex.PrelimInfo = prunedentry
+	latlex.Transl = strings.Join(trr, SEPARATOR)
+	// fmt.Println(latlex.Transl)
 
 	return latlex
 }
@@ -176,4 +241,23 @@ func els1(latentry structs.DbLexicon, prunedentry string) (structs.DbLexicon, st
 		latentry.Senses = append(latentry.Senses, newsense)
 	}
 	return latentry, remainder
+}
+
+// extracttranslations - extract translations from a "sense" so you can set the Transl field of a structs.DbLexicon
+func extracttranslations(s string) string {
+	// this is tricky since the markup is the same for grammar and translations; see "perolesco", for example,
+	// where "hri" sets off both "it's a verb" and "it means x":
+	// `<hb-lx-hri>v. inch. n.</hb-lx-hri>, <hb-lx-hri>to grow up</hb-lx-hri>, Lucil. ap. <notbibl><hb-lx-au>Prisc.</hb-lx-au> p. 872</notbibl> P.`
+
+	groups := lttransfinder.FindAllStringSubmatch(s, -1)
+	senses := []string{}
+	if len(groups) > 0 {
+		for _, group := range groups {
+			elem := strings.Split(group[1], " ")
+			if !generic.SliceOverlap(notatransl, elem) && len(group[1]) > 1 {
+				senses = append(senses, strings.TrimSpace(group[1]))
+			}
+		}
+	}
+	return strings.Join(senses, ", ")
 }

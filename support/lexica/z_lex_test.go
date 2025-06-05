@@ -201,3 +201,13 @@ func TestGeneratehyperlinks(t *testing.T) {
 func TestFindLatinLexEntries(t *testing.T) {
 	_ = FindLatinLexEntries(LTLEXTESTDATA)
 }
+
+func TestExtracttranslations(t *testing.T) {
+	ttc := `<hb-lx-hri>v. inch. n.</hb-lx-hri>, <hb-lx-hri>to grow up</hb-lx-hri>, Lucil. ap. <notbibl><hb-lx-au>Prisc.</hb-lx-au> p. 872</notbibl> P.`
+	ttc = `<hb-lx-hri>very cleanly</hb-lx-hri>: <cit><hb-lx-lt-quote>volucres,</hb-lx-lt-quote> <bibl id=\"perseus/lt0684/002/3:7:5\"><hb-lx-au>Varro</hb-lx-au> R. R. 3, 7, 5</bibl></cit>.`
+	got := extracttranslations(ttc)
+	if len(got) == 0 {
+		// do nothing
+	}
+	fmt.Println("result: ", got)
+}

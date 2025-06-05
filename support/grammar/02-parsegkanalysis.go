@@ -6,7 +6,7 @@
 package grammar
 
 import (
-	generic2 "github.com/e-gun/HipparchiaGoBuilder/internal/generic"
+	"github.com/e-gun/HipparchiaGoBuilder/internal/generic"
 	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
 	"regexp"
 	"strings"
@@ -97,10 +97,6 @@ func ParseAnalyses(lang string, entries []string) []structs.GramAnalysis {
 
 	for i, entry := range entries {
 		groups := analysisfinder1.FindStringSubmatch(entry)
-		//fmt.Println("groups", len(groups))
-		//for j, group := range groups {
-		//	fmt.Println(j, group)
-		//}
 		if len(groups) == 3 {
 			gramanal[i].Observed = groups[1]
 			gramanal[i].Scratchpad = groups[2]
@@ -108,9 +104,6 @@ func ParseAnalyses(lang string, entries []string) []structs.GramAnalysis {
 	}
 	for i, _ := range gramanal {
 		poss := strings.Split(gramanal[i].Scratchpad, "}{")
-		//if i%NOTIFYEVERY == 0 {
-		//	fmt.Printf("ParseGreekAnalyses() first pass on #%d of %d\n", i, len(gramanal))
-		//}
 		var collectedpossibilities []structs.MorphPossib
 
 		for _, pos := range poss {
@@ -129,6 +122,12 @@ func ParseAnalyses(lang string, entries []string) []structs.GramAnalysis {
 				collectedpossibilities = append(collectedpossibilities, mp)
 			}
 		}
+
+		//if i%NOTIFYEVERY == 0 {
+		//	fmt.Printf("ParseGreekAnalyses() first pass on #%d of %d\n", i, len(gramanal))
+		//	// fmt.Println(collectedpossibilities)
+		//}
+
 		gramanal[i].Possibilities = collectedpossibilities
 	}
 
@@ -145,13 +144,13 @@ func betacodeforanalyses(gramanal []structs.GramAnalysis) []structs.GramAnalysis
 		//if i%NOTIFYEVERY == 0 {
 		//	fmt.Printf("ParseGreekAnalyses() cleaning #%d of %d\n", i, len(gramanal))
 		//}
-		gramanal[i].Observed = strings.ToValidUTF8(generic2.ConvertLCBetacode(ga.Observed), "") // no vowel length info should be in a headword
-		gramanal[i].XREFS = generic2.Unique(gramanal[i].XREFS)
+		gramanal[i].Observed = strings.ToValidUTF8(generic.ConvertLCBetacode(ga.Observed), "") // no vowel length info should be in a headword
+		gramanal[i].XREFS = generic.Unique(gramanal[i].XREFS)
 		for j := 0; j < len(gramanal[i].Possibilities); j++ {
 			// allow vowel length info; but "a_(/bais" will choke because there is no test for short-a + "(/"
 			// p := generic.HandleVowelLengths(gramanal[i].Possibilities[j].Headwd)
-			p := generic2.SuperScriptNumbers(gramanal[i].Possibilities[j].Headwd)
-			gramanal[i].Possibilities[j].Headwd = strings.ToValidUTF8(generic2.ConvertLCBetacode(p), "")
+			p := generic.SuperScriptNumbers(gramanal[i].Possibilities[j].Headwd)
+			gramanal[i].Possibilities[j].Headwd = strings.ToValidUTF8(generic.ConvertLCBetacode(p), "")
 			// shrink the things while we are at it...
 			gramanal[i].Scratchpad = ""
 		}

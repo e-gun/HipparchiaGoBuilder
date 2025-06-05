@@ -59,3 +59,23 @@ func StringMapKeysIntoSlice[T any](mp map[string]T) []string {
 	}
 	return sl
 }
+
+// SliceContains - is X in slice A?
+func SliceContains[T comparable](sl []T, seek T) bool {
+	for _, v := range sl {
+		if v == seek {
+			return true
+		}
+	}
+	return false
+}
+
+// SliceOverlap - is any X in Y?
+func SliceOverlap[T comparable](x []T, y []T) bool {
+	for _, v := range x {
+		if SliceContains(y, v) {
+			return true
+		}
+	}
+	return false
+}
