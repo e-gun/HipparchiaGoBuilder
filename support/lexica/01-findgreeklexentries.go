@@ -49,10 +49,22 @@ func FindGreekLexEntries(lexdata string) ([]structs.DbLexicon, error) {
 		entry = reformatgkxml(entry)
 		usedby := collectauthors(entry)
 		entry, translations = reformatandextracttranslations(entry)
+
+		deduptrr := []string{}
+		deduper := make(map[string]bool)
+		for _, t := range translations {
+			if _, present := deduper[t]; present {
+				continue
+			} else {
+				deduper[t] = true
+				deduptrr = append(deduptrr, t)
+			}
+		}
+
 		en, tx := extractdiv2material(entry)
 		en, tx = extractheadmaterial(en, tx)
 		lsjee[i] = extractlsjsenses(en, tx)
-		lsjee[i].Transl = strings.Join(translations, SEPARATOR)
+		lsjee[i].Transl = strings.Join(deduptrr, SEPARATOR)
 		lsjee[i].Usedby = usedby
 	}
 	return lsjee, spliterror

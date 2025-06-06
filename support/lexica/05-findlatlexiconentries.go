@@ -76,68 +76,162 @@ func extractlatinheadmaterial(fullentry string) (structs.DbLexicon, string) {
 }
 
 var (
-	fmtcit          = regexp.MustCompile("<cit>([^<]*?)</cit>")
-	fmtquote        = regexp.MustCompile(`<quote lang="la">([^<]*?)</quote>`)
-	fmttrans        = regexp.MustCompile(`<trans><tr>([^<]*?)</tr>(,|)</trans>`)
-	fmtgreek        = regexp.MustCompile(`<foreign lang="greek">([^<]*?)</foreign>`)
-	formattedtransl = regexp.MustCompile(`<hb-lx-tr>([^<]*?)</hb-lx-tr>`)
-	ltsensefinder   = regexp.MustCompile(`<sense id="(.*?)" n="(.*?)" level="(.*?)">(.*?)</sense>`)
-	fmttrans2       = regexp.MustCompile(`<hi rend="ital">([^<]*?)</hi>`)
-	lttransfinder   = regexp.MustCompile(`<hb-lx-hri>([^<]*?)</hb-lx-hri>`)
-	notatransl      = []string{
+	fmtcit        = regexp.MustCompile("<cit>([^<]*?)</cit>")
+	fmtquote      = regexp.MustCompile(`<quote lang="la">([^<]*?)</quote>`)
+	fmttrans      = regexp.MustCompile(`<trans><tr>([^<]*?)</tr>(,|)</trans>`)
+	fmtgreek      = regexp.MustCompile(`<foreign lang="greek">([^<]*?)</foreign>`)
+	ltsensefinder = regexp.MustCompile(`<sense id="(.*?)" n="(.*?)" level="(.*?)">(.*?)</sense>`)
+	fmttrans2     = regexp.MustCompile(`<hi rend="ital">([^<]*?)</hi>`)
+	lttransfinder = regexp.MustCompile(`<hb-lx-hri>([^<]*?)</hb-lx-hri>`)
+	// notatransl - to drop things that are not part of a definition; any "." is tempting, but you definitely lose material that way
+	notatransl = []string{
 		"a.",
+		"A.",
+		"abl.",
 		"absol.",
 		"Absol.",
 		"acc.",
+		"Acc.",
 		"act.",
 		"Act.",
 		"adj.",
 		"Adj.",
+		"adjj.",
 		"adv.",
 		"Adv.",
 		"advv.",
+		"Aes.",
+		"Al.",
+		"Am.",
+		"Ar.",
+		"Ba.",
+		"bis",
+		"Ca.",
+		"Ch.",
+		"Comp",
 		"comp.",
 		"Comp.",
+		"conj.",
+		"Conj.",
+		"Da.",
 		"dat.",
+		"Dat.",
+		"De.",
 		"dep.",
+		"demonstr.",
+		"Di.",
+		"Do.",
 		"Ep.",
+		"Eut.",
 		"fem.",
+		"Fem.",
 		"fin.",
+		"fin.—Sup.",
 		"fut.",
+		"Fut.",
+		"Ge.",
 		"gen.",
+		"Gen.",
+		"gerund.",
+		"Gn.",
+		"h.",
 		"imp.",
+		"imper.",
+		"imperf.",
+		"impers.",
+		"Impers.",
+		"ind.",
+		"indef.",
+		"Indef.",
+		"indic.",
 		"inf.",
 		"init.",
 		"insepar.",
+		"interrog.",
+		"Interrog.",
+		"l.",
+		"Li.",
+		"Ly.",
+		"M.",
 		"masc.",
+		"Masc.",
 		"med.",
+		"met",
+		"Mi.",
+		"Mil.",
 		"n.",
 		"N.",
+		"neutr.",
 		"Neutr.",
+		"no.",
 		"nom.",
+		"num.",
+		"object-acc.",
+		"obj.clause",
+		"obj.-clause",
 		"P.",
+		"Pa.",
+		"parag.",
 		"part.",
+		"Part.",
+		"partt.",
 		"pass.",
 		"Pass.",
+		"Pe",
+		"per",
 		"perf.",
+		"Perf.",
 		"pers.",
+		"person.",
+		"Ph.",
+		"Pi.",
+		"Pl.",
+		"pluperf.",
+		"Pluperf.",
+		"plur.",
 		"Plur.",
+		"posit.",
 		"Posit.",
+		"praes.",
 		"prep.",
 		"Prep.",
+		"pres.",
 		"pron.",
+		"pronn.",
 		"prepp.",
-		"plur.",
+		"Ps.",
+		"Py.",
 		"rel.",
+		"Rel.",
+		"rel.-clause",
+		"relat.",
 		"reflex.",
+		"S.",
+		"Sc.",
+		"Si.",
 		"sing.",
 		"Sing.",
+		"So.",
 		"subj.",
+		"Subj.",
 		"subst.",
 		"Subst.",
+		"substt.",
+		"Substt.",
+		"sup.",
 		"Sup.",
+		"Sy.",
+		"tempp.",
+		"ter",
+		"Th.",
+		"Thr.",
+		"Tr.",
+		"ut",
+		"ut.",
 		"v.",
 		"v.a.",
+		"verb.",
+		"voc.",
 	}
 )
 
@@ -188,16 +282,6 @@ func formatgreekinlatinlex(match string) string {
 	return match
 }
 
-func gatherlattransl(sensebody string) (string, []string) {
-	var meanings []string
-	alltrans := formattedtransl.FindAllString(sensebody, -1)
-	for _, tr := range alltrans {
-		cln := formattedtransl.ReplaceAllString(tr, "$1")
-		meanings = append(meanings, cln)
-	}
-	return sensebody, meanings
-}
-
 func extractletinsenses(latlex structs.DbLexicon, prunedentry string) structs.DbLexicon {
 	if ltsensefinder.MatchString(prunedentry) {
 		latlex, prunedentry = els1(latlex, prunedentry)
@@ -213,9 +297,19 @@ func extractletinsenses(latlex structs.DbLexicon, prunedentry string) structs.Db
 		}
 	}
 
+	deduptrr := []string{}
+	deduper := make(map[string]bool)
+	for _, t := range trr {
+		if _, present := deduper[t]; present {
+			continue
+		} else {
+			deduper[t] = true
+			deduptrr = append(deduptrr, t)
+		}
+	}
+
 	latlex.PrelimInfo = prunedentry
-	latlex.Transl = strings.Join(trr, SEPARATOR)
-	// fmt.Println(latlex.Transl)
+	latlex.Transl = strings.Join(deduptrr, SEPARATOR)
 
 	return latlex
 }
@@ -254,8 +348,13 @@ func extracttranslations(s string) string {
 	if len(groups) > 0 {
 		for _, group := range groups {
 			elem := strings.Split(group[1], " ")
-			if !generic.SliceOverlap(notatransl, elem) && len(group[1]) > 1 {
-				senses = append(senses, strings.TrimSpace(group[1]))
+			if !generic.SliceOverlap(notatransl, elem) {
+				g1 := strings.TrimSpace(group[1])
+				g1 = strings.TrimPrefix(g1, ", ")
+				g1 = strings.TrimSuffix(g1, ".") // note that this will make debugging hard may need to be toggled
+				if len(group[1]) > 1 {
+					senses = append(senses, g1)
+				}
 			}
 		}
 	}
