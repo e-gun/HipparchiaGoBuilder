@@ -6,6 +6,7 @@ import (
 	"github.com/e-gun/HipparchiaGoBuilder/authorbuildpipeline/authorprep/latetidyups"
 	"github.com/e-gun/HipparchiaGoBuilder/authorbuildpipeline/authorprep/worklines1initial"
 	"github.com/e-gun/HipparchiaGoBuilder/authorbuildpipeline/authorprep/worklines2dbprep"
+	"github.com/e-gun/HipparchiaGoBuilder/internal/global"
 	"regexp"
 	"strings"
 )
@@ -58,7 +59,7 @@ func LoadLatinCanon(dir string) map[string]string {
 	for _, s := range split {
 		groups := parser1.FindStringSubmatch(s)
 		if len(groups) == 4 {
-			uid := "lt" + groups[2] + "w" + groups[3]
+			uid := "lt" + groups[2] + global.AUTHWORKSEPARATOR + groups[3]
 			uidpublicationmap[uid] = groups[1]
 		}
 	}

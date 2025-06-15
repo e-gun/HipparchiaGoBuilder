@@ -11,6 +11,7 @@ import (
 	"github.com/e-gun/HipparchiaGoBuilder/authorbuildpipeline/authorprep/betacode"
 	"github.com/e-gun/HipparchiaGoBuilder/authorbuildpipeline/idtandbin"
 	"github.com/e-gun/HipparchiaGoBuilder/internal/global"
+	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
 	"github.com/e-gun/HipparchiaGoBuilder/pgsq"
 	"github.com/e-gun/HipparchiaGoBuilder/pgsq/dbc"
 	"github.com/e-gun/HipparchiaGoBuilder/pgsq/insert"
@@ -36,6 +37,8 @@ func main() {
 	)
 	start := time.Now()
 	global.GitHash = GetGitCommitHash(".")
+
+	structs.AuthAndWorkSeparator = global.AUTHWORKSEPARATOR
 
 	// defer profile.Start().Stop()
 	// go tool pprof --pdf ./HipparchiaGoBuilder ./default.pgo > CPUProfile.pdf

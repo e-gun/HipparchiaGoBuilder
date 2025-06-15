@@ -41,6 +41,11 @@ func (n *UniqueNamer) NumberOfDigits(digits int) {
 	// 1,296 available in a "2-digit" name
 	// 46,655 available in a "3-digit" name
 	// 1,679,615 available with 4-digits
+
+	// `select count(*) from works;` --> 248016
+	// `select count(*) from works where universalid ~* '^in';` --> 144419
+	// `select count(*) from authors where universalid ~* '^in';` --> 463
+
 	switch digits {
 	case 0:
 		n.Max = 0
@@ -62,6 +67,7 @@ func (n *UniqueNamer) tobase36(num int) string {
 		return "0"
 	}
 
+	// nb: cannot use upper case unless you are willing to work with postgres re case-sensitive table names
 	const base36chars = "0123456789abcdefghijklmnopqrstuvwxyz"
 	var result strings.Builder
 

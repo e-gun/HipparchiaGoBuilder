@@ -13,9 +13,6 @@ import (
 )
 
 func AssignTLGMetadataToAuthors(tlgmetadata map[string]map[string][]string) {
-	const (
-		CORPUSPREFIX = "gr"
-	)
 
 	// 	allmetadata := map[string]map[string][]string{
 	//		"gnn": gnn,

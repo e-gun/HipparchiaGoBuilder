@@ -87,15 +87,15 @@ func getcorpusabbrev(authorid string) string {
 
 	switch pfx {
 	case "TLG":
-		corpusabbrev = "gr"
+		corpusabbrev = global.TLGABBREV
 	case "LAT":
-		corpusabbrev = "lt"
+		corpusabbrev = global.LATABBREV
 	case "DDP":
-		corpusabbrev = "dp"
+		corpusabbrev = global.DDPABREV
 	case "CHR":
-		corpusabbrev = "ch"
+		corpusabbrev = global.CHRABBREV
 	case "INS":
-		corpusabbrev = "in"
+		corpusabbrev = global.INSABBREV
 	default:
 		fmt.Println("Unknown corpus abbrev", pfx)
 	}
@@ -149,7 +149,7 @@ func greekandlatinworklineprepandcleanupandinsertion(ttc string, wkk []structs.D
 		insert.CreateAuthorTable(authorid)
 	}
 
-	if abbr == "gr" {
+	if abbr == global.TLGABBREV {
 		a, _ := global.TheCanonAuMap.Get(wkk[0].GetAuthor())
 		for i, _ := range wkk {
 			wkk[i].RecDate = a.RecDate

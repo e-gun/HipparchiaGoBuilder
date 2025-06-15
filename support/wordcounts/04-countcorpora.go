@@ -87,7 +87,7 @@ func CountTLGWords(needsparsing bool) map[string]int {
 	auu = authorbuildpipeline.SortWorkpileByFilesize(auu, global.Config.GreekDir)
 	var cleanedauu []string
 	for _, a := range auu {
-		cleanedauu = append(cleanedauu, strings.ReplaceAll(a, "TLG", "gr"))
+		cleanedauu = append(cleanedauu, strings.ReplaceAll(a, "TLG", global.TLGABBREV))
 	}
 
 	fmt.Println("\tCounting the words in the TLG author tables", len(cleanedauu))
@@ -100,7 +100,7 @@ func CountLATWords(needsparsing bool) map[string]int {
 	auu = authorbuildpipeline.SortWorkpileByFilesize(auu, global.Config.GreekDir)
 	var cleanedauu []string
 	for _, a := range auu {
-		cleanedauu = append(cleanedauu, strings.ReplaceAll(a, "LAT", "lt"))
+		cleanedauu = append(cleanedauu, strings.ReplaceAll(a, "LAT", global.LATABBREV))
 	}
 
 	fmt.Println("\tCounting the words in the LAT author tables", len(cleanedauu))
@@ -109,13 +109,11 @@ func CountLATWords(needsparsing bool) map[string]int {
 }
 
 func CountINSWords(needsparsing bool) map[string]int {
-	const (
-		Q = `SELECT universalid FROM authors where universalid ~* '^in'`
-	)
+	qq := fmt.Sprintf(`SELECT universalid FROM authors where universalid ~* '^%s'`, global.INSABBREV)
 
 	dbconn := dbc.GetDBConnection()
 	defer dbconn.Release()
-	foundrows, err := dbconn.Query(context.Background(), Q)
+	foundrows, err := dbconn.Query(context.Background(), qq)
 	if err != nil {
 		panic(err)
 	}
@@ -126,13 +124,11 @@ func CountINSWords(needsparsing bool) map[string]int {
 }
 
 func CountDDPWords(needsparsing bool) map[string]int {
-	const (
-		Q = `SELECT universalid FROM authors where universalid ~* '^dp'`
-	)
+	qq := fmt.Sprintf(`SELECT universalid FROM authors where universalid ~* '^%s'`, global.DDPABREV)
 
 	dbconn := dbc.GetDBConnection()
 	defer dbconn.Release()
-	foundrows, err := dbconn.Query(context.Background(), Q)
+	foundrows, err := dbconn.Query(context.Background(), qq)
 	if err != nil {
 		panic(err)
 	}
@@ -143,13 +139,11 @@ func CountDDPWords(needsparsing bool) map[string]int {
 }
 
 func CountCHRWords(needsparsing bool) map[string]int {
-	const (
-		Q = `SELECT universalid FROM authors where universalid ~* '^ch'`
-	)
+	qq := fmt.Sprintf(`SELECT universalid FROM authors where universalid ~* '^%s'`, global.CHRABBREV)
 
 	dbconn := dbc.GetDBConnection()
 	defer dbconn.Release()
-	foundrows, err := dbconn.Query(context.Background(), Q)
+	foundrows, err := dbconn.Query(context.Background(), qq)
 	if err != nil {
 		panic(err)
 	}

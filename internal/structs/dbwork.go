@@ -53,7 +53,7 @@ func (dbw *DbWork) GetCorpus() string {
 
 // GetAuthor - ex: gr2017w068 --> gr2017
 func (dbw *DbWork) GetAuthor() string {
-	a := strings.Split(dbw.UID, "w")
+	a := strings.Split(dbw.UID, AuthAndWorkSeparator)
 	return a[0]
 }
 

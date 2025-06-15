@@ -10,6 +10,7 @@ import (
 	"fmt"
 	"github.com/e-gun/HipparchiaGoBuilder/authorbuildpipeline"
 	"github.com/e-gun/HipparchiaGoBuilder/internal/generic"
+	"github.com/e-gun/HipparchiaGoBuilder/internal/global"
 	"github.com/e-gun/HipparchiaGoBuilder/pgsq"
 	"github.com/e-gun/HipparchiaGoBuilder/pgsq/dbc"
 	"os"
@@ -50,7 +51,7 @@ func TestFanoutCorpusCount(t *testing.T) {
 	auu = authorbuildpipeline.SortWorkpileByFilesize(auu, "../../data/TLG/")
 	var testauthors []string
 	for _, a := range auu {
-		testauthors = append(testauthors, strings.ReplaceAll(a, "TLG", "gr"))
+		testauthors = append(testauthors, strings.ReplaceAll(a, "TLG", global.TLGABBREV))
 	}
 
 	//testauthors := []string{"gr1444"}

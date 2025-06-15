@@ -7,6 +7,7 @@ package worklines3cleanup
 
 import (
 	"fmt"
+	"github.com/e-gun/HipparchiaGoBuilder/internal/global"
 	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
 )
 
@@ -20,13 +21,13 @@ func GRKandLATFixInvalidLevelValues(lines []structs.DbWorkline, works []structs.
 	}
 
 	// should always be true...
-	if corpus == "gr" || corpus == "lt" {
+	if corpus == global.TLGABBREV || corpus == global.LATABBREV {
 		for i, line := range lines {
 			lines[i] = authorvaluestripper(validator[line.WkUID], line)
 		}
 	}
 
-	if corpus == "ch" {
+	if corpus == global.CHRABBREV {
 		lines = fixchrlvl5values(lines)
 	}
 

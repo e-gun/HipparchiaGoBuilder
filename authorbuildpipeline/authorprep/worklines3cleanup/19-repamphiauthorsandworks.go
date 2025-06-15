@@ -80,17 +80,15 @@ import (
 // in0060w004  | Vulic/, Spomenik 71–98 [NW Mac.]
 // in0060w001  | IG X 2,1 [Thessalonike]
 
-const (
-	AUNAMELEN = 4
-	WKNAMELEN = 3
-)
-
 var (
 	ddpnewworkspan = regexp.MustCompile(`^<hb-fs-l-normal>(.*?﹦.*?)</hb-fs-l-normal>$`)
 	nomarkup       = regexp.MustCompile(`<[^>]*>`)
 )
 
 func RemapInscriptionAuthorsAndWorks(lines []structs.DbWorkline, authorid string) ([]structs.DbAuthor, []structs.DbWork, []structs.DbWorkline) {
+	const (
+		THEMARKER = `_`
+	)
 	// note that in a multiprocessing environment you will have problems with the new names so use UniqueAuthorNames
 	UniqueWorkNamer := global.NewUniqueNamer(3)
 
@@ -153,8 +151,8 @@ func RemapInscriptionAuthorsAndWorks(lines []structs.DbWorkline, authorid string
 			newidxname = strings.ReplaceAll(newidxname, "`", "")
 			newidxname = strings.ReplaceAll(newidxname, "&", "")
 
-			// the "z" below makes old filename collisions impossible; otherwise 'in0020' can happen in the new data
-			workingwithauthorid = theprefix + "z" + global.UniqueAuthorNames.GetName(3)
+			// THEMARKER below makes old filename collisions impossible; otherwise 'in0020' can happen in the new data
+			workingwithauthorid = theprefix + THEMARKER + global.UniqueAuthorNames.GetName(3)
 			strippedname := nomarkup.ReplaceAllString(newidxname, "")
 
 			a := structs.DbAuthor{
@@ -195,8 +193,8 @@ func RemapInscriptionAuthorsAndWorks(lines []structs.DbWorkline, authorid string
 				previousworkannotations = l.Annotations
 			}
 
-			wn := UniqueWorkNamer.GetName(WKNAMELEN)
-			newwork.UID = workingwithauthorid + "w" + wn
+			wn := UniqueWorkNamer.GetName(global.WKNAMELEN)
+			newwork.UID = workingwithauthorid + global.AUTHWORKSEPARATOR + wn
 
 			newwork.FirstLine = l.TbIndex
 
@@ -270,11 +268,11 @@ func RemapInscriptionAuthorsAndWorks(lines []structs.DbWorkline, authorid string
 func gathernewworkinfo(l structs.DbWorkline) structs.DbWork {
 	corpus := l.WkUID[0:2]
 	switch corpus {
-	case "in":
+	case global.INSABBREV:
 		return gathernewinsworkinfo(l)
-	case "ch":
+	case global.CHRABBREV:
 		return gathernewchrworkinfo(l)
-	case "dp":
+	case global.DDPABREV:
 		return gathernewddpworkinfo(l)
 	default:
 		return gathernewinsworkinfo(l)
@@ -377,8 +375,10 @@ func gathernewinsworkinfo(l structs.DbWorkline) structs.DbWork {
 		tit = fmt.Sprintf(TEMPL2, doc, publicationinfo)
 	}
 
+	tit = strings.ReplaceAll(tit, "  ", " ") // `#1312:  (Phryg., Apameia (Dinar))` --> `#1312: (Phryg., Apameia (Dinar))`
+
 	gen := "inscr"
-	if l.WkUID[0:2] == "dp" {
+	if l.WkUID[0:2] == global.DDPABREV {
 		gen = "docu"
 	}
 	nw := structs.DbWork{
@@ -511,11 +511,11 @@ func foundanewwork(l structs.DbWorkline, prevl structs.DbWorkline) bool {
 	anything = region + city + publicationinfo + prov + doc + date
 
 	// stupid carve-out for CHR0130; which also increments work numbers irregularly via l5...
-	if l.WkUID[0:2] == "ch" && l.Lvl5Value != prevl.Lvl5Value {
+	if l.WkUID[0:2] == global.CHRABBREV && l.Lvl5Value != prevl.Lvl5Value {
 		return true
 	}
 
-	if l.WkUID[0:2] == "dp" && ddpnewworkspan.MatchString(l.MarkedUp) {
+	if l.WkUID[0:2] == global.DDPABREV && ddpnewworkspan.MatchString(l.MarkedUp) {
 		return true
 	}
 

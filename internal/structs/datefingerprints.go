@@ -49,6 +49,7 @@ type FingerPrint struct {
 	HasSlashDate        bool
 	HasMultiSlashDate   bool
 	HasBracket          bool
+	HasAnd              bool
 	ContainsNoDigits    bool
 	ParserFailed        bool
 	LacksParser         bool

@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"github.com/e-gun/HipparchiaGoBuilder/authorbuildpipeline/authorprep/betacode"
 	"github.com/e-gun/HipparchiaGoBuilder/authorbuildpipeline/authorprep/lat"
+	"github.com/e-gun/HipparchiaGoBuilder/internal/global"
 	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
 	"regexp"
 	"strconv"
@@ -161,7 +162,7 @@ func AssignCitationValues(wklinesasstring string) []structs.DbWorkline {
 		}
 
 		dbr[i] = structs.DbWorkline{
-			WkUID:       auth + "w" + work,
+			WkUID:       auth + global.AUTHWORKSEPARATOR + work,
 			TbIndex:     i,
 			MarkedUp:    line,
 			Lvl5Value:   getnumberorstring(5, levelmapper, levelstrmapper),
