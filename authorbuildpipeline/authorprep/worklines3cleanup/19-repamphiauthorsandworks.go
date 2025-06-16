@@ -81,8 +81,13 @@ import (
 // in0060w001  | IG X 2,1 [Thessalonike]
 
 var (
-	ddpnewworkspan = regexp.MustCompile(`^<hb-fs-l-normal>(.*?﹦.*?)</hb-fs-l-normal>$`)
-	nomarkup       = regexp.MustCompile(`<[^>]*>`)
+	ddpnewworkspan  = regexp.MustCompile(`^<hb-fs-l-normal>(.*?﹦.*?)</hb-fs-l-normal>$`)
+	nomarkup        = regexp.MustCompile(`<[^>]*>`)
+	remapcorpusname = map[string]string{
+		global.INSFIRSTPASS: global.INSABBREV,
+		global.DDPFIRSTPASS: global.DDPABBREV,
+		global.CHRFIRSTPASS: global.CHRABBREV,
+	}
 )
 
 func RemapInscriptionAuthorsAndWorks(lines []structs.DbWorkline, authorid string) ([]structs.DbAuthor, []structs.DbWork, []structs.DbWorkline) {
@@ -110,7 +115,7 @@ func RemapInscriptionAuthorsAndWorks(lines []structs.DbWorkline, authorid string
 	workingwithauthorid := "-null-workingwithauthorid-value-" // the first line had best set this...
 	oldwkuid := "-null-oldwkuid-value-"
 
-	theprefix := lines[0].WkUID[0:2]
+	theprefix := remapcorpusname[lines[0].WkUID[0:global.ABBREVLEN]] // "chr" --> "chx"
 
 	wordcount := 0
 
@@ -139,9 +144,9 @@ func RemapInscriptionAuthorsAndWorks(lines []structs.DbWorkline, authorid string
 			// newidxname := fmt.Sprintf("%s · %s", oldau.IDXname, assignnametoauthor)
 
 			newidxname := ""
-			if specificauthornamesuffix[lines[i].WkUID[2:]] != " " {
+			if specificauthornamesuffix[lines[i].WkUID[global.ABBREVLEN:]] != " " {
 				// note that `empty` is ` ` and not ``
-				newidxname = globalauthornameprefix + " · " + specificauthornamesuffix[lines[i].WkUID[2:]]
+				newidxname = globalauthornameprefix + " · " + specificauthornamesuffix[lines[i].WkUID[global.ABBREVLEN:]]
 			} else {
 				newidxname = globalauthornameprefix
 			}
@@ -151,8 +156,9 @@ func RemapInscriptionAuthorsAndWorks(lines []structs.DbWorkline, authorid string
 			newidxname = strings.ReplaceAll(newidxname, "`", "")
 			newidxname = strings.ReplaceAll(newidxname, "&", "")
 
-			// THEMARKER below makes old filename collisions impossible; otherwise 'in0020' can happen in the new data
-			workingwithauthorid = theprefix + THEMARKER + global.UniqueAuthorNames.GetName(3)
+			// need to ensure that old filename collisions impossible; otherwise 'in0020' can happen in the new data
+			// but this should now be guaranteed by the gap between DDPFIRSTPASS and DDPABBREV
+			workingwithauthorid = theprefix + global.UniqueAuthorNames.GetNameWithTrailingDigit(4)
 			strippedname := nomarkup.ReplaceAllString(newidxname, "")
 
 			a := structs.DbAuthor{
@@ -186,14 +192,14 @@ func RemapInscriptionAuthorsAndWorks(lines []structs.DbWorkline, authorid string
 			// Res Gestae just reasserts itself periodically and tries to fool you:
 			// `region: Galatia · city: Ankyra · date: 19 ac · workabbrev: RG` (8x or so)
 
-			if strings.Contains(l.WkUID, "ch0120") && previousworkannotations == l.Annotations {
+			if strings.Contains(l.WkUID, global.CHRFIRSTPASS+"0120") && previousworkannotations == l.Annotations {
 				global.MSG("'new' PHI work is not new: \t" + l.Annotations)
 				continue
 			} else {
 				previousworkannotations = l.Annotations
 			}
 
-			wn := UniqueWorkNamer.GetName(global.WKNAMELEN)
+			wn := UniqueWorkNamer.GetName(global.WKIDLEN)
 			newwork.UID = workingwithauthorid + global.AUTHWORKSEPARATOR + wn
 
 			newwork.FirstLine = l.TbIndex
@@ -254,10 +260,10 @@ func RemapInscriptionAuthorsAndWorks(lines []structs.DbWorkline, authorid string
 		checkwkauthors[a.UID] = true
 	}
 	for _, w := range works {
-		if _, ok := checkwkauthors[w.UID[0:6]]; !ok {
+		if _, ok := checkwkauthors[w.UID[0:global.AUIDLEN]]; !ok {
 			fmt.Println("fatal build error no author found", w)
 			fmt.Println(checkwkauthors)
-			fmt.Println(w.UID[0:6])
+			fmt.Println(w.UID[0:global.AUIDLEN])
 			os.Exit(0)
 		}
 	}
@@ -266,13 +272,13 @@ func RemapInscriptionAuthorsAndWorks(lines []structs.DbWorkline, authorid string
 }
 
 func gathernewworkinfo(l structs.DbWorkline) structs.DbWork {
-	corpus := l.WkUID[0:2]
+	corpus := l.WkUID[0:global.ABBREVLEN]
 	switch corpus {
-	case global.INSABBREV:
+	case global.INSFIRSTPASS:
 		return gathernewinsworkinfo(l)
-	case global.CHRABBREV:
+	case global.CHRFIRSTPASS:
 		return gathernewchrworkinfo(l)
-	case global.DDPABREV:
+	case global.DDPFIRSTPASS:
 		return gathernewddpworkinfo(l)
 	default:
 		return gathernewinsworkinfo(l)
@@ -378,7 +384,7 @@ func gathernewinsworkinfo(l structs.DbWorkline) structs.DbWork {
 	tit = strings.ReplaceAll(tit, "  ", " ") // `#1312:  (Phryg., Apameia (Dinar))` --> `#1312: (Phryg., Apameia (Dinar))`
 
 	gen := "inscr"
-	if l.WkUID[0:2] == global.DDPABREV {
+	if l.WkUID[0:global.ABBREVLEN] == global.DDPFIRSTPASS {
 		gen = "docu"
 	}
 	nw := structs.DbWork{
@@ -393,7 +399,7 @@ func gathernewinsworkinfo(l structs.DbWorkline) structs.DbWork {
 		LL4:       "",
 		LL5:       "",
 		Genre:     gen,
-		Xmit:      fmt.Sprintf("direct (%s)", l.WkUID[0:6]), // so you can go back and bug hunt...
+		Xmit:      fmt.Sprintf("direct (%s)", l.WkUID[0:global.AUIDLEN]), // so you can go back and bug hunt...
 		Type:      "",
 		Prov:      remapprov(prov),
 		RecDate:   date,
@@ -511,11 +517,11 @@ func foundanewwork(l structs.DbWorkline, prevl structs.DbWorkline) bool {
 	anything = region + city + publicationinfo + prov + doc + date
 
 	// stupid carve-out for CHR0130; which also increments work numbers irregularly via l5...
-	if l.WkUID[0:2] == global.CHRABBREV && l.Lvl5Value != prevl.Lvl5Value {
+	if l.WkUID[0:global.ABBREVLEN] == global.CHRFIRSTPASS && l.Lvl5Value != prevl.Lvl5Value {
 		return true
 	}
 
-	if l.WkUID[0:2] == global.DDPABREV && ddpnewworkspan.MatchString(l.MarkedUp) {
+	if l.WkUID[0:global.ABBREVLEN] == global.DDPFIRSTPASS && ddpnewworkspan.MatchString(l.MarkedUp) {
 		return true
 	}
 

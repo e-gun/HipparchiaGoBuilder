@@ -15,7 +15,7 @@ const (
 	CW = `
 DROP TABLE IF EXISTS public.works;
 CREATE TABLE public.works (
-    universalid character(10),
+    universalid character(11),
     title character varying(512),
     language character varying(1),
     publication_info text,

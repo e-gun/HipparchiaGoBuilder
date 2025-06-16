@@ -18,7 +18,6 @@ var (
 const (
 	EMPTYLEVELINFO         = ""
 	NUMBEROFCITATIONLEVELS = 6
-	LENGTHOFAUTHORID       = 6
 )
 
 type DbWorkline struct {
@@ -140,7 +139,7 @@ func (dbw *DbWorkline) FindLocus() []string {
 
 // AuID - gr0001w001 --> gr0001
 func (dbw *DbWorkline) AuID() string {
-	return dbw.WkUID[:LENGTHOFAUTHORID]
+	return dbw.WkUID[:AuthorIDLen]
 }
 
 // GetAccentedWordSlice - split up the accented words

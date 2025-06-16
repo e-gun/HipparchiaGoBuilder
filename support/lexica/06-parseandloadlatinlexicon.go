@@ -7,6 +7,7 @@ package lexica
 
 import (
 	"fmt"
+	"github.com/e-gun/HipparchiaGoBuilder/internal/global"
 	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
 	"github.com/e-gun/HipparchiaGoBuilder/pgsq/insert"
 	"regexp"
@@ -65,7 +66,7 @@ func generatelatinhyperlinks(data string) string {
 	// <bibl n="Perseus:abo:tlg,1342,001:23:6"> --> <bibl id="perseus/gr1342/001/23:6">
 	// <bibl n="Perseus:abo:phi,0474,037:2:60 al" default="NO" valid="yes"> --> <bibl id="perseus/lt0474/037/2:60">
 	const (
-		TMPL = `<bibl id="perseus/lt%s/%s/%s">`
+		TMPL = `<bibl id="perseus/%s%s/%s/%s">`
 	)
 	var (
 		hyperlinkeditor = regexp.MustCompile(`<bibl n="Perseus:abo:phi,(\d\d\d\d),(\d\d\d):(.+?)">`)
@@ -73,7 +74,7 @@ func generatelatinhyperlinks(data string) string {
 
 	replacer := func(text string) string {
 		groups := hyperlinkeditor.FindAllStringSubmatch(text, 1)
-		return fmt.Sprintf(TMPL, groups[0][1], groups[0][2], groups[0][3])
+		return fmt.Sprintf(TMPL, global.LATABBREV, groups[0][1], groups[0][2], groups[0][3])
 	}
 
 	data = hyperlinkeditor.ReplaceAllStringFunc(data, replacer)

@@ -39,6 +39,7 @@ func main() {
 	global.GitHash = GetGitCommitHash(".")
 
 	structs.AuthAndWorkSeparator = global.AUTHWORKSEPARATOR
+	structs.AbbrevLen = global.ABBREVLEN
 
 	// defer profile.Start().Stop()
 	// go tool pprof --pdf ./HipparchiaGoBuilder ./default.pgo > CPUProfile.pdf

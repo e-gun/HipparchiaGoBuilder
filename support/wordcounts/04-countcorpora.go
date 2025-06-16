@@ -124,7 +124,7 @@ func CountINSWords(needsparsing bool) map[string]int {
 }
 
 func CountDDPWords(needsparsing bool) map[string]int {
-	qq := fmt.Sprintf(`SELECT universalid FROM authors where universalid ~* '^%s'`, global.DDPABREV)
+	qq := fmt.Sprintf(`SELECT universalid FROM authors where universalid ~* '^%s'`, global.DDPABBREV)
 
 	dbconn := dbc.GetDBConnection()
 	defer dbconn.Release()

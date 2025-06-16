@@ -6,12 +6,14 @@
 package global
 
 import (
+	"regexp"
 	"strings"
 	"sync"
 )
 
 var (
 	UniqueAuthorNames = NewUniqueNamer(3)
+	trailingdigit     = regexp.MustCompile("[0-9]$")
 )
 
 type UniqueNamer struct {
@@ -35,6 +37,16 @@ func (n *UniqueNamer) GetName(pad int) string {
 		b36 = "0" + b36
 	}
 	return b36
+}
+
+// GetNameWithTrailingDigit - because the "w" between AUID and WKID is easier to read this way
+func (n *UniqueNamer) GetNameWithTrailingDigit(pad int) string {
+	nm := n.GetName(pad)
+	if trailingdigit.MatchString(nm) {
+		return nm
+	} else {
+		return n.GetNameWithTrailingDigit(pad)
+	}
 }
 
 func (n *UniqueNamer) NumberOfDigits(digits int) {

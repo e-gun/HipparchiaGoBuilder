@@ -48,7 +48,7 @@ func (dbw *DbWork) CountLevels() int {
 
 // GetCorpus - ex: gr2017w068 --> gr
 func (dbw *DbWork) GetCorpus() string {
-	return dbw.UID[0:2]
+	return dbw.UID[0:AbbrevLen]
 }
 
 // GetAuthor - ex: gr2017w068 --> gr2017

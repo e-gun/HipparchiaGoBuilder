@@ -59,7 +59,7 @@ func LoadLatinCanon(dir string) map[string]string {
 	for _, s := range split {
 		groups := parser1.FindStringSubmatch(s)
 		if len(groups) == 4 {
-			uid := "lt" + groups[2] + global.AUTHWORKSEPARATOR + groups[3]
+			uid := global.LATABBREV + groups[2] + global.AUTHWORKSEPARATOR + groups[3]
 			uidpublicationmap[uid] = groups[1]
 		}
 	}

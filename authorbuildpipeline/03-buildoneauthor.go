@@ -91,11 +91,11 @@ func getcorpusabbrev(authorid string) string {
 	case "LAT":
 		corpusabbrev = global.LATABBREV
 	case "DDP":
-		corpusabbrev = global.DDPABREV
+		corpusabbrev = global.DDPFIRSTPASS
 	case "CHR":
-		corpusabbrev = global.CHRABBREV
+		corpusabbrev = global.CHRFIRSTPASS
 	case "INS":
-		corpusabbrev = global.INSABBREV
+		corpusabbrev = global.INSFIRSTPASS
 	default:
 		fmt.Println("Unknown corpus abbrev", pfx)
 	}
@@ -184,7 +184,7 @@ func inscriptionorklineprepandcleanupandinsertion(ttc string, wkk []structs.DbWo
 	// GRKandLATFixInvalidLevelValues only works for "lt" and "gr"; PhiValueStripper() below is the equivalent
 	// dbworklines = worklines2dbprep.GRKandLATFixInvalidLevelValues(dbworklines, wkk)
 
-	oldau, _ := global.TheIdtAuMap.Get(dbworklines[0].WkUID[0:6])
+	oldau, _ := global.TheIdtAuMap.Get(dbworklines[0].WkUID[0:global.AUIDLEN])
 	global.TheDefunctIdtAuMap.Set(oldau.UID, oldau)
 	global.TheIdtAuMap.Delete(oldau.UID)
 
@@ -205,7 +205,7 @@ func inscriptionorklineprepandcleanupandinsertion(ttc string, wkk []structs.DbWo
 			// do not exit() right away; accumulate the bad data in the console
 			continue
 		}
-		newauthorlines[l.AuID()] = append(newauthorlines[l.WkUID[0:6]], l)
+		newauthorlines[l.AuID()] = append(newauthorlines[l.WkUID[0:global.AUIDLEN]], l)
 	}
 
 	if brokenworks {

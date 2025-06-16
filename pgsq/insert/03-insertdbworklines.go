@@ -124,7 +124,7 @@ func CreateAuthorTable(tablename string) {
 		CREATE = `
 CREATE TABLE public.%s (
     index integer DEFAULT nextval('public.%s'::regclass) NOT NULL,
-    wkuniversalid character varying(10),
+    wkuniversalid character varying(11),
     level_05_value character varying(24),
     level_04_value character varying(24),
     level_03_value character varying(24),

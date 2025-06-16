@@ -16,8 +16,8 @@ const (
 	CA = `
 DROP TABLE IF EXISTS public.authors;
 CREATE TABLE public.authors (
-    universalid character(6),
-    language character varying(10),
+    universalid character(7),
+    language character varying(11),
     idxname character varying(256),
     akaname character varying(256),
     shortname character varying(256),

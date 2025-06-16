@@ -90,7 +90,7 @@ func getrelevanttimespanworks(era string) []WorksAndBoundsHolder {
 	// [{gr2038w002 3438 3604} {gr0031w005 11155 14338} {gr0388w004 658 1053} {gr2948w003 2267 2603} ...
 	// but the queries are against 'gr2038' and not 'gr2038w002'; fix that
 	for i, f := range thesefinds {
-		thesefinds[i].T = f.T[0:6]
+		thesefinds[i].T = f.T[0:global.AUIDLEN]
 	}
 
 	// now:

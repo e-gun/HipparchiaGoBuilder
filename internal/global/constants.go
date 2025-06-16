@@ -2,16 +2,23 @@ package global
 
 const (
 	NAME    = "HipparchiaGoBuilder"
-	VERSION = "0.8.5b"
+	VERSION = "0.9.0b"
 )
+
+// the following *must* be synchronized with HGS's corporaconst.go values
 
 const (
 	AUNAMELEN         = 4
-	WKNAMELEN         = 3
+	WKIDLEN           = 3
+	ABBREVLEN         = 3
+	AUIDLEN           = ABBREVLEN + AUNAMELEN
 	AUTHWORKSEPARATOR = "w"
-	TLGABBREV         = "gr"
-	LATABBREV         = "lt"
-	DDPABREV          = "dp"
-	INSABBREV         = "in"
-	CHRABBREV         = "ch"
+	TLGABBREV         = "tlg"
+	LATABBREV         = "lat"
+	INSABBREV         = "inx"
+	DDPABBREV         = "dpx"
+	CHRABBREV         = "chx"
+	DDPFIRSTPASS      = "ddp"
+	INSFIRSTPASS      = "ins"
+	CHRFIRSTPASS      = "chr"
 )

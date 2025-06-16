@@ -27,7 +27,7 @@ func GRKandLATFixInvalidLevelValues(lines []structs.DbWorkline, works []structs.
 		}
 	}
 
-	if corpus == global.CHRABBREV {
+	if corpus == global.CHRFIRSTPASS {
 		lines = fixchrlvl5values(lines)
 	}
 
