@@ -8,6 +8,7 @@ package grk
 import (
 	"fmt"
 	"github.com/e-gun/HipparchiaGoBuilder/authorbuildpipeline/authorprep/betacode"
+	"github.com/e-gun/HipparchiaGoBuilder/internal/global"
 	"testing"
 )
 
@@ -117,6 +118,16 @@ func TestINS0090Block(t *testing.T) {
  <hb-tabbedtext /><hb-tabbedtext /><hb-tabbedtext /><hb-tabbedtext /><hb-tabbedtext /><hb-tabbedtext /><hb-tabbedtext /> —  [STA/MNON  —   — , E)]PIGRAFH/: A)PO\ TH=S  —`
 	result := GreekCleanup(ttc)
 	fmt.Println(result)
+}
+
+func TestOneWord(t *testing.T) {
+	tg := `O(`
+	g := ConvertGreekLowers(tg)
+	global.MSG(g)
+	// problem: `ο(`; the solution is lowercaseroughend()
+	tg = `E)]PIGRAFH/`
+	g = ConvertGreekLowers(tg)
+	global.MSG(g)
 }
 
 func TestAggregate(t *testing.T) {

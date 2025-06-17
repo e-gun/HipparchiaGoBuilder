@@ -155,7 +155,7 @@ func copticuppercases(swap string) string {
 	substitute, found := copticuppermap[swap]
 	if !found {
 		// If no substitution is found, return the original character
-		global.MSG(fmt.Sprintf("copticuppercases() confusion:", swap))
+		global.MSG(fmt.Sprintf("copticuppercases() confusion: %s", swap))
 		return swap
 	}
 
@@ -167,7 +167,7 @@ func copticlowercases(swap string) string {
 	substitute, found := copticlowermap[swap]
 	if !found {
 		// If no substitution is found, return the original character
-		global.MSG(fmt.Sprintf("copticlowercases() confusion:", swap))
+		global.MSG(fmt.Sprintf("copticlowercases() confusion: %s", swap))
 		return swap
 	}
 	return substitute

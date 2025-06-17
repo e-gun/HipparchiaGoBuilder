@@ -44,8 +44,9 @@ var (
 	lcd = regexp.MustCompile(`([U])=\+`)
 
 	// lowercase + breathing
-	lsb = regexp.MustCompile(`([AEIOUHWR])\)`)
-	lrb = regexp.MustCompile(`([AEIOUHWR])\([^0-9]`)
+	lsb  = regexp.MustCompile(`([AEIOUHWR])\)`)
+	lrb  = regexp.MustCompile(`([AEIOUHWR])\([^0-9]`)
+	lrbe = regexp.MustCompile(`([AEIOUHWR])\($`)
 
 	// lowercase + accent
 	lga = regexp.MustCompile(`([AEIOUHW])\\`)
@@ -346,6 +347,7 @@ func ConvertGreekLowers(betacode string) string {
 	// lowercase + breathing
 	unicode = lsb.ReplaceAllStringFunc(unicode, lowercasesmooth)
 	unicode = lrb.ReplaceAllStringFunc(unicode, lowercaserough)
+	unicode = lrbe.ReplaceAllStringFunc(unicode, lowercaseroughend)
 
 	// lowercase + accent
 	unicode = lga.ReplaceAllStringFunc(unicode, lowercasegrave)
@@ -595,6 +597,16 @@ func lowercaserough(match string) string {
 		fmt.Println("lowercaserough() failed for ", match)
 	}
 	return m + string(tail)
+}
+
+// lowercaseroughend - for when lowercaserough() does not have that one extra character...
+func lowercaseroughend(match string) string {
+	match = match[0:1]
+	m, ok := lowercaseroughmap[match]
+	if WARNINGS && !ok {
+		fmt.Println("lowercaseroughend() failed for ", match)
+	}
+	return m
 }
 
 func lowercasegrave(match string) string {

@@ -299,7 +299,7 @@ func capitalsmoothgraveadscript(match string) string {
 	match = match[len(match)-2 : len(match)-1]
 	m, ok := capitalsmoothgraveadscriptmap[match]
 	if !ok {
-		global.MSG(fmt.Sprintf("capitalsmoothgraveadscript() failed for :", match))
+		global.MSG(fmt.Sprintf("capitalsmoothgraveadscript() failed for : %s", match))
 	}
 	return m
 }
@@ -308,7 +308,7 @@ func capitalroughgraveadscript(match string) string {
 	match = match[len(match)-2 : len(match)-1]
 	m, ok := capitalroughgraveadscriptmap[match]
 	if !ok {
-		global.MSG(fmt.Sprintf("capitalroughgraveadscript() failed for :", match))
+		global.MSG(fmt.Sprintf("capitalroughgraveadscript() failed for : %s", match))
 	}
 	return m
 }
@@ -317,7 +317,7 @@ func capitalsmoothacuteadscript(match string) string {
 	match = match[len(match)-2 : len(match)-1]
 	m, ok := capitalsmoothacuteadscriptmap[match]
 	if !ok {
-		global.MSG(fmt.Sprintf("capitalsmoothacuteadscript() failed for :", match))
+		global.MSG(fmt.Sprintf("capitalsmoothacuteadscript() failed for : %s", match))
 	}
 	return m
 }
@@ -326,7 +326,7 @@ func capitalroughacuteadscript(match string) string {
 	match = match[len(match)-2 : len(match)-1]
 	m, ok := capitalroughacuteadscriptmap[match]
 	if !ok {
-		global.MSG(fmt.Sprintf("capitalroughacuteadscript() failed for :", match))
+		global.MSG(fmt.Sprintf("capitalroughacuteadscript() failed for :  %s", match))
 	}
 	return m
 }
@@ -335,7 +335,7 @@ func capitalsmoothcircumflexadscript(match string) string {
 	match = match[len(match)-2 : len(match)-1]
 	m, ok := capitalsmoothcircumflexadscriptmap[match]
 	if !ok {
-		global.MSG(fmt.Sprintf("capitalsmoothcircumflexadscript() failed for :", match))
+		global.MSG(fmt.Sprintf("capitalsmoothcircumflexadscript() failed for : %s", match))
 	}
 	return m
 }
@@ -344,7 +344,7 @@ func capitalroughcircumflexadscript(match string) string {
 	match = match[len(match)-2 : len(match)-1]
 	m, ok := capitalroughcircumflexadscriptmap[match]
 	if !ok {
-		global.MSG(fmt.Sprintf("capitalroughcircumflexadscript() failed for :", match))
+		global.MSG(fmt.Sprintf("capitalroughcircumflexadscript() failed for : %s", match))
 	}
 	return m
 }
@@ -353,7 +353,7 @@ func capitalsmoothgrave(match string) string {
 	match = match[len(match)-1:]
 	m, ok := capitalsmoothgravemap[match]
 	if !ok {
-		global.MSG(fmt.Sprintf("capitalsmoothgrave() failed for :", match))
+		global.MSG(fmt.Sprintf("capitalsmoothgrave() failed for : %s", match))
 	}
 	return m
 }
@@ -362,7 +362,7 @@ func capitalroughgrave(match string) string {
 	match = match[len(match)-1:]
 	m, ok := capitalroughgravemap[match]
 	if !ok {
-		global.MSG(fmt.Sprintf("capitalroughgrave() failed for :", match))
+		global.MSG(fmt.Sprintf("capitalroughgrave() failed for : %s", match))
 	}
 	return m
 }
@@ -371,7 +371,7 @@ func capitalsmoothacute(match string) string {
 	match = match[len(match)-1:]
 	m, ok := capitalsmoothacutemap[match]
 	if !ok && WARNINGS {
-		fmt.Println("capitalsmoothacute() failed for ", match)
+		global.MSG(fmt.Sprintf("capitalsmoothacute() failed for : %s", match))
 	}
 	return m
 }
@@ -380,7 +380,7 @@ func capitalroughacute(match string) string {
 	match = match[len(match)-1:]
 	m, ok := capitalroughacutemap[match]
 	if !ok && WARNINGS {
-		fmt.Println("capitalroughacute() failed for ", match)
+		global.MSG(fmt.Sprintf("capitalroughacute() failed for : %s", match))
 	}
 	return m
 }
