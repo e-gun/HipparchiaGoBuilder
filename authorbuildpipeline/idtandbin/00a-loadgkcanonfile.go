@@ -119,7 +119,7 @@ func findauthorsandworks(can string) (map[string][]string, map[string][]string) 
 			} else {
 				authors[previous] = appender
 			}
-			na := findnewauthor.ReplaceAllString(line, "gr$1")
+			na := findnewauthor.ReplaceAllString(line, global.TLGABBREV+"$1")
 			previous = na
 			previousiswork = false
 			appender = []string{}
@@ -181,7 +181,7 @@ func findauthorsandworks(can string) (map[string][]string, map[string][]string) 
 
 func buildworkname(match string) string {
 	groups := findnewwork.FindStringSubmatch(match)
-	return "gr" + groups[1] + global.AUTHWORKSEPARATOR + groups[2]
+	return global.TLGABBREV + groups[1] + global.AUTHWORKSEPARATOR + groups[2]
 }
 
 func parseauthdata(id string, data []string) structs.DbAuthor {

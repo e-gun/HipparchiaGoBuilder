@@ -93,7 +93,7 @@ func invertmap(ssl map[string][]string) map[string][]string {
 // renamemapkeys - turn 2080 into gr2080
 func renamemapkeys(ssl map[string][]string) map[string][]string {
 	const (
-		CORPUSPREFIX = "gr"
+		CORPUSPREFIX = global.TLGABBREV
 	)
 	renamed := make(map[string][]string)
 	for k, v := range ssl {

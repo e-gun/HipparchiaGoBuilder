@@ -1,5 +1,5 @@
 ## HipparchiaGoBuilder
-### v.0.9.0b : beta
+### v.0.9.0 : release
 
 the python builder is old and confusing and hard to maintain
 
@@ -27,7 +27,6 @@ current status:
 
 items on the todo list:
 1. check / improve dating for all but TLG (c. 90% PHI has a non-empty date)
-2. polish INS, DDP, and CHR 
 
 ```
 ./HipparchiaGoBuilder -h

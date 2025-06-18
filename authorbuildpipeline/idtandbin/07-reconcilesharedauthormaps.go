@@ -20,11 +20,15 @@ func ReconcileAuMaps() {
 
 	// a build might just do a few authors, so the IDX set is the smaller/correct one
 
+	//fmt.Println(global.TheMasterAuMap.Keys())
+	//fmt.Println(global.TheIdtAuMap.Keys())
+	//fmt.Println(global.TheCanonAuMap.Keys())
+
 	keys := global.TheIdtAuMap.Keys()
 	for _, key := range keys {
 		aidx, _ := global.TheIdtAuMap.Get(key)
 
-		if !strings.HasPrefix(aidx.UID, "gr") {
+		if !strings.HasPrefix(aidx.UID, global.TLGABBREV) {
 			global.TheMasterAuMap.Set(key, aidx)
 			continue
 		}
