@@ -180,8 +180,8 @@ func RemapInscriptionAuthorsAndWorks(lines []structs.DbWorkline, authorid string
 		}
 
 		if foundanewwork(l, prevlline) {
-			//fmt.Println("foundanewwork")
-			//fmt.Println(l)
+			fmt.Println("foundanewwork")
+			fmt.Println(l)
 			// {75857 280 -1 -1 -1 -1 1 in0150w020 [ —  κ]οινῇ ἄρ[χοντεϲ﹖  — ] κοινῇ ἄρχοντεϲ κοινη αρχοντεϲ  publicationinfo: BCH 1922, 343, no. 34 · documentnumber: 286}
 			// {75858 281 -1 -1 -1 -1 1 in0150w020 [ — ]α̣[ — ] α α  publicationinfo: BCH 1925, 310, no. 7 · documentnumber: 287}
 			// {75872 282 -1 -1 -1 -1 1 in0150w020 ∙    publicationinfo: BCH 1925, 312, no. 12 · documentnumber: 288}
@@ -513,8 +513,9 @@ func foundanewwork(l structs.DbWorkline, prevl structs.DbWorkline) bool {
 	prov, _ := kvp["provenance"]
 	doc, _ := kvp["documentnumber"]
 	date, _ := kvp["date"]
+	workabbrev, _ := kvp["workabbrev"]
 
-	anything = region + city + publicationinfo + prov + doc + date
+	anything = region + city + publicationinfo + prov + doc + date + workabbrev
 
 	// stupid carve-out for CHR0130; which also increments work numbers irregularly via l5...
 	if l.WkUID[0:global.ABBREVLEN] == global.CHRFIRSTPASS && l.Lvl5Value != prevl.Lvl5Value {
@@ -528,7 +529,6 @@ func foundanewwork(l structs.DbWorkline, prevl structs.DbWorkline) bool {
 	if len(anything) == 0 {
 		return false
 	} else {
-		// fmt.Println(l)
 		return true
 	}
 }
