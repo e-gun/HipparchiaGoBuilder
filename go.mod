@@ -3,6 +3,7 @@ module github.com/e-gun/HipparchiaGoBuilder
 go 1.24
 
 require (
+	github.com/google/uuid v1.6.0
 	github.com/jackc/pgx/v5 v5.7.5
 	golang.org/x/text v0.26.0
 )

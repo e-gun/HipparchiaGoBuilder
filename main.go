@@ -57,6 +57,11 @@ func main() {
 
 	if cfg.OneGreek != "" {
 		fmt.Println("One Greek: ", cfg.OneGreek)
+		global.WorkingOnCorpus = "TLG"
+
+		resetdb.DropOneAuthorTable(global.TLGABBREV + cfg.OneGreek)
+		resetdb.ResetOneAuthor(global.TLGABBREV + cfg.OneGreek)
+
 		authorbuildpipeline.BuildOneAuthor(cfg.GreekDir, "TLG"+cfg.OneGreek)
 		insert.BuildTrigramIndices()
 		idtandbin.MapIdtAuMapOntoMasterAuMap()
@@ -66,6 +71,10 @@ func main() {
 	if cfg.OneLatin != "" {
 		fmt.Println("One Latin: ", cfg.OneLatin)
 		global.WorkingOnCorpus = "LAT"
+
+		resetdb.DropOneAuthorTable(global.LATABBREV + cfg.OneLatin)
+		resetdb.ResetOneAuthor(global.LATABBREV + cfg.OneLatin)
+
 		betacode.EarybirdTuples = betacode.GetEarlyBirdTuples()
 		authorbuildpipeline.BuildOneAuthor(cfg.LatDir, "LAT"+cfg.OneLatin)
 		insert.BuildTrigramIndices()
@@ -76,6 +85,8 @@ func main() {
 
 	if cfg.OneIns != "" {
 		fmt.Println("One Inscription: ", cfg.OneIns)
+		global.WorkingOnCorpus = "INS"
+		resetdb.ResetCorpus(global.WorkingOnCorpus) // you just killed everything already in here...
 		authorbuildpipeline.BuildOneAuthor(cfg.InsDir, "INS"+cfg.OneIns)
 		idtandbin.StoreUpdatedMetadata()
 		insert.BuildTrigramIndices()
@@ -84,6 +95,8 @@ func main() {
 
 	if cfg.OneChr != "" {
 		fmt.Println("One Christian: ", cfg.OneChr)
+		global.WorkingOnCorpus = "CHR"
+		resetdb.ResetCorpus(global.WorkingOnCorpus) // you just killed everything already in here...
 		authorbuildpipeline.BuildOneAuthor(cfg.ChrDir, "CHR"+cfg.OneChr)
 		insert.BuildTrigramIndices()
 		idtandbin.StoreUpdatedMetadata()
@@ -92,6 +105,8 @@ func main() {
 
 	if cfg.OnePap != "" {
 		fmt.Println("One Papyrus: ", cfg.OnePap)
+		global.WorkingOnCorpus = "DDP"
+		resetdb.ResetCorpus(global.WorkingOnCorpus)
 		authorbuildpipeline.BuildOneAuthor(cfg.PapDir, "DDP"+cfg.OnePap)
 		insert.BuildTrigramIndices()
 		idtandbin.StoreUpdatedMetadata()
@@ -99,14 +114,16 @@ func main() {
 	}
 
 	if cfg.DoGreek {
-		global.WorkingOnCorpus = "TLG"
 		global.HEAD("Greek Corpus")
+		global.WorkingOnCorpus = "TLG"
+		resetdb.ResetCorpus(global.WorkingOnCorpus)
 		authorbuildpipeline.RunCorpusPipeline(cfg.GreekDir, "TLG")
 	}
 
 	if cfg.DoLatin {
 		global.HEAD("Latin Corpus")
 		global.WorkingOnCorpus = "LAT"
+		resetdb.ResetCorpus(global.WorkingOnCorpus)
 		betacode.EarybirdTuples = betacode.GetEarlyBirdTuples()
 		authorbuildpipeline.RunCorpusPipeline(cfg.LatDir, "LAT")
 	}
@@ -114,18 +131,21 @@ func main() {
 	if cfg.DoIns {
 		global.WorkingOnCorpus = "INS"
 		global.HEAD("Inscriptions Corpus")
+		resetdb.ResetCorpus(global.WorkingOnCorpus)
 		authorbuildpipeline.RunCorpusPipeline(cfg.InsDir, "INS")
 	}
 
 	if cfg.DoPap {
 		global.WorkingOnCorpus = "DDP"
 		global.HEAD("Papyrus Corpus")
+		resetdb.ResetCorpus(global.WorkingOnCorpus)
 		authorbuildpipeline.RunCorpusPipeline(cfg.PapDir, "DDP")
 	}
 
 	if cfg.DoChr {
 		global.WorkingOnCorpus = "CHR"
 		global.HEAD("Christian Corpus")
+		resetdb.ResetCorpus(global.WorkingOnCorpus)
 		authorbuildpipeline.RunCorpusPipeline(cfg.ChrDir, "CHR")
 	}
 
@@ -174,9 +194,7 @@ func main() {
 
 	if cfg.TestRun {
 		global.HEAD("TestRun")
-		idtandbin.LoadLatinCanon("/Users/erik/Development/go/src/github.com/e-gun/HipparchiaGoBuilder/data/LAT/")
-		// idtandbin.LoadLatinCanonIDT("/Users/erik/Development/go/src/github.com/e-gun/HipparchiaGoBuilder/data/LAT/")
-
+		resetdb.DropAuthorMultipleTables(global.LATABBREV)
 	}
 
 	d := fmt.Sprintf(MSG, global.NAME, global.VERSION, time.Now().Sub(start).Seconds())

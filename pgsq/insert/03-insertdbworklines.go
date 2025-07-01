@@ -120,7 +120,7 @@ func checklinesforerrors(line structs.DbWorkline) {
 // CreateAuthorTable - DROP/CREATE and author table
 func CreateAuthorTable(tablename string) {
 	const (
-		DROP   = `DROP TABLE IF EXISTS %s;`
+		DROP   = `DROP TABLE IF EXISTS %s;` // but it should not exist because of DropAuthorTables() executed up top
 		CREATE = `
 CREATE TABLE public.%s (
     index integer DEFAULT nextval('public.%s'::regclass) NOT NULL,
@@ -158,8 +158,6 @@ CREATE TABLE public.%s (
 	// fmt.Println("CreateAuthorTable", tablename)
 
 	queries := []string{
-		//fmt.Sprintf(TMPL1, tablename),
-		//fmt.Sprintf(TMPL3, tablename),
 		fmt.Sprintf(DROP, tablename),
 		fmt.Sprintf(CREATE, tablename, tablename),
 	}
