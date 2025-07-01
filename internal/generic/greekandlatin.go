@@ -7,28 +7,21 @@ package generic
 
 import (
 	"cmp"
-	"regexp"
 	"slices"
 	"strings"
 )
 
 const (
-	TERMINATIONS = `(\s|\.|\]|\<|⟩|\)|’|”|\!|,|:|;|\?|⸥|«|·|$)` // circular imports means this is declared 2x... see also "vv.constants.co"
-	GLC          = `ΐάέήίΰαβγδεζηθικλμνξοπρτυφχψωϊϋόύώϝϲἀἁἂἃἄἅἆἇἐἑἒἓἔἕἠἡἢἣἤἥἦἧἰἱἲἳἴἵἶἷὀὁὂὃὄὅὐὑὒὓὔὕὖὗὠὡὢὣὤὥὦὧὰὲὴὶὸὺὼᾀᾁᾂᾃᾄᾅᾆᾇᾐᾑᾒᾓᾔᾕᾖᾗᾠᾡᾢᾣᾤᾥᾦᾧᾲᾳᾴᾶᾷῂῃῄῆῇῒῖῢῤῥῦῧῲῳῴῶῷ`
-	GUC          = `ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΤΥΦΧΨΩϜϹἈἉἊἋἌἍἎἏἘἙἚἛἜἝἨἩἪἫἬἭἮἯἸἹἺἻἼἽἾἿὈὉὊὋὌὍὙὛὝὟὨὩὪὫὬὭὮὯᾊᾋᾌᾍᾎᾏᾚᾛᾜᾝᾞᾟᾪᾫᾬᾭᾮᾯᾼῌῬῼ⒣`
-	QUIKLATIN    = `a-zA-Z`
-	ALLGKANDLAT  = GLC + GUC + QUIKLATIN
+	GLC         = `ΐάέήίΰαβγδεζηθικλμνξοπρτυφχψωϊϋόύώϝϲἀἁἂἃἄἅἆἇἐἑἒἓἔἕἠἡἢἣἤἥἦἧἰἱἲἳἴἵἶἷὀὁὂὃὄὅὐὑὒὓὔὕὖὗὠὡὢὣὤὥὦὧὰὲὴὶὸὺὼᾀᾁᾂᾃᾄᾅᾆᾇᾐᾑᾒᾓᾔᾕᾖᾗᾠᾡᾢᾣᾤᾥᾦᾧᾲᾳᾴᾶᾷῂῃῄῆῇῒῖῢῤῥῦῧῲῳῴῶῷ`
+	GUC         = `ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΤΥΦΧΨΩϜϹἈἉἊἋἌἍἎἏἘἙἚἛἜἝἨἩἪἫἬἭἮἯἸἹἺἻἼἽἾἿὈὉὊὋὌὍὙὛὝὟὨὩὪὫὬὭὮὯᾊᾋᾌᾍᾎᾏᾚᾛᾜᾝᾞᾟᾪᾫᾬᾭᾮᾯᾼῌῬῼ⒣`
+	QUIKLATIN   = `a-zA-Z`
+	ALLGKANDLAT = GLC + GUC + QUIKLATIN
 )
 
 var (
 	// runefd etc. to avoid looping this in hot code
-	runefd         = getrunefeeder()
-	runereduce     = getrunereducer()
-	LunateSwap     = regexp.MustCompile("σ" + TERMINATIONS)
-	IsGreekLC      = regexp.MustCompile(`[` + GLC + `]`)
-	IsGreekUC      = regexp.MustCompile(`[` + GUC + `]`)
-	IsGreek        = regexp.MustCompile(`[` + GUC + GLC + `]`)
-	IsGreekOrLatin = regexp.MustCompile(`[` + ALLGKANDLAT + `]`)
+	runefd     = getrunefeeder()
+	runereduce = getrunereducer()
 )
 
 //
@@ -156,77 +149,4 @@ func getrunefeeder() map[rune][]rune {
 	feeder['y'] = []rune("yY")
 	feeder['z'] = []rune("zZ")
 	return feeder
-}
-
-// extendedrunefeeder - this one will do acute for grave (needed for lemma highlighting)
-func extendedrunefeeder() map[rune][]rune {
-	feeder := getrunefeeder()
-	feeder['ά'] = []rune("ὰά")
-	feeder['έ'] = []rune("ὲέ")
-	feeder['ή'] = []rune("ὴή")
-	feeder['ί'] = []rune("ὶί")
-	feeder['ό'] = []rune("όὸ")
-	feeder['ύ'] = []rune("ύὺ")
-	feeder['ώ'] = []rune("ώὼ")
-	feeder['ἂ'] = []rune("ἂἄ")
-	feeder['ἒ'] = []rune("ἒἔ")
-	feeder['ἢ'] = []rune("ἢἤ")
-	feeder['ἲ'] = []rune("ἲἴ")
-	feeder['ὂ'] = []rune("ὂὄ")
-	feeder['ὒ'] = []rune("ὒὔ")
-	feeder['ὓ'] = []rune("ὓὕ")
-	feeder['ὢ'] = []rune("ὢὤ")
-	feeder['ὣ'] = []rune("ὣὥ")
-	feeder['ἃ'] = []rune("ἅἃ")
-	feeder['ᾲ'] = []rune("ᾲᾴ")
-	feeder['ᾂ'] = []rune("ᾂᾄ")
-	feeder['ἣ'] = []rune("ἣἥ")
-	feeder['ᾒ'] = []rune("ᾒᾔ")
-	feeder['ᾓ'] = []rune("ᾓᾕ")
-	feeder['ὃ'] = []rune("ὃὅ")
-	feeder['ὂ'] = []rune("ὂὄ")
-	feeder['ὒ'] = []rune("ὒὔ")
-	feeder['ᾂ'] = []rune("ᾂᾄ")
-	feeder['ᾃ'] = []rune("ᾃᾅ")
-	feeder['ᾢ'] = []rune("ᾢᾤ")
-	feeder['ᾣ'] = []rune("ᾣᾥ")
-	return feeder
-}
-
-// uvσςϲreducer - provide map to UVσςϲ
-func uvσςϲreducer() map[rune]rune {
-	// map[73:105 74:105 85:117 86:117 105:105 106:105 ...]
-	feeder := make(map[rune][]rune)
-
-	feeder['u'] = []rune("uUvVÜÚüú")
-	feeder['ϲ'] = []rune("ϲσΣςϹ")
-	feeder['i'] = []rune("iIÍÏíïJj")
-
-	reducer := make(map[rune]rune)
-	for f, _ := range feeder {
-		for _, r := range feeder[f] {
-			reducer[r] = f
-		}
-	}
-	return reducer
-}
-
-// uvcapsreducer - provide map to UVcaps
-func uvcapsreducer() map[rune]rune {
-	// map[73:105 74:105 85:117 86:117 105:105 106:105 ...]
-	feeder := make(map[rune][]rune)
-
-	feeder['u'] = []rune("uv")
-	feeder['i'] = []rune("ij")
-	feeder['U'] = []rune("ÜÚ")
-	feeder['V'] = []rune("U")
-	feeder['I'] = []rune("IJ")
-
-	reducer := make(map[rune]rune)
-	for f, _ := range feeder {
-		for _, r := range feeder[f] {
-			reducer[r] = f
-		}
-	}
-	return reducer
 }

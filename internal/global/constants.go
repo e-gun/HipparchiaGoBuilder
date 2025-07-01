@@ -2,7 +2,7 @@ package global
 
 const (
 	NAME    = "HipparchiaGoBuilder"
-	VERSION = "0.9.0b"
+	VERSION = "0.9.1"
 )
 
 // the following *must* be synchronized with HGS's corporaconst.go values
