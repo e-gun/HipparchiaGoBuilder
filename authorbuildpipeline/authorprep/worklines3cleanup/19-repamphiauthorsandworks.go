@@ -180,8 +180,8 @@ func RemapInscriptionAuthorsAndWorks(lines []structs.DbWorkline, authorid string
 		}
 
 		if foundanewwork(l, prevlline) {
-			fmt.Println("foundanewwork")
-			fmt.Println(l)
+			//fmt.Println("foundanewwork")
+			//fmt.Println(l)
 			// {75857 280 -1 -1 -1 -1 1 in0150w020 [ —  κ]οινῇ ἄρ[χοντεϲ﹖  — ] κοινῇ ἄρχοντεϲ κοινη αρχοντεϲ  publicationinfo: BCH 1922, 343, no. 34 · documentnumber: 286}
 			// {75858 281 -1 -1 -1 -1 1 in0150w020 [ — ]α̣[ — ] α α  publicationinfo: BCH 1925, 310, no. 7 · documentnumber: 287}
 			// {75872 282 -1 -1 -1 -1 1 in0150w020 ∙    publicationinfo: BCH 1925, 312, no. 12 · documentnumber: 288}

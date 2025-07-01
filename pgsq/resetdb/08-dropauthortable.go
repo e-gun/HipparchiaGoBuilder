@@ -41,6 +41,11 @@ func DropAuthorMultipleTables(pfx string) {
 		tablestodrop = append(tablestodrop, thetable)
 	}
 
+	if len(tablestodrop) == 0 {
+		// you are already empty...
+		return
+	}
+
 	q2 := fmt.Sprintf(DROPTABLES, strings.Join(tablestodrop, ","))
 	_, err := dbconn.Exec(context.Background(), q2)
 	if err != nil {
