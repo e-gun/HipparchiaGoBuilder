@@ -62,10 +62,11 @@ func main() {
 		resetdb.DropOneAuthorTable(global.TLGABBREV + cfg.OneGreek)
 		resetdb.ResetOneAuthor(global.TLGABBREV + cfg.OneGreek)
 
-		authorbuildpipeline.BuildOneAuthor(cfg.GreekDir, "TLG"+cfg.OneGreek)
+		authorbuildpipeline.BuildOneAuthor(cfg.GreekDir, global.WorkingOnCorpus+cfg.OneGreek)
 		insert.BuildTrigramIndices()
 		idtandbin.MapIdtAuMapOntoMasterAuMap()
 		idtandbin.StoreUpdatedMetadata()
+		insert.InsertBuildMetadata(global.WorkingOnCorpus, "(mixed build) OneGreek: "+cfg.OneGreek)
 	}
 
 	if cfg.OneLatin != "" {
@@ -76,48 +77,40 @@ func main() {
 		resetdb.ResetOneAuthor(global.LATABBREV + cfg.OneLatin)
 
 		betacode.EarybirdTuples = betacode.GetEarlyBirdTuples()
-		authorbuildpipeline.BuildOneAuthor(cfg.LatDir, "LAT"+cfg.OneLatin)
+		authorbuildpipeline.BuildOneAuthor(cfg.LatDir, global.WorkingOnCorpus+cfg.OneLatin)
 		insert.BuildTrigramIndices()
 		idtandbin.StoreUpdatedMetadata()
 		global.WorkingOnCorpus = ""
 		betacode.EarybirdTuples = betacode.GetEarlyBirdTuples()
+		insert.InsertBuildMetadata(global.WorkingOnCorpus, "(mixed build) OneLatin: "+cfg.OneLatin)
 	}
 
 	if cfg.OneIns != "" {
-		fmt.Println("One Inscription: ", cfg.OneIns)
-		global.WorkingOnCorpus = "INS"
-		resetdb.ResetCorpus(global.WorkingOnCorpus) // you just killed everything already in here...
-		authorbuildpipeline.BuildOneAuthor(cfg.InsDir, "INS"+cfg.OneIns)
-		idtandbin.StoreUpdatedMetadata()
-		insert.BuildTrigramIndices()
-		fmt.Println("WARNING: One Inscription is for testing only. You just broke ALL of the inscriptions.")
+		a := "One Inscription"
+		b := "INS"
+		c := "oneins"
+		onephi(a, b, c, cfg.InsDir, cfg.OneIns)
 	}
 
 	if cfg.OneChr != "" {
-		fmt.Println("One Christian: ", cfg.OneChr)
-		global.WorkingOnCorpus = "CHR"
-		resetdb.ResetCorpus(global.WorkingOnCorpus) // you just killed everything already in here...
-		authorbuildpipeline.BuildOneAuthor(cfg.ChrDir, "CHR"+cfg.OneChr)
-		insert.BuildTrigramIndices()
-		idtandbin.StoreUpdatedMetadata()
-		fmt.Println("WARNING: One Christian is for testing only. You just broke ALL of the Christians.")
+		a := "One Christian"
+		b := "CHR"
+		c := "onechr"
+		onephi(a, b, c, cfg.ChrDir, cfg.OneChr)
 	}
 
 	if cfg.OnePap != "" {
-		fmt.Println("One Papyrus: ", cfg.OnePap)
-		global.WorkingOnCorpus = "DDP"
-		resetdb.ResetCorpus(global.WorkingOnCorpus)
-		authorbuildpipeline.BuildOneAuthor(cfg.PapDir, "DDP"+cfg.OnePap)
-		insert.BuildTrigramIndices()
-		idtandbin.StoreUpdatedMetadata()
-		fmt.Println("WARNING: One Papyrus is for testing only. You just broke ALL of the papyri.")
+		a := "One Papyrus"
+		b := "DDP"
+		c := "oneddp"
+		onephi(a, b, c, cfg.PapDir, cfg.OnePap)
 	}
 
 	if cfg.DoGreek {
 		global.HEAD("Greek Corpus")
 		global.WorkingOnCorpus = "TLG"
 		resetdb.ResetCorpus(global.WorkingOnCorpus)
-		authorbuildpipeline.RunCorpusPipeline(cfg.GreekDir, "TLG")
+		authorbuildpipeline.RunCorpusPipeline(cfg.GreekDir, global.WorkingOnCorpus)
 	}
 
 	if cfg.DoLatin {
@@ -125,28 +118,28 @@ func main() {
 		global.WorkingOnCorpus = "LAT"
 		resetdb.ResetCorpus(global.WorkingOnCorpus)
 		betacode.EarybirdTuples = betacode.GetEarlyBirdTuples()
-		authorbuildpipeline.RunCorpusPipeline(cfg.LatDir, "LAT")
+		authorbuildpipeline.RunCorpusPipeline(cfg.LatDir, global.WorkingOnCorpus)
 	}
 
 	if cfg.DoIns {
 		global.WorkingOnCorpus = "INS"
 		global.HEAD("Inscriptions Corpus")
 		resetdb.ResetCorpus(global.WorkingOnCorpus)
-		authorbuildpipeline.RunCorpusPipeline(cfg.InsDir, "INS")
+		authorbuildpipeline.RunCorpusPipeline(cfg.InsDir, global.WorkingOnCorpus)
 	}
 
 	if cfg.DoPap {
 		global.WorkingOnCorpus = "DDP"
 		global.HEAD("Papyrus Corpus")
 		resetdb.ResetCorpus(global.WorkingOnCorpus)
-		authorbuildpipeline.RunCorpusPipeline(cfg.PapDir, "DDP")
+		authorbuildpipeline.RunCorpusPipeline(cfg.PapDir, global.WorkingOnCorpus)
 	}
 
 	if cfg.DoChr {
 		global.WorkingOnCorpus = "CHR"
 		global.HEAD("Christian Corpus")
 		resetdb.ResetCorpus(global.WorkingOnCorpus)
-		authorbuildpipeline.RunCorpusPipeline(cfg.ChrDir, "CHR")
+		authorbuildpipeline.RunCorpusPipeline(cfg.ChrDir, global.WorkingOnCorpus)
 	}
 
 	if cfg.DoGkLx {
@@ -156,7 +149,7 @@ func main() {
 		xmls := lexica.BuildLexDataFileNamesSlice(datadir, ".xml")
 		lexica.FanoutGkLexBuilder(xmls, datadir)
 		glh := GetGitCommitHash(cfg.GkLxDataLoc)
-		insert.InsertBuildMetadata("GLex", "Commit: "+glh)
+		insert.InsertBuildMetadata("GLex", "Logeon Commit: "+glh)
 	}
 
 	if cfg.DoGkGr {
@@ -229,4 +222,15 @@ func GetGitCommitHash(repopath string) string {
 
 	trimphash := cleanhash[:LENGTH]
 	return trimphash
+}
+
+func onephi(a string, cp string, c string, fd string, fn string) {
+	fmt.Printf("%s: %s\n", a, fn)
+	global.WorkingOnCorpus = cp
+	resetdb.ResetCorpus(global.WorkingOnCorpus)
+	authorbuildpipeline.BuildOneAuthor(fd, global.WorkingOnCorpus+fn)
+	insert.BuildTrigramIndices()
+	idtandbin.StoreUpdatedMetadata()
+	fmt.Printf("WARNING: '%s' is for testing only. You just broke the WHOLE of this corpus.\n", a)
+	insert.InsertBuildMetadata(global.WorkingOnCorpus, fmt.Sprintf("(broken corpus) '--%s %s'", c, fn))
 }

@@ -91,9 +91,6 @@ var (
 )
 
 func RemapInscriptionAuthorsAndWorks(lines []structs.DbWorkline, authorid string) ([]structs.DbAuthor, []structs.DbWork, []structs.DbWorkline) {
-	const (
-		THEMARKER = `_`
-	)
 	// note that in a multiprocessing environment you will have problems with the new names so use UniqueAuthorNames
 	UniqueWorkNamer := global.NewUniqueNamer(3)
 
@@ -524,6 +521,21 @@ func foundanewwork(l structs.DbWorkline, prevl structs.DbWorkline) bool {
 
 	if l.WkUID[0:global.ABBREVLEN] == global.DDPFIRSTPASS && ddpnewworkspan.MatchString(l.MarkedUp) {
 		return true
+	}
+
+	// NOTE: there seems to be ONE (and only one?) 'impossible' new author with 0 associated works
+	// the word counter will bring this to light: `wlbgrabber() ERROR: relation "dpx02d3" does not exist (SQLSTATE 42P01)`
+	// if you dig around via `hgdb=# select * from authors where universalid = 'dpx02d3';` you will see that this is
+	// `PEdfou · Vol 3` and it comes from `DDP0044.TXT`
+	// debugging that file via `authorprep.WriteWorklineProgress(lines)` will produce a file that is 114 lines long
+	// the last line reads: `[140] 0044w003 [8 1 1 1 1 1] 	 <hb-fs-l-normal>PEdfou 3,8﹦SB 6,9302</hb-fs-l-normal>  	 Notes: `
+	// and examining `DDP0044.TXT` itself shows at the end `&PEdfou `3,`8%6SB `6,`9302$ ðþ(null)(null)(null)(null)...`
+	// so that really does seem to be where the file ends, i.e, with the announcement of a work (that will be mapped
+	// to a new author) and then... nothing.
+
+	// so we have this incredibly stupid check...
+	if l.WkUID == "0044w003" && global.WorkingOnCorpus == "DDP" {
+		return false
 	}
 
 	if len(anything) == 0 {

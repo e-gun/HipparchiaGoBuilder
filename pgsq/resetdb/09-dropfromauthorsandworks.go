@@ -46,7 +46,7 @@ func ResetOneAuthor(oneid string) {
 		purgeoneauthor(oneid),
 		purgeallworksofoneauthor(oneid),
 	}
-	fmt.Println(queries)
+
 	dbc.DBCCommandSequence(queries)
 }
 

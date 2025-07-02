@@ -5,17 +5,18 @@
 
 package latetidyups
 
-import "regexp"
-
-var (
-	closequoteatopening = regexp.MustCompile(`\s”`)
+import (
+	"strings"
 )
 
 func LingeringMesses(ttc string) string {
 	// 	we've made it to the bitter end but there is something ugly in the results
-	//	here we can clean things up that we are too lazy/stupid/afraid-of-worse to prevent from ending up at this end
+	//	here we can clean things up that we are too lazy/stupid/afraid-of-worse to prevent from ending up
+	// all the way here at the end of the line
 
+	// closequote at opening:
 	// μέλει τὸν ἀκροατήν, ”κἂν ἄμουϲοϲ ᾖ” παντάπαϲι, --> μέλει τὸν ἀκροατήν, “κἂν ἄμουϲοϲ ᾖ” παντάπαϲι,
-	ttc = closequoteatopening.ReplaceAllString(ttc, " “")
+	ttc = strings.ReplaceAll(ttc, ` ”`, ` “`)
+
 	return ttc
 }
