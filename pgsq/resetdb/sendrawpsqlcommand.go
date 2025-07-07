@@ -52,21 +52,6 @@ the database:
 	}
 }
 
-// sendpsqlusercommandstobinary - execute a chain of queries via the psql binary
-func sendpsqlusercommandstobinary(pass string, queries []string) {
-
-	binary := getpgbinarypath("psql")
-	url := getpostgresuseruri(pass)
-
-	for q := range queries {
-		cmd := exec.Command(binary, "-c", queries[q], url)
-		cmd.Stdout = os.Stdout
-		cmd.Stderr = os.Stderr
-		err := cmd.Run()
-		fmt.Println(err)
-	}
-}
-
 // getpgbinarypath - return the path of a psql or pg_restore binary
 func getpgbinarypath(command string) string {
 	const (
@@ -76,6 +61,7 @@ func getpgbinarypath(command string) string {
 		WINPGEXE = `C:\Program Files\PostgreSQL\%d\bin\`
 		LNXBIN   = `/usr/bin/`
 		LNXLBIN  = `/usr/local/bin/`
+		LNXSNAP  = `/snap/bin/postgresql.`
 		FAIL     = "Cannot find PostgreSQL binaries: aborting"
 	)
 
@@ -93,6 +79,11 @@ func getpgbinarypath(command string) string {
 		if y == nil {
 			// != nil will trigger a fail later
 			return LNXLBIN + command
+		}
+		_, y = os.Stat(LNXSNAP + command)
+		if y == nil {
+			// != nil will trigger a fail later
+			return LNXSNAP + command
 		}
 	}
 
@@ -143,14 +134,5 @@ func getpostgresadminuri(pgpw string) string {
 		// postgresql://postgres:password@localhost:5432/postgres
 		url = fmt.Sprintf(UPWD, "postgres", pgpw, pgsq.DEFAULTPSQLHOST, pgsq.DEFAULTPSQLPORT, "postgres")
 	}
-	return url
-}
-
-// getpostgresadminuri - return a URI to connect to postgres as an administrator; different URI for macOS vs others
-func getpostgresuseruri(userpw string) string {
-	const (
-		UPWD = `postgresql://%s:%s@%s:%d/%s`
-	)
-	url := fmt.Sprintf(UPWD, pgsq.DEFAULTPSQLUSER, userpw, pgsq.DEFAULTPSQLHOST, pgsq.DEFAULTPSQLPORT, pgsq.DEFAULTPSQLDB)
 	return url
 }
