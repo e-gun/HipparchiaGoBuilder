@@ -13,6 +13,9 @@ import (
 )
 
 func DoAllWordcounts() {
+	resetdb.InitializeHeadwordWordCountTable()
+	resetdb.InitializeUnparsedWordCountTable()
+
 	UnparsedCountOfAllCorpora()
 	pcc := ParsedCountOfAllCorpora()
 	pgc := ParsedCountOfAllGenres()
@@ -43,7 +46,6 @@ func DoAllWordcounts() {
 		wc.Late = tc.Late
 		merged[k] = wc
 	}
-	resetdb.InitializeHeadwordWordCountTable()
 
 	for k, v := range merged {
 		v.FrqClas = CalculateFrequencyClassification(k, v.Total)

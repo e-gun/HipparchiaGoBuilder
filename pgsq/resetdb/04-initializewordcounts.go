@@ -12,8 +12,8 @@ import (
 )
 
 const (
+	WC0 = `DROP TABLE IF EXISTS public.headword_wordcounts;`
 	WC1 = `
-DROP TABLE IF EXISTS public.headword_wordcounts;
 CREATE TABLE public.headword_wordcounts (
     entry_name character varying(64),
     total_count integer DEFAULT 0,
@@ -112,8 +112,8 @@ CREATE TABLE public.headword_wordcounts (
 ALTER TABLE public.headword_wordcounts OWNER TO %s;
 `
 
-	WC4 = `DROP TABLE IF EXISTS public.unparsed_wordcounts;`
-	WC5 = `
+	WC2 = `DROP TABLE IF EXISTS public.unparsed_wordcounts;`
+	WC3 = `
 CREATE TABLE public.unparsed_wordcounts (
     entry_name character varying(96) NOT NULL,
     total_count integer DEFAULT 0,
@@ -124,7 +124,7 @@ CREATE TABLE public.unparsed_wordcounts (
     ch_count integer DEFAULT 0,
     UNIQUE(entry_name)
 );`
-	WC6 = `ALTER TABLE public.unparsed_wordcounts OWNER TO %s;`
+	WC4 = `ALTER TABLE public.unparsed_wordcounts OWNER TO %s;`
 )
 
 func InitializeUnparsedWordCountTable() {
@@ -133,9 +133,9 @@ func InitializeUnparsedWordCountTable() {
 	)
 
 	queries := []string{
-		WC4,
-		WC5,
-		fmt.Sprintf(WC6, pgsq.DEFAULTPSQLUSER),
+		WC2,
+		WC3,
+		fmt.Sprintf(WC4, pgsq.DEFAULTPSQLUSER),
 	}
 	fmt.Println(DONE)
 	dbc.DBCCommandSequence(queries)
@@ -147,6 +147,7 @@ func InitializeHeadwordWordCountTable() {
 	)
 
 	queries := []string{
+		fmt.Sprintf(WC0),
 		fmt.Sprintf(WC1, pgsq.DEFAULTPSQLUSER),
 	}
 	fmt.Println(DONE)

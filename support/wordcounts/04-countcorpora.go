@@ -13,7 +13,6 @@ import (
 	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
 	"github.com/e-gun/HipparchiaGoBuilder/pgsq/dbc"
 	"github.com/e-gun/HipparchiaGoBuilder/pgsq/insert"
-	"github.com/e-gun/HipparchiaGoBuilder/pgsq/resetdb"
 	"github.com/jackc/pgx/v5"
 	"strings"
 	"time"
@@ -25,8 +24,10 @@ func UnparsedCountOfAllCorpora() {
 		MSG = "UnparsedCountOfAllCorpora(): All corpora processed. %.3fs"
 	)
 
-	global.SECT("UnparsedCountOfAllCorpora()")
+	// already called at top of DoAllWordcounts(); uncomment if debugging
+	// resetdb.InitializeUnparsedWordCountTable()
 
+	global.SECT("UnparsedCountOfAllCorpora()")
 	doparsing := false
 
 	start := time.Now()
@@ -74,8 +75,6 @@ func UnparsedCountOfAllCorpora() {
 	}
 
 	// ccounts["ϲτόματι"].PrintOut()
-
-	resetdb.InitializeUnparsedWordCountTable()
 	insert.InsertUnparsedWordCountsIntoTable(ccounts)
 
 	d := fmt.Sprintf(MSG, time.Now().Sub(start).Seconds())

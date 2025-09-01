@@ -2,10 +2,11 @@ package global
 
 const (
 	NAME    = "HipparchiaGoBuilder"
-	VERSION = "0.9.1"
+	VERSION = "0.9.2"
 )
 
 // the following *must* be synchronized with HGS's corporaconst.go values
+// if you change these values HGS will be unable to find any corpus until you change those values there and rebuild it
 
 const (
 	AUNAMELEN         = 4
