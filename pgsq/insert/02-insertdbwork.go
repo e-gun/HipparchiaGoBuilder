@@ -8,10 +8,11 @@ package insert
 import (
 	"context"
 	"fmt"
+	"os"
+
 	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
 	"github.com/e-gun/HipparchiaGoBuilder/pgsq/dbc"
 	"github.com/jackc/pgx/v5"
-	"os"
 )
 
 func BulkInsertWorks(works []structs.DbWork) {

@@ -6,14 +6,15 @@
 package idtandbin
 
 import (
+	"regexp"
+	"slices"
+	"strings"
+
 	"github.com/e-gun/HipparchiaGoBuilder/authorbuildpipeline/authorprep/betacode"
 	"github.com/e-gun/HipparchiaGoBuilder/authorbuildpipeline/authorprep/grk"
 	"github.com/e-gun/HipparchiaGoBuilder/authorbuildpipeline/authorprep/lat"
 	"github.com/e-gun/HipparchiaGoBuilder/internal/global"
 	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
-	"regexp"
-	"slices"
-	"strings"
 )
 
 var (

@@ -7,15 +7,16 @@ package worklines3cleanup
 
 import (
 	"fmt"
+	"os"
+	"regexp"
+	"strings"
+
 	"github.com/e-gun/HipparchiaGoBuilder/authorbuildpipeline/authorprep/betacode"
 	"github.com/e-gun/HipparchiaGoBuilder/authorbuildpipeline/authorprep/lat"
 	"github.com/e-gun/HipparchiaGoBuilder/authorbuildpipeline/dating"
 	"github.com/e-gun/HipparchiaGoBuilder/authorbuildpipeline/idtandbin"
 	"github.com/e-gun/HipparchiaGoBuilder/internal/global"
 	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
-	"os"
-	"regexp"
-	"strings"
 )
 
 // the goal is to take an ins, ddp, or chr dbc as built by the standard parser and to break it down into a new set of databases

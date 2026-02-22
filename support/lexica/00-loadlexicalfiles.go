@@ -18,7 +18,12 @@ func LoadLexFile(directory string, filename string) string {
 	if err != nil {
 		panic(err)
 	}
-	defer file.Close()
+	defer func(file *os.File) {
+		ee := file.Close()
+		if ee != nil {
+
+		}
+	}(file)
 
 	o, err := io.ReadAll(file)
 	if err != nil {

@@ -6,8 +6,9 @@
 package grammar
 
 import (
-	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
 	"sync"
+
+	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
 )
 
 // gkanalysisworker processes an individual value

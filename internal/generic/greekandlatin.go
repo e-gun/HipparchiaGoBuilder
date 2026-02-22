@@ -88,7 +88,7 @@ func getrunereducer() map[rune]rune {
 	// runefd now a var at top of file
 
 	reducer := make(map[rune]rune)
-	for f, _ := range runefd {
+	for f := range runefd {
 		for _, r := range runefd[f] {
 			reducer[r] = f
 		}

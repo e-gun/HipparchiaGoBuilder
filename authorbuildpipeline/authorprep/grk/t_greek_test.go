@@ -7,9 +7,10 @@ package grk
 
 import (
 	"fmt"
+	"testing"
+
 	"github.com/e-gun/HipparchiaGoBuilder/authorbuildpipeline/authorprep/betacode"
 	"github.com/e-gun/HipparchiaGoBuilder/internal/global"
-	"testing"
 )
 
 func TestAmpersandLatinFontsInAGreekText(t *testing.T) {

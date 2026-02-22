@@ -9,10 +9,11 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"strings"
+
 	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
 	"github.com/e-gun/HipparchiaGoBuilder/pgsq/dbc"
 	"github.com/jackc/pgx/v5"
-	"strings"
 )
 
 var (

@@ -7,9 +7,10 @@ package resetdb
 
 import (
 	"fmt"
+	"runtime"
+
 	"github.com/e-gun/HipparchiaGoBuilder/pgsq"
 	"github.com/e-gun/HipparchiaGoBuilder/pgsq/dbc"
-	"runtime"
 )
 
 // DropDatabase - simply drop the database

@@ -7,11 +7,12 @@ package dating
 
 import (
 	"fmt"
-	"github.com/e-gun/HipparchiaGoBuilder/internal/global"
-	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
 	"regexp"
 	"strconv"
 	"strings"
+
+	"github.com/e-gun/HipparchiaGoBuilder/internal/global"
+	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
 )
 
 var (

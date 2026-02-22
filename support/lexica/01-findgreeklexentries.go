@@ -7,11 +7,12 @@ package lexica
 
 import (
 	"fmt"
-	"github.com/e-gun/HipparchiaGoBuilder/internal/generic"
-	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
 	"regexp"
 	"slices"
 	"strings"
+
+	"github.com/e-gun/HipparchiaGoBuilder/internal/generic"
+	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
 )
 
 var (

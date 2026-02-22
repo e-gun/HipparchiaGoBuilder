@@ -7,10 +7,11 @@ package structs
 
 import (
 	"fmt"
-	"golang.org/x/text/language"
-	"golang.org/x/text/message"
 	"reflect"
 	"sort"
+
+	"golang.org/x/text/language"
+	"golang.org/x/text/message"
 )
 
 type DbHeadwordTimeCounts struct {

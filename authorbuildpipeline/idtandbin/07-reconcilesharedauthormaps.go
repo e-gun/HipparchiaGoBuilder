@@ -7,9 +7,10 @@ package idtandbin
 
 import (
 	"fmt"
+	"strings"
+
 	"github.com/e-gun/HipparchiaGoBuilder/internal/global"
 	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
-	"strings"
 )
 
 func ReconcileAuMaps() {

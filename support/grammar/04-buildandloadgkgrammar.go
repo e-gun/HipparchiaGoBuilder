@@ -7,11 +7,12 @@ package grammar
 
 import (
 	"fmt"
+	"strings"
+	"time"
+
 	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
 	"github.com/e-gun/HipparchiaGoBuilder/pgsq/insert"
 	"github.com/e-gun/HipparchiaGoBuilder/pgsq/resetdb"
-	"strings"
-	"time"
 )
 
 func BuildAndLoadGreekGrammar(directory string, lemmatafilename string, analysisfilename string) {
@@ -50,7 +51,7 @@ func BuildAndLoadGreekGrammar(directory string, lemmatafilename string, analysis
 func cleangreekalalyses(gram []structs.GramAnalysis) []structs.GramAnalysis {
 	for i, g := range gram {
 		var rhw []string
-		for j, _ := range g.Possibilities {
+		for j := range g.Possibilities {
 			rhw = append(rhw, g.Possibilities[j].Headwd)
 		}
 		gram[i].Related = strings.Join(rhw, " ")

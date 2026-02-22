@@ -8,10 +8,11 @@ package insert
 import (
 	"context"
 	"fmt"
+	"testing"
+
 	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
 	"github.com/e-gun/HipparchiaGoBuilder/pgsq"
 	"github.com/e-gun/HipparchiaGoBuilder/pgsq/dbc"
-	"testing"
 )
 
 func ReadyDBConnection() {

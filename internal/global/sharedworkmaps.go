@@ -6,8 +6,9 @@
 package global
 
 import (
-	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
 	"sync"
+
+	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
 )
 
 var (
@@ -50,7 +51,7 @@ func (sm *SafeWkMap) Keys() []string {
 	sm.mu.Lock()
 	defer sm.mu.Unlock()
 	keys := make([]string, 0, len(sm.data))
-	for k, _ := range sm.data {
+	for k := range sm.data {
 		keys = append(keys, k)
 	}
 	return keys

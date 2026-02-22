@@ -8,10 +8,11 @@ package insert
 import (
 	"context"
 	"fmt"
+	"strings"
+
 	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
 	"github.com/e-gun/HipparchiaGoBuilder/pgsq/dbc"
 	"github.com/jackc/pgx/v5"
-	"strings"
 )
 
 var (
@@ -29,21 +30,21 @@ var (
 	}
 )
 
-func InsertEntriesIntoGkLexicon(entries []structs.DbLexicon) error {
+func EntriesIntoGkLexicon(entries []structs.DbLexicon) error {
 	tablename := "greek_dictionary"
 
-	_ = InsertEntriesIntoLexicon(tablename, entries)
+	_ = EntriesIntoLexicon(tablename, entries)
 	return nil
 }
 
-func InsertEntriesIntoLatinLexicon(entries []structs.DbLexicon) error {
+func EntriesIntoLatinLexicon(entries []structs.DbLexicon) error {
 	tablename := "latin_dictionary"
 
-	_ = InsertEntriesIntoLexicon(tablename, entries)
+	_ = EntriesIntoLexicon(tablename, entries)
 	return nil
 }
 
-func InsertEntriesIntoLexicon(tablename string, entries []structs.DbLexicon) error {
+func EntriesIntoLexicon(tablename string, entries []structs.DbLexicon) error {
 	if len(entries) == 0 {
 		// return errors.New("InsertEntriesIntoGkLexicon(): No entries to insert.")
 		return nil

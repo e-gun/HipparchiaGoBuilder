@@ -116,7 +116,7 @@ func (fp *FingerPrint) ApplySimpleFudges() {
 	fp.Calculated = fp.Calculated + fp.ManualFudgeFactor
 }
 
-func (fp FingerPrint) PrepPrint() []FieldBoolValuePair {
+func (fp *FingerPrint) PrepPrint() []FieldBoolValuePair {
 	var pairs []FieldBoolValuePair
 	v := reflect.ValueOf(fp)
 	startfield := 3
@@ -134,7 +134,7 @@ func (fp FingerPrint) PrepPrint() []FieldBoolValuePair {
 	return pairs
 }
 
-func (fp FingerPrint) Print() {
+func (fp *FingerPrint) Print() {
 	fvp := fp.PrepPrint()
 	fmt.Println(fp.OrigDateString)
 	for _, pair := range fvp {
@@ -144,7 +144,7 @@ func (fp FingerPrint) Print() {
 	}
 }
 
-func (fp FingerPrint) PrintWithCalc() {
+func (fp *FingerPrint) PrintWithCalc() {
 	if fp.Calculated > 5000 {
 		fp.Print()
 		if fp.ParserFailed {

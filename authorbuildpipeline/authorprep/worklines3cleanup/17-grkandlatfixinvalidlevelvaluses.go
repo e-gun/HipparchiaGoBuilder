@@ -7,6 +7,7 @@ package worklines3cleanup
 
 import (
 	"fmt"
+
 	"github.com/e-gun/HipparchiaGoBuilder/internal/global"
 	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
 )

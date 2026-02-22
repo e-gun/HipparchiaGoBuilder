@@ -7,11 +7,12 @@ package betacode
 
 import (
 	"fmt"
-	"github.com/e-gun/HipparchiaGoBuilder/internal/global"
 	"math/big"
 	"regexp"
 	"strconv"
 	"strings"
+
+	"github.com/e-gun/HipparchiaGoBuilder/internal/global"
 )
 
 var (

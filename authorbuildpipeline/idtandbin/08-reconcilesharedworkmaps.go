@@ -7,6 +7,7 @@ package idtandbin
 
 import (
 	"fmt"
+
 	"github.com/e-gun/HipparchiaGoBuilder/internal/global"
 	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
 )

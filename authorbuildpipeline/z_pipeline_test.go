@@ -6,8 +6,9 @@
 package authorbuildpipeline
 
 import (
-	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
 	"testing"
+
+	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
 )
 
 func TestFindwordcount(t *testing.T) {

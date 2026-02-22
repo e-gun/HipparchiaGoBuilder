@@ -7,6 +7,7 @@ package insert
 
 import (
 	"fmt"
+
 	"github.com/e-gun/HipparchiaGoBuilder/internal/global"
 	"github.com/e-gun/HipparchiaGoBuilder/pgsq/dbc"
 )

@@ -6,8 +6,9 @@
 package wordcounts
 
 import (
-	"github.com/e-gun/HipparchiaGoBuilder/internal/global"
 	"sync"
+
+	"github.com/e-gun/HipparchiaGoBuilder/internal/global"
 )
 
 func FanoutCorpusCount(doparsing bool, authorpile []string) map[string]int {

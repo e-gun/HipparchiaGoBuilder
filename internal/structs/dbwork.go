@@ -57,7 +57,7 @@ func (dbw *DbWork) GetAuthor() string {
 	return a[0]
 }
 
-func (dba *DbWork) PrintOut() {
+func (dbw *DbWork) PrintOut() {
 	const (
 		TMPL = `
 	UID       {{.UID}}
@@ -81,25 +81,25 @@ func (dba *DbWork) PrintOut() {
 	Authentic {{.Authentic}}`
 	)
 	m := map[string]string{
-		"UID":       dba.UID,
-		"Language":  dba.Language,
-		"Pub":       dba.Pub,
-		"LL0":       dba.LL0,
-		"LL1":       dba.LL1,
-		"LL2":       dba.LL2,
-		"LL3":       dba.LL3,
-		"LL4":       dba.LL4,
-		"LL5":       dba.LL5,
-		"Genre":     dba.Genre,
-		"Xmit":      dba.Xmit,
-		"Type":      dba.Type,
-		"Prov":      dba.Prov,
-		"RecDate":   dba.RecDate,
-		"ConvDate":  fmt.Sprintf("%d", dba.ConvDate),
-		"WdCount":   fmt.Sprintf("%d", dba.WdCount),
-		"FirstLine": fmt.Sprintf("%d", dba.FirstLine),
-		"LastLine":  fmt.Sprintf("%d", dba.LastLine),
-		"Authentic": fmt.Sprintf("%t", dba.Authentic),
+		"UID":       dbw.UID,
+		"Language":  dbw.Language,
+		"Pub":       dbw.Pub,
+		"LL0":       dbw.LL0,
+		"LL1":       dbw.LL1,
+		"LL2":       dbw.LL2,
+		"LL3":       dbw.LL3,
+		"LL4":       dbw.LL4,
+		"LL5":       dbw.LL5,
+		"Genre":     dbw.Genre,
+		"Xmit":      dbw.Xmit,
+		"Type":      dbw.Type,
+		"Prov":      dbw.Prov,
+		"RecDate":   dbw.RecDate,
+		"ConvDate":  fmt.Sprintf("%d", dbw.ConvDate),
+		"WdCount":   fmt.Sprintf("%d", dbw.WdCount),
+		"FirstLine": fmt.Sprintf("%d", dbw.FirstLine),
+		"LastLine":  fmt.Sprintf("%d", dbw.LastLine),
+		"Authentic": fmt.Sprintf("%t", dbw.Authentic),
 	}
 
 	t := template.Must(template.New("").Parse(TMPL))

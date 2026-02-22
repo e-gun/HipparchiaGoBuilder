@@ -8,6 +8,12 @@ package idtandbin
 import (
 	"bytes"
 	"fmt"
+	"regexp"
+	"slices"
+	"strconv"
+	"strings"
+	"text/template"
+
 	"github.com/e-gun/HipparchiaGoBuilder/authorbuildpipeline/authorprep/betacode"
 	"github.com/e-gun/HipparchiaGoBuilder/authorbuildpipeline/authorprep/grk"
 	"github.com/e-gun/HipparchiaGoBuilder/authorbuildpipeline/authorprep/lat"
@@ -16,11 +22,6 @@ import (
 	"github.com/e-gun/HipparchiaGoBuilder/internal/generic"
 	"github.com/e-gun/HipparchiaGoBuilder/internal/global"
 	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
-	"regexp"
-	"slices"
-	"strconv"
-	"strings"
-	"text/template"
 )
 
 const (

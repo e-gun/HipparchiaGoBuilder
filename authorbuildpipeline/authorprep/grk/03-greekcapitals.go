@@ -7,9 +7,10 @@ package grk
 
 import (
 	"fmt"
-	"github.com/e-gun/HipparchiaGoBuilder/internal/global"
 	"regexp"
 	"sort"
+
+	"github.com/e-gun/HipparchiaGoBuilder/internal/global"
 )
 
 // the regex

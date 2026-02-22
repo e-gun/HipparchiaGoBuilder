@@ -6,10 +6,11 @@
 package idtandbin
 
 import (
-	"github.com/e-gun/HipparchiaGoBuilder/internal/generic"
-	"github.com/e-gun/HipparchiaGoBuilder/internal/global"
 	"regexp"
 	"strings"
+
+	"github.com/e-gun/HipparchiaGoBuilder/internal/generic"
+	"github.com/e-gun/HipparchiaGoBuilder/internal/global"
 )
 
 const (

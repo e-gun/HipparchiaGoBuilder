@@ -7,10 +7,11 @@ package worklines1initial
 
 import (
 	"fmt"
-	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
 	"slices"
 	"strings"
 	"testing"
+
+	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
 )
 
 func TestNybbler(t *testing.T) {

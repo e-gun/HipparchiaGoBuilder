@@ -7,6 +7,7 @@ package authorbuildpipeline
 
 import (
 	"fmt"
+
 	"github.com/e-gun/HipparchiaGoBuilder/pgsq/dbc"
 )
 

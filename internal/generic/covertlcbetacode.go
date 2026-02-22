@@ -6,9 +6,10 @@
 package generic
 
 import (
-	"github.com/e-gun/HipparchiaGoBuilder/authorbuildpipeline/authorprep/grk"
 	"regexp"
 	"strings"
+
+	"github.com/e-gun/HipparchiaGoBuilder/authorbuildpipeline/authorprep/grk"
 )
 
 var (

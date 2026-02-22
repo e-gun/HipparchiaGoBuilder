@@ -8,10 +8,11 @@ package wordcounts
 import (
 	"context"
 	"fmt"
+	"strings"
+
 	"github.com/e-gun/HipparchiaGoBuilder/internal/global"
 	"github.com/e-gun/HipparchiaGoBuilder/pgsq/dbc"
 	"github.com/jackc/pgx/v5"
-	"strings"
 )
 
 type tmpgramholder struct {

@@ -7,8 +7,9 @@ package idtandbin
 
 import (
 	"fmt"
-	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
 	"testing"
+
+	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
 )
 
 func TestSimplegreekspan(t *testing.T) {

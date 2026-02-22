@@ -7,10 +7,11 @@ package betacode
 
 import (
 	"fmt"
-	"github.com/e-gun/HipparchiaGoBuilder/internal/global"
 	"regexp"
 	"strconv"
 	"strings"
+
+	"github.com/e-gun/HipparchiaGoBuilder/internal/global"
 )
 
 // lookaheads not allowed in go's regex

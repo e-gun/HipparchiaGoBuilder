@@ -8,8 +8,9 @@ package resetdb
 import (
 	"context"
 	"fmt"
-	"github.com/e-gun/HipparchiaGoBuilder/pgsq/dbc"
 	"strings"
+
+	"github.com/e-gun/HipparchiaGoBuilder/pgsq/dbc"
 )
 
 // before (re)building, purge the old authors and works tables

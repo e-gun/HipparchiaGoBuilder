@@ -7,11 +7,12 @@ package grammar
 
 import (
 	"fmt"
+	"strings"
+	"time"
+
 	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
 	"github.com/e-gun/HipparchiaGoBuilder/pgsq/insert"
 	"github.com/e-gun/HipparchiaGoBuilder/pgsq/resetdb"
-	"strings"
-	"time"
 )
 
 var (

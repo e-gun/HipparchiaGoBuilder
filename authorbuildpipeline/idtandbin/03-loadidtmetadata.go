@@ -8,8 +8,9 @@ package idtandbin
 import (
 	"bytes"
 	"fmt"
-	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
 	"os"
+
+	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
 )
 
 // LoadAuthorIDTData - build partial DbAuthor and DbWork entries from IDT data

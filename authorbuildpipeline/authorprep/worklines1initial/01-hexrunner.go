@@ -7,15 +7,16 @@ package worklines1initial
 
 import (
 	"fmt"
-	"github.com/e-gun/HipparchiaGoBuilder/authorbuildpipeline/authorprep/betacode"
-	"github.com/e-gun/HipparchiaGoBuilder/authorbuildpipeline/authorprep/lat"
-	"github.com/e-gun/HipparchiaGoBuilder/internal/global"
-	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
 	"log"
 	"regexp"
 	"slices"
 	"strconv"
 	"strings"
+
+	"github.com/e-gun/HipparchiaGoBuilder/authorbuildpipeline/authorprep/betacode"
+	"github.com/e-gun/HipparchiaGoBuilder/authorbuildpipeline/authorprep/lat"
+	"github.com/e-gun/HipparchiaGoBuilder/internal/global"
+	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
 )
 
 // TLG5035 produces nybbler errors: Scholia In Platonem, Scholia in Platonem (scholia vetera)

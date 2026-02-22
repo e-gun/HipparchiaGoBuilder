@@ -8,6 +8,7 @@ package insert
 import (
 	"context"
 	"fmt"
+
 	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
 	"github.com/e-gun/HipparchiaGoBuilder/pgsq/dbc"
 	"github.com/jackc/pgx/v5"
@@ -131,7 +132,7 @@ func InsertUnparsedWordCountsIntoTable(wordcounts map[string]structs.DbUnparsedW
 	rows := make([][]interface{}, len(wordcounts))
 
 	count := 0
-	for k, _ := range wordcounts {
+	for k := range wordcounts {
 		rows[count] = populateonwctablerow(wordcounts[k])
 		count++
 	}

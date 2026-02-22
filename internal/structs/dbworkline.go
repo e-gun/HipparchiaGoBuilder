@@ -118,14 +118,14 @@ func (dbl *DbWorkline) AllButLastStrippedWord() []string {
 	}
 }
 
-func (dbw *DbWorkline) FindLocus() []string {
+func (dbl *DbWorkline) FindLocus() []string {
 	loc := [NUMBEROFCITATIONLEVELS]string{
-		dbw.Lvl5Value,
-		dbw.Lvl4Value,
-		dbw.Lvl3Value,
-		dbw.Lvl2Value,
-		dbw.Lvl1Value,
-		dbw.Lvl0Value,
+		dbl.Lvl5Value,
+		dbl.Lvl4Value,
+		dbl.Lvl3Value,
+		dbl.Lvl2Value,
+		dbl.Lvl1Value,
+		dbl.Lvl0Value,
 	}
 
 	var trim []string
@@ -138,20 +138,20 @@ func (dbw *DbWorkline) FindLocus() []string {
 }
 
 // AuID - gr0001w001 --> gr0001
-func (dbw *DbWorkline) AuID() string {
-	return dbw.WkUID[:AuthorIDLen]
+func (dbl *DbWorkline) AuID() string {
+	return dbl.WkUID[:AuthorIDLen]
 }
 
 // GetAccentedWordSlice - split up the accented words
-func (dbw *DbWorkline) GetAccentedWordSlice() []string {
-	return strings.Split(dbw.Accented, " ")
+func (dbl *DbWorkline) GetAccentedWordSlice() []string {
+	return strings.Split(dbl.Accented, " ")
 }
 
-func (dbw *DbWorkline) GatherMetadata() map[string]string {
+func (dbl *DbWorkline) GatherMetadata() map[string]string {
 	md := make(map[string]string)
 
 	// Plautus: "notes: Prisc. &3GL& 2.575K · #8"
-	distinctnotes := strings.Split(dbw.Annotations, " · ")
+	distinctnotes := strings.Split(dbl.Annotations, " · ")
 	for _, dn := range distinctnotes {
 		kv := strings.Split(dn, ":")
 		if len(kv) != 2 {
@@ -163,6 +163,6 @@ func (dbw *DbWorkline) GatherMetadata() map[string]string {
 	return md
 }
 
-func (dbw *DbWorkline) GetWordcount() int {
-	return len(strings.Split(dbw.Stripped, " "))
+func (dbl *DbWorkline) GetWordcount() int {
+	return len(strings.Split(dbl.Stripped, " "))
 }

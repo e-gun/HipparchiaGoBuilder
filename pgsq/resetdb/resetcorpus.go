@@ -2,6 +2,7 @@ package resetdb
 
 import (
 	"fmt"
+
 	"github.com/e-gun/HipparchiaGoBuilder/internal/global"
 )
 

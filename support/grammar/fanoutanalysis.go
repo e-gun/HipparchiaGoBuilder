@@ -6,10 +6,11 @@
 package grammar
 
 import (
+	"sync"
+
 	"github.com/e-gun/HipparchiaGoBuilder/internal/generic"
 	"github.com/e-gun/HipparchiaGoBuilder/internal/global"
 	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
-	"sync"
 )
 
 func FanoutAnalysis(entries []string, workerfnc func(id int, entries <-chan []string, results chan<- []structs.GramAnalysis, wg *sync.WaitGroup)) []structs.GramAnalysis {

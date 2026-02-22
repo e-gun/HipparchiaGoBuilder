@@ -2,6 +2,7 @@ package authorbuildpipeline
 
 import (
 	"fmt"
+
 	"github.com/e-gun/HipparchiaGoBuilder/authorbuildpipeline/idtandbin"
 	"github.com/e-gun/HipparchiaGoBuilder/internal/global"
 )

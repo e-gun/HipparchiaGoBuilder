@@ -8,12 +8,13 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/e-gun/HipparchiaGoBuilder/internal/global"
-	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
-	"github.com/e-gun/HipparchiaGoBuilder/pgsq"
 	"os"
 	"runtime"
 	"strconv"
+
+	"github.com/e-gun/HipparchiaGoBuilder/internal/global"
+	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
+	"github.com/e-gun/HipparchiaGoBuilder/pgsq"
 )
 
 const (

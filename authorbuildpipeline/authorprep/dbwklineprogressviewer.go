@@ -7,9 +7,10 @@ package authorprep
 
 import (
 	"fmt"
-	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
 	"os"
 	"strings"
+
+	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
 )
 
 func ViewWorklines(lastfunc string, all bool, halt bool, wll []structs.DbWorkline) []structs.DbWorkline {

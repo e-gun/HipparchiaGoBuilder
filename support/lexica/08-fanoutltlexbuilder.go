@@ -7,11 +7,12 @@ package lexica
 
 import (
 	"fmt"
-	"github.com/e-gun/HipparchiaGoBuilder/internal/generic"
-	"github.com/e-gun/HipparchiaGoBuilder/internal/global"
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/e-gun/HipparchiaGoBuilder/internal/generic"
+	"github.com/e-gun/HipparchiaGoBuilder/internal/global"
 )
 
 func FanoutLatinLexBuilder(dir string, fn string) {

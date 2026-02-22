@@ -6,8 +6,9 @@
 package worklines3cleanup
 
 import (
-	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
 	"strconv"
+
+	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
 )
 
 func fixchrlvl5values(lines []structs.DbWorkline) []structs.DbWorkline {

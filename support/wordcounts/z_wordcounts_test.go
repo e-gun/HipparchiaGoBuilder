@@ -8,14 +8,15 @@ package wordcounts
 import (
 	"bytes"
 	"fmt"
+	"os"
+	"strings"
+	"testing"
+
 	"github.com/e-gun/HipparchiaGoBuilder/authorbuildpipeline"
 	"github.com/e-gun/HipparchiaGoBuilder/internal/generic"
 	"github.com/e-gun/HipparchiaGoBuilder/internal/global"
 	"github.com/e-gun/HipparchiaGoBuilder/pgsq"
 	"github.com/e-gun/HipparchiaGoBuilder/pgsq/dbc"
-	"os"
-	"strings"
-	"testing"
 )
 
 // two short ones:

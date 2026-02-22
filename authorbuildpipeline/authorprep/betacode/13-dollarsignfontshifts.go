@@ -7,9 +7,10 @@ package betacode
 
 import (
 	"fmt"
-	"github.com/e-gun/HipparchiaGoBuilder/internal/global"
 	"regexp"
 	"strconv"
+
+	"github.com/e-gun/HipparchiaGoBuilder/internal/global"
 )
 
 // these are very dangerous and the source of a large number of debugging issues

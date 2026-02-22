@@ -1,14 +1,15 @@
 package idtandbin
 
 import (
+	"regexp"
+	"strings"
+
 	"github.com/e-gun/HipparchiaGoBuilder/authorbuildpipeline/authorprep/betacode"
 	"github.com/e-gun/HipparchiaGoBuilder/authorbuildpipeline/authorprep/lat"
 	"github.com/e-gun/HipparchiaGoBuilder/authorbuildpipeline/authorprep/latetidyups"
 	"github.com/e-gun/HipparchiaGoBuilder/authorbuildpipeline/authorprep/worklines1initial"
 	"github.com/e-gun/HipparchiaGoBuilder/authorbuildpipeline/authorprep/worklines2dbprep"
 	"github.com/e-gun/HipparchiaGoBuilder/internal/global"
-	"regexp"
-	"strings"
 )
 
 const (
@@ -24,7 +25,7 @@ func LoadLatinCanon(dir string) map[string]string {
 	ttc = worklines1initial.WorklinePrep(ttc)
 	dbworklines := worklines2dbprep.PrepareForDB(ttc)
 
-	for i, _ := range dbworklines {
+	for i := range dbworklines {
 		dbworklines[i].MarkedUp = strings.ReplaceAll(dbworklines[i].MarkedUp, "&nbsp;", "")
 	}
 
@@ -46,7 +47,7 @@ func LoadLatinCanon(dir string) map[string]string {
 	// the pattern is Pubinfo ... <hb-speaker>AUID.WKID</hb-speaker>
 
 	textblock := make([]string, len(dbworklines))
-	for i, _ := range dbworklines {
+	for i := range dbworklines {
 		textblock[i] = dbworklines[i].MarkedUp
 	}
 

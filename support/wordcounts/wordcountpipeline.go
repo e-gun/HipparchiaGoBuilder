@@ -7,6 +7,7 @@ package wordcounts
 
 import (
 	"fmt"
+
 	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
 	"github.com/e-gun/HipparchiaGoBuilder/pgsq/insert"
 	"github.com/e-gun/HipparchiaGoBuilder/pgsq/resetdb"

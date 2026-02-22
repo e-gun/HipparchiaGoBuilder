@@ -7,13 +7,14 @@ package worklines2dbprep
 
 import (
 	"fmt"
+	"regexp"
+	"strconv"
+	"strings"
+
 	"github.com/e-gun/HipparchiaGoBuilder/authorbuildpipeline/authorprep/betacode"
 	"github.com/e-gun/HipparchiaGoBuilder/authorbuildpipeline/authorprep/lat"
 	"github.com/e-gun/HipparchiaGoBuilder/internal/global"
 	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
-	"regexp"
-	"strconv"
-	"strings"
 )
 
 var (

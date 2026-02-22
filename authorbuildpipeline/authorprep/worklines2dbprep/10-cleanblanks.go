@@ -6,8 +6,9 @@
 package worklines2dbprep
 
 import (
-	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
 	"regexp"
+
+	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
 )
 
 var (

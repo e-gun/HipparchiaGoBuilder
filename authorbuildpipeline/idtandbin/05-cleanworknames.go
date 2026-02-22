@@ -6,10 +6,11 @@
 package idtandbin
 
 import (
+	"strings"
+
 	"github.com/e-gun/HipparchiaGoBuilder/authorbuildpipeline/authorprep/betacode"
 	"github.com/e-gun/HipparchiaGoBuilder/authorbuildpipeline/authorprep/lat"
 	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
-	"strings"
 )
 
 func CleanDBWorkNames(w *structs.DbWork) {

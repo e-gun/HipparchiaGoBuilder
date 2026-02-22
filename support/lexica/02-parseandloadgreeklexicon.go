@@ -7,11 +7,12 @@ package lexica
 
 import (
 	"fmt"
+	"regexp"
+	"strconv"
+
 	"github.com/e-gun/HipparchiaGoBuilder/internal/global"
 	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
 	"github.com/e-gun/HipparchiaGoBuilder/pgsq/insert"
-	"regexp"
-	"strconv"
 )
 
 func ParseAndLoadLSJ(dir string, fn string) {
@@ -56,7 +57,7 @@ func ParseAndLoadLSJ(dir string, fn string) {
 	// HGS wants to know next/previous entry; strings is not helpful, esp since n1111, n1111a, n1112 counting is in place
 	// this puts them all in order despite MP disordering of the data: use the fn as the in and the entry # as the float
 	// "wc -l *xml" shows that there are no original files longer than about 6300 lines
-	for i, _ := range entries {
+	for i := range entries {
 		entries[i].IdFloat = float32(prefix) + float32(i)/10000
 		// fmt.Printf("%d\t%f\t%s\n", i, entries[i].IdFloat, entries[i].EntryName)
 		//1961	78.196098	ὑψιτέλεϲτοϲ
@@ -66,7 +67,7 @@ func ParseAndLoadLSJ(dir string, fn string) {
 		//1727	80.172699	φληνάφημα
 	}
 
-	err := insert.InsertEntriesIntoGkLexicon(entries)
+	err := insert.EntriesIntoGkLexicon(entries)
 	if err != nil {
 		fmt.Println(err)
 	}

@@ -7,6 +7,10 @@ package main
 
 import (
 	"fmt"
+	"os/exec"
+	"strings"
+	"time"
+
 	"github.com/e-gun/HipparchiaGoBuilder/authorbuildpipeline"
 	"github.com/e-gun/HipparchiaGoBuilder/authorbuildpipeline/authorprep/betacode"
 	"github.com/e-gun/HipparchiaGoBuilder/authorbuildpipeline/idtandbin"
@@ -19,9 +23,6 @@ import (
 	"github.com/e-gun/HipparchiaGoBuilder/support/grammar"
 	"github.com/e-gun/HipparchiaGoBuilder/support/lexica"
 	"github.com/e-gun/HipparchiaGoBuilder/support/wordcounts"
-	"os/exec"
-	"strings"
-	"time"
 )
 
 var BuildDate string

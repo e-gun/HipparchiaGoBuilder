@@ -7,9 +7,10 @@ package lexica
 
 import (
 	"fmt"
-	"github.com/e-gun/HipparchiaGoBuilder/internal/global"
 	"sync"
 	"time"
+
+	"github.com/e-gun/HipparchiaGoBuilder/internal/global"
 )
 
 func FanoutGkLexBuilder(xmls []string, datadir string) {

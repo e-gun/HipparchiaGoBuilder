@@ -8,13 +8,14 @@ package insert
 import (
 	"context"
 	"fmt"
+	"os"
+
 	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
 	"github.com/e-gun/HipparchiaGoBuilder/pgsq/dbc"
 	"github.com/jackc/pgx/v5"
-	"os"
 )
 
-func InsertOneAuthorIntoAuthorTable(au *structs.DbAuthor) {
+func OneAuthorIntoAuthorTable(au *structs.DbAuthor) {
 	const (
 		FAIL = `"InsertOneAuthorIntoAuthorTable() failed to insert %s into authors"`
 		INS  = `

@@ -6,9 +6,10 @@
 package worklines1initial
 
 import (
-	"github.com/e-gun/HipparchiaGoBuilder/internal/generic"
 	"regexp"
 	"strings"
+
+	"github.com/e-gun/HipparchiaGoBuilder/internal/generic"
 )
 
 // unfortunately it looks like \w does not in fact work as a means of catching Greek

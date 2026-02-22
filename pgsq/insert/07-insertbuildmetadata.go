@@ -8,9 +8,10 @@ package insert
 import (
 	"context"
 	"fmt"
+	"time"
+
 	"github.com/e-gun/HipparchiaGoBuilder/internal/global"
 	"github.com/e-gun/HipparchiaGoBuilder/pgsq/dbc"
-	"time"
 )
 
 func InsertBuildMetadata(cat string, notes string) {

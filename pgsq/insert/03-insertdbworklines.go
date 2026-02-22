@@ -9,10 +9,11 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"os"
+
 	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
 	"github.com/e-gun/HipparchiaGoBuilder/pgsq/dbc"
 	"github.com/jackc/pgx/v5"
-	"os"
 )
 
 var (
@@ -33,7 +34,7 @@ var (
 	}
 )
 
-func InsertWorklinesIntoTable(lines []structs.DbWorkline) error {
+func WorklinesIntoTable(lines []structs.DbWorkline) error {
 	if len(lines) == 0 {
 		return errors.New("No worklines to insert.")
 	}

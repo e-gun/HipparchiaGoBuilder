@@ -7,8 +7,9 @@ package worklines2dbprep
 
 import (
 	"fmt"
-	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
 	"testing"
+
+	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
 )
 
 func TestStripString(t *testing.T) {

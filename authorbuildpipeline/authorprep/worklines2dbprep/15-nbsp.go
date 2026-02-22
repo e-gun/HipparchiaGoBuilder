@@ -7,10 +7,11 @@ package worklines2dbprep
 
 import (
 	"fmt"
-	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
 	"regexp"
 	"strconv"
 	"strings"
+
+	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
 )
 
 var (

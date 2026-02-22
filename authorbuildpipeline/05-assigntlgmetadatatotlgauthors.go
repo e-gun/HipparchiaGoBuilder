@@ -7,9 +7,10 @@ package authorbuildpipeline
 
 import (
 	"fmt"
-	"github.com/e-gun/HipparchiaGoBuilder/internal/global"
 	"regexp"
 	"strings"
+
+	"github.com/e-gun/HipparchiaGoBuilder/internal/global"
 )
 
 func AssignTLGMetadataToAuthors(tlgmetadata map[string]map[string][]string) {

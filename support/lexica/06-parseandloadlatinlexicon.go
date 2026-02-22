@@ -7,11 +7,12 @@ package lexica
 
 import (
 	"fmt"
+	"regexp"
+	"strings"
+
 	"github.com/e-gun/HipparchiaGoBuilder/internal/global"
 	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
 	"github.com/e-gun/HipparchiaGoBuilder/pgsq/insert"
-	"regexp"
-	"strings"
 )
 
 func ParseAndLoadLatinLex(id int, splitdata []string) {
@@ -43,7 +44,7 @@ func ParseAndLoadLatinLex(id int, splitdata []string) {
 	// that means 6 cpus only need to divide by 10k
 	// fewer cores is 100k; but you might be doing an "-rp" run: so 1 core and 100K...
 	// the corner case comes if you look for the next word at one of the boundaries of the workpiles...
-	for i, _ := range entries {
+	for i := range entries {
 		entries[i].IdFloat = float32(id) + float32(i)/100000
 		// fmt.Printf("%d\t%f\t%s\n", i, entries[i].IdFloat, entries[i].EntryName)
 		//1313	14.013130	spuo
@@ -55,7 +56,7 @@ func ParseAndLoadLatinLex(id int, splitdata []string) {
 		//2552	13.025520	zonarius
 	}
 
-	err := insert.InsertEntriesIntoLatinLexicon(entries)
+	err := insert.EntriesIntoLatinLexicon(entries)
 	if err != nil {
 		fmt.Println(err)
 	}

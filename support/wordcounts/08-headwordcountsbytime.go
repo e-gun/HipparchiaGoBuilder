@@ -8,11 +8,12 @@ package wordcounts
 import (
 	"context"
 	"fmt"
+	"time"
+
 	"github.com/e-gun/HipparchiaGoBuilder/internal/global"
 	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
 	"github.com/e-gun/HipparchiaGoBuilder/pgsq/dbc"
 	"github.com/jackc/pgx/v5"
-	"time"
 )
 
 // Headwords are sorted into three TheEras. Early or ⓔ is 900BCE to 300BCE. Middle or ⓜ is 299BCE to 300CE. Late or ⓛ is 301CE to 1600CE.
@@ -41,7 +42,7 @@ func ParsedCountOfAllEras() map[string]structs.DbHeadwordCounts {
 
 	alleras := make(map[string]map[string]int, len(global.KnownGenres))
 
-	for k, _ := range TheEras {
+	for k := range TheEras {
 		fmt.Printf("\tEra wordcount working on '%s'\n", k)
 		thisera := getoneera(k)
 		alleras[k] = thisera

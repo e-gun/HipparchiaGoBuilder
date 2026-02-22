@@ -7,11 +7,12 @@ package resetdb
 
 import (
 	"fmt"
-	"github.com/e-gun/HipparchiaGoBuilder/pgsq"
 	"os"
 	"os/exec"
 	"runtime"
 	"strings"
+
+	"github.com/e-gun/HipparchiaGoBuilder/pgsq"
 )
 
 // sendpsqladmincommndstobinary - execute a chain of queries via the psql binary

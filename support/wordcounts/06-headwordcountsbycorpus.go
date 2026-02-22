@@ -7,9 +7,10 @@ package wordcounts
 
 import (
 	"fmt"
+	"time"
+
 	"github.com/e-gun/HipparchiaGoBuilder/internal/global"
 	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
-	"time"
 )
 
 // ParsedCountOfAllCorpora - count the N instances of parsed word W in corpus C ...

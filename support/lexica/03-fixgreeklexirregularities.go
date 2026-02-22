@@ -7,8 +7,9 @@ package lexica
 
 import (
 	"fmt"
-	"github.com/e-gun/HipparchiaGoBuilder/internal/global"
 	"regexp"
+
+	"github.com/e-gun/HipparchiaGoBuilder/internal/global"
 )
 
 var (

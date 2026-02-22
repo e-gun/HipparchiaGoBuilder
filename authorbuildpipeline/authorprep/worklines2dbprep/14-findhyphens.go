@@ -6,8 +6,9 @@
 package worklines2dbprep
 
 import (
-	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
 	"strings"
+
+	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
 )
 
 func FixHyphens(lines []structs.DbWorkline) []structs.DbWorkline {
@@ -32,7 +33,7 @@ func FixHyphens(lines []structs.DbWorkline) []structs.DbWorkline {
 		}
 		previous = thisline
 	}
-	for i, _ := range lines {
+	for i := range lines {
 		// strippedliner can not do the following; so we do it here
 		lines[i].Accented = strings.ReplaceAll(lines[i].Accented, "-", "")
 		lines[i].Stripped = strings.ReplaceAll(lines[i].Stripped, "-", "")

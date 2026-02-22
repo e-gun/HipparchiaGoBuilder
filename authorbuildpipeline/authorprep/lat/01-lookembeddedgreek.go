@@ -6,11 +6,12 @@
 package lat
 
 import (
-	"github.com/e-gun/HipparchiaGoBuilder/authorbuildpipeline/authorprep/betacode"
-	"github.com/e-gun/HipparchiaGoBuilder/authorbuildpipeline/authorprep/grk"
 	"regexp"
 	"strconv"
 	"strings"
+
+	"github.com/e-gun/HipparchiaGoBuilder/authorbuildpipeline/authorprep/betacode"
+	"github.com/e-gun/HipparchiaGoBuilder/authorbuildpipeline/authorprep/grk"
 )
 
 var (

@@ -8,14 +8,15 @@ package wordcounts
 import (
 	"context"
 	"fmt"
+	"strings"
+	"time"
+
 	"github.com/e-gun/HipparchiaGoBuilder/authorbuildpipeline"
 	"github.com/e-gun/HipparchiaGoBuilder/internal/global"
 	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
 	"github.com/e-gun/HipparchiaGoBuilder/pgsq/dbc"
 	"github.com/e-gun/HipparchiaGoBuilder/pgsq/insert"
 	"github.com/jackc/pgx/v5"
-	"strings"
-	"time"
 )
 
 // UnparsedCountOfAllCorpora - count the N instances of unparsed word W in corpus C ...

@@ -7,9 +7,10 @@ package idtandbin
 
 import (
 	"fmt"
+	"slices"
+
 	"github.com/e-gun/HipparchiaGoBuilder/authorbuildpipeline/authorprep/betacode"
 	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
-	"slices"
 )
 
 // BINDataExtraction - parse bindata and associate categories with author numbers

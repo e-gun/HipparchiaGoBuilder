@@ -8,10 +8,11 @@ package dbc
 import (
 	"context"
 	"fmt"
-	"github.com/jackc/pgx/v5/pgxpool"
 	"os"
 	"runtime"
 	"strings"
+
+	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 var (

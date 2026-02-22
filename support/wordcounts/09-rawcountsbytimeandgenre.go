@@ -2,10 +2,11 @@ package wordcounts
 
 import (
 	"fmt"
-	"github.com/e-gun/HipparchiaGoBuilder/internal/global"
-	"github.com/e-gun/HipparchiaGoBuilder/pgsq/insert"
 	"regexp"
 	"time"
+
+	"github.com/e-gun/HipparchiaGoBuilder/internal/global"
+	"github.com/e-gun/HipparchiaGoBuilder/pgsq/insert"
 )
 
 const (
@@ -46,7 +47,7 @@ func CountEraRawWords() {
 	)
 	global.SECT("CountEraRawWords()")
 	start := time.Now()
-	for era, _ := range TheErasAlt {
+	for era := range TheErasAlt {
 		fmt.Printf("\tEra wordcount working on '%s'\n", era)
 		wbhh := getrelevanttimespanworks(era)
 		doparsing := false

@@ -6,8 +6,9 @@
 package dating
 
 import (
-	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
 	"strings"
+
+	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
 )
 
 func pickandrunparser(fp structs.FingerPrint) structs.FingerPrint {

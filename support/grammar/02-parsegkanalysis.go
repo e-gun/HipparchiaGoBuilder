@@ -6,10 +6,11 @@
 package grammar
 
 import (
-	"github.com/e-gun/HipparchiaGoBuilder/internal/generic"
-	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
 	"regexp"
 	"strings"
+
+	"github.com/e-gun/HipparchiaGoBuilder/internal/generic"
+	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
 )
 
 const (
@@ -102,7 +103,7 @@ func ParseAnalyses(lang string, entries []string) []structs.GramAnalysis {
 			gramanal[i].Scratchpad = groups[2]
 		}
 	}
-	for i, _ := range gramanal {
+	for i := range gramanal {
 		poss := strings.Split(gramanal[i].Scratchpad, "}{")
 		var collectedpossibilities []structs.MorphPossib
 

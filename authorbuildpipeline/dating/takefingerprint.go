@@ -6,9 +6,10 @@
 package dating
 
 import (
-	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
 	"regexp"
 	"strings"
+
+	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
 )
 
 var (

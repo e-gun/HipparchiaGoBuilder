@@ -7,8 +7,9 @@ package dbc
 
 import (
 	"context"
-	"github.com/jackc/pgx/v5/pgxpool"
 	"os"
+
+	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 // GetDBConnection - Acquire() a connection from the main pgxpool

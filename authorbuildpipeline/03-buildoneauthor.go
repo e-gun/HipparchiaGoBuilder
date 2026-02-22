@@ -7,6 +7,10 @@ package authorbuildpipeline
 
 import (
 	"fmt"
+	"os"
+	"strings"
+	"time"
+
 	"github.com/e-gun/HipparchiaGoBuilder/authorbuildpipeline/authorprep/betacode"
 	"github.com/e-gun/HipparchiaGoBuilder/authorbuildpipeline/authorprep/grk"
 	"github.com/e-gun/HipparchiaGoBuilder/authorbuildpipeline/authorprep/lat"
@@ -18,9 +22,6 @@ import (
 	"github.com/e-gun/HipparchiaGoBuilder/internal/global"
 	"github.com/e-gun/HipparchiaGoBuilder/internal/structs"
 	"github.com/e-gun/HipparchiaGoBuilder/pgsq/insert"
-	"os"
-	"strings"
-	"time"
 )
 
 // BuildOneAuthor - the workhorse: this runs the full authorprep sequence on a TXT file: betacode into worklines ... insert into DB
@@ -143,7 +144,7 @@ func greekandlatinworklineprepandcleanupandinsertion(ttc string, wkk []structs.D
 	dbworklines = worklines3cleanup.GRKandLATFixInvalidLevelValues(dbworklines, wkk)
 	dbworklines = reindexlines(dbworklines)
 
-	err := insert.InsertWorklinesIntoTable(dbworklines)
+	err := insert.WorklinesIntoTable(dbworklines)
 	if err != nil {
 		fmt.Println(authorid, " warning:", err, "Creating empty table.")
 		insert.CreateAuthorTable(authorid)
@@ -151,7 +152,7 @@ func greekandlatinworklineprepandcleanupandinsertion(ttc string, wkk []structs.D
 
 	if abbr == global.TLGABBREV {
 		a, _ := global.TheCanonAuMap.Get(wkk[0].GetAuthor())
-		for i, _ := range wkk {
+		for i := range wkk {
 			wkk[i].RecDate = a.RecDate
 			wkk[i].ConvDate = a.ConvDate
 		}
@@ -215,7 +216,7 @@ func inscriptionorklineprepandcleanupandinsertion(ttc string, wkk []structs.DbWo
 	}
 
 	for _, ll := range newauthorlines {
-		_ = insert.InsertWorklinesIntoTable(ll)
+		_ = insert.WorklinesIntoTable(ll)
 	}
 
 	// inform the global maps of the changes

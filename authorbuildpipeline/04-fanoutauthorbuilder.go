@@ -7,12 +7,13 @@ package authorbuildpipeline
 
 import (
 	"fmt"
-	"github.com/e-gun/HipparchiaGoBuilder/internal/global"
 	"os"
 	"slices"
 	"sort"
 	"sync"
 	"time"
+
+	"github.com/e-gun/HipparchiaGoBuilder/internal/global"
 )
 
 func FanoutBuilder(auu []string, datadir string) {
