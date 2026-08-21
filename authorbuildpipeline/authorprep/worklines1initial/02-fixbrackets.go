@@ -72,9 +72,8 @@ func bracketsimplifier(match string) string {
 	b, ok := bracketmap[match]
 	if ok {
 		return b
-	} else {
-		return match
 	}
+	return match
 }
 
 func swapitemordersuite(ttc string) string {

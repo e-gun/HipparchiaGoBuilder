@@ -97,7 +97,7 @@ func fixhmuirrationaloragnization(workline string) string {
 		closedspans[c[0]] = fmt.Sprintf("%s_%s", workline[c[2]:c[3]], workline[c[4]:c[5]])
 	}
 
-	balancetest := [][]bool{}
+	var balancetest [][]bool
 	invalidpattern := []bool{false, false, true}
 
 	okeys := make([]int, 0, len(openspans))
@@ -138,7 +138,7 @@ func fixhmuirrationaloragnization(workline string) string {
 	}
 
 	if boolslicecontains(invalidpattern, balancetest) {
-		modifications := []modification{}
+		var modifications []modification
 		boolslicereverse(balancetest)
 		itemnumber := 0
 		for len(balancetest) > 0 {

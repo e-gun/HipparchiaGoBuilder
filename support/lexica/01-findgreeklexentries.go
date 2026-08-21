@@ -51,7 +51,7 @@ func FindGreekLexEntries(lexdata string) ([]structs.DbLexicon, error) {
 		usedby := collectauthors(entry)
 		entry, translations = reformatandextracttranslations(entry)
 
-		deduptrr := []string{}
+		var deduptrr []string
 		deduper := make(map[string]bool)
 		for _, t := range translations {
 			if _, present := deduper[t]; present {
@@ -267,9 +267,8 @@ func lookupgkauthor(match string) string {
 			au = groups[0][1]
 		}
 		return fmt.Sprintf(AU, au)
-	} else {
-		return fmt.Sprintf(AU, match)
 	}
+	return fmt.Sprintf(AU, match)
 }
 
 func reformatandextracttranslations(sensebody string) (string, []string) {

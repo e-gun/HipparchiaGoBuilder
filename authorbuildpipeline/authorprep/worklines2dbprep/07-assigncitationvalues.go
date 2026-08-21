@@ -191,19 +191,17 @@ func incrementastring(toincrem string) string {
 	_, skipifdigit := strconv.Atoi(toincrem) // will a digit in fact really arrive here?
 	if skipifdigit == nil {
 		return ""
-	} else {
-		rn := []rune(toincrem)
-		rn[len(rn)-1] = rn[len(rn)-1] + 1
-		return string(rn)
 	}
+	rn := []rune(toincrem)
+	rn[len(rn)-1] = rn[len(rn)-1] + 1
+	return string(rn)
 }
 
 func getnumberorstring(level int, levelmapper map[int]int, levelstrmapper map[int]string) string {
 	if levelstrmapper[level] != "" {
 		return levelstrmapper[level]
-	} else {
-		return strconv.Itoa(levelmapper[level])
 	}
+	return strconv.Itoa(levelmapper[level])
 }
 
 func probeforauthor(individuallines []string) string {

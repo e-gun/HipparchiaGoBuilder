@@ -367,9 +367,8 @@ func gathernewinsworkinfo(l structs.DbWorkline) structs.DbWork {
 		// "1" is the standard blank value; "0" can be found too
 		if spl[0] == "1" || spl[0] == "0" {
 			return ""
-		} else {
-			return spl[0]
 		}
+		return spl[0]
 	}
 
 	var tit string
@@ -541,9 +540,8 @@ func foundanewwork(l structs.DbWorkline, prevl structs.DbWorkline) bool {
 
 	if len(anything) == 0 {
 		return false
-	} else {
-		return true
 	}
+	return true
 }
 
 // fnwsimple - without the chr kludge in it
@@ -561,10 +559,9 @@ func fnwsimple(l structs.DbWorkline) bool {
 
 	if len(anything) == 0 {
 		return false
-	} else {
-		// fmt.Println(l)
-		return true
 	}
+	// fmt.Println(l)
+	return true
 }
 
 func buildremapper(idxfilename string) (string, map[string]string) {

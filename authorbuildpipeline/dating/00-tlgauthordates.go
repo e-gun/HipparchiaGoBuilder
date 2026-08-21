@@ -49,9 +49,8 @@ func justbc(d string) int {
 			return -9999
 		}
 		return int(-100*float32((h1+h2)/2) + 50 + float32(ff))
-	} else {
-		return (-100 * h1) + 50 + ff
 	}
+	return (-100 * h1) + 50 + ff
 }
 
 func justad(d string) int {
@@ -77,9 +76,8 @@ func justad(d string) int {
 			return -9999
 		}
 		return int(100*float32((h1+h2)/2) - 50 + float32(ff))
-	} else {
-		return (100 * h1) - 50 + ff
 	}
+	return (100 * h1) - 50 + ff
 }
 
 func bcandad(d string) int {

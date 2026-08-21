@@ -67,7 +67,12 @@ func TestFanoutCorpusCount(t *testing.T) {
 	if err != nil {
 		panic(err)
 	}
-	defer file.Close()
+	defer func(file *os.File) {
+		ee := file.Close()
+		if ee != nil {
+
+		}
+	}(file)
 
 	// Write the buffered data to the file
 	_, err = file.Write(buffer.Bytes())

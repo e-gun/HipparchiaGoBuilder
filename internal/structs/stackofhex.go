@@ -36,9 +36,8 @@ func (s *HexStringStack) Flush() {
 func (s *HexStringStack) IsEmpty() bool {
 	if len(s.Items) == 0 {
 		return true
-	} else {
-		return false
 	}
+	return false
 }
 
 // Pop - get the top item from the stack
@@ -90,13 +89,14 @@ func (s *HexStringStack) PopMaskedByte() int {
 func (s *HexStringStack) PopWithError() (string, error) {
 	var i string
 	var e error
+
 	if len(s.Items) == 0 {
 		return i, fmt.Errorf("empty stack")
-	} else {
-		i = s.Items[len(s.Items)-1]
-		s.Items = s.Items[:len(s.Items)-1]
-		return i, e
 	}
+
+	i = s.Items[len(s.Items)-1]
+	s.Items = s.Items[:len(s.Items)-1]
+	return i, e
 }
 
 func (s *HexStringStack) PrintContents() {

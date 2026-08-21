@@ -44,9 +44,8 @@ func (n *UniqueNamer) GetNameWithTrailingDigit(pad int) string {
 	nm := n.GetName(pad)
 	if trailingdigit.MatchString(nm) {
 		return nm
-	} else {
-		return n.GetNameWithTrailingDigit(pad)
 	}
+	return n.GetNameWithTrailingDigit(pad)
 }
 
 func (n *UniqueNamer) NumberOfDigits(digits int) {

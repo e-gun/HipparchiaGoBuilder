@@ -57,9 +57,9 @@ func BulkInsertWorks(works []structs.DbWork) {
 	if err != nil {
 		fmt.Println(tablename, err)
 		os.Exit(0)
-	} else {
-		fmt.Println("BulkInsertWorks() inserted", len(rows), "works")
 	}
+
+	fmt.Println("BulkInsertWorks() inserted", len(rows), "works")
 
 	// fmt.Printf("BulkInsertWorks(): %s\tNumber of rows copied: %d\n", tablename, numbercopied)
 

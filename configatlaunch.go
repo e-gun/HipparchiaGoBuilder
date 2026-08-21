@@ -68,9 +68,7 @@ to cut to the chase and just do it all:
     ./HipparchiaGoBuilder -all
 
 to build Greek: 
-    ./HipparchiaGoBuilder -ggr -glx -grk
-
-`
+    ./HipparchiaGoBuilder -ggr -glx -grk`
 	)
 
 	args := os.Args[1:len(os.Args)]

@@ -36,7 +36,7 @@ var (
 
 func WorklinesIntoTable(lines []structs.DbWorkline) error {
 	if len(lines) == 0 {
-		return errors.New("No worklines to insert.")
+		return errors.New("no worklines to insert")
 	}
 
 	dbconn := dbc.GetDBConnection()
@@ -58,9 +58,8 @@ func WorklinesIntoTable(lines []structs.DbWorkline) error {
 	if err != nil {
 		fmt.Println(tablename, err)
 		os.Exit(0)
-	} else {
-		// fmt.Println("Inserted ", len(rows), " rows")
 	}
+	// fmt.Println("Inserted ", len(rows), " rows")
 	return nil
 }
 

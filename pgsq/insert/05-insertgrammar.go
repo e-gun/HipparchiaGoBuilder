@@ -33,7 +33,7 @@ var (
 
 func InsertLemmata(lang string, entries []structs.HeadwordAndForms) error {
 	if len(entries) == 0 {
-		return errors.New("InsertLemmata(): No entries to insert.")
+		return errors.New("insertLemmata(): No entries to insert")
 		// return nil
 	}
 	dbconn := dbc.GetDBConnection()
@@ -80,7 +80,7 @@ func populateonelemmarow(entry structs.HeadwordAndForms) []interface{} {
 
 func InsertMorphology(lang string, entries []structs.GramAnalysis) error {
 	if len(entries) == 0 {
-		return errors.New("InsertMorphology(): No entries to insert.")
+		return errors.New("insertMorphology(): No entries to insert")
 	}
 
 	dbconn := dbc.GetDBConnection()

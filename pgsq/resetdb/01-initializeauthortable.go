@@ -13,6 +13,7 @@ import (
 )
 
 // longest recorded_date is gr2023: `A.D. 3–4 vid Scholia: Cf. &3SCHOLIA IN IAMBLICHUM PHILOSOPHUM& (5027)`
+
 const (
 	CA = `
 DROP TABLE IF EXISTS public.authors;

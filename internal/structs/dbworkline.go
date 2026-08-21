@@ -41,25 +41,22 @@ func (dbl *DbWorkline) IsEmply() bool {
 	// use Accented because MarkedUp might only contain markup/metadata
 	if dbl.Accented == "" {
 		return true
-	} else {
-		return false
 	}
+	return false
 }
 
 func (dbl *DbWorkline) HasHyphen() bool {
 	if findtrailinghypen.MatchString(dbl.Accented) {
 		return true
-	} else {
-		return false
 	}
+	return false
 }
 
 func (dbl *DbWorkline) HasGreek() bool {
 	if findgreek.MatchString(dbl.Stripped) {
 		return true
-	} else {
-		return false
 	}
+	return false
 }
 
 func (dbl *DbWorkline) FirstAccentedWord() string {
@@ -76,18 +73,16 @@ func (dbl *DbWorkline) AllButFirstAccentedWord() []string {
 	accwords := strings.Split(dbl.Accented, " ")
 	if len(accwords) > 2 {
 		return accwords[1:]
-	} else {
-		return []string{}
 	}
+	return []string{}
 }
 
 func (dbl *DbWorkline) AllButLastAccentedWord() []string {
 	accwords := strings.Split(dbl.Accented, " ")
 	if len(accwords) > 2 {
 		return accwords[0 : len(accwords)-1]
-	} else {
-		return accwords
 	}
+	return accwords
 }
 
 func (dbl *DbWorkline) FirstStrippedWord() string {
@@ -104,18 +99,16 @@ func (dbl *DbWorkline) AllButFirstStrippedWord() []string {
 	stwds := strings.Split(dbl.Stripped, " ")
 	if len(stwds) > 2 {
 		return stwds[1:]
-	} else {
-		return []string{}
 	}
+	return []string{}
 }
 
 func (dbl *DbWorkline) AllButLastStrippedWord() []string {
 	stwds := strings.Split(dbl.Stripped, " ")
 	if len(stwds) > 2 {
 		return stwds[0 : len(stwds)-1]
-	} else {
-		return stwds
 	}
+	return stwds
 }
 
 func (dbl *DbWorkline) FindLocus() []string {

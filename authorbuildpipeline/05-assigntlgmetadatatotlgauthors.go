@@ -103,8 +103,7 @@ func idxnamecleaner(old string) string {
 	epthm := cleaner2.FindAllStringSubmatch(old, -1)
 	if len(epthm) == 0 {
 		return clean
-	} else {
-		epith := epthm[0][1]
-		return fmt.Sprintf(TEMPLATE, clean, epith)
 	}
+	epith := epthm[0][1]
+	return fmt.Sprintf(TEMPLATE, clean, epith)
 }

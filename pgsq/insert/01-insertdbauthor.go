@@ -103,9 +103,9 @@ func BulkInsertIntoAuthorsTable(auu []structs.DbAuthor) {
 	if err != nil {
 		fmt.Println(tablename, err)
 		os.Exit(0)
-	} else {
-		fmt.Println("BulkInsertIntoAuthorsTable() inserted", len(rows), "authors")
 	}
+
+	fmt.Println("BulkInsertIntoAuthorsTable() inserted", len(rows), "authors")
 
 	// fmt.Printf("BulkInsertWorks(): %s\tNumber of rows copied: %d\n", tablename, numbercopied)
 

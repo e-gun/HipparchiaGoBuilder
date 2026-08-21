@@ -266,9 +266,8 @@ func lookupltauthor(match string) string {
 			au = groups[0][1]
 		}
 		return fmt.Sprintf(AU, au)
-	} else {
-		return fmt.Sprintf(AU, match)
 	}
+	return fmt.Sprintf(AU, match)
 }
 
 func formatgreekinlatinlex(match string) string {
@@ -288,7 +287,7 @@ func extractletinsenses(latlex structs.DbLexicon, prunedentry string) structs.Db
 		latlex, prunedentry = els1(latlex, prunedentry)
 	}
 
-	trr := []string{}
+	var trr []string
 
 	for _, s := range latlex.Senses {
 		latlex.SenseIDs = append(latlex.SenseIDs, s.ID)
@@ -298,7 +297,7 @@ func extractletinsenses(latlex structs.DbLexicon, prunedentry string) structs.Db
 		}
 	}
 
-	deduptrr := []string{}
+	var deduptrr []string
 	deduper := make(map[string]bool)
 	for _, t := range trr {
 		if _, present := deduper[t]; present {
@@ -345,7 +344,7 @@ func extracttranslations(s string) string {
 	// `<hb-lx-hri>v. inch. n.</hb-lx-hri>, <hb-lx-hri>to grow up</hb-lx-hri>, Lucil. ap. <notbibl><hb-lx-au>Prisc.</hb-lx-au> p. 872</notbibl> P.`
 
 	groups := lttransfinder.FindAllStringSubmatch(s, -1)
-	senses := []string{}
+	var senses []string
 	if len(groups) > 0 {
 		for _, group := range groups {
 			elem := strings.Split(group[1], " ")
