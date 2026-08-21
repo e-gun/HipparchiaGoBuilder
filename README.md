@@ -1,5 +1,5 @@
 ## HipparchiaGoBuilder
-### v.0.9.2 : release
+### v.1.0.0 : release
 
 the python builder is old and confusing and hard to maintain
 
